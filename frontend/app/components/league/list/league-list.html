@@ -1,0 +1,8 @@
+<div ng-controller="LeagueListController as ctrl" ng-init="ctrl.init()">  
+    <div>
+        <h1>Leagues</h1>
+        <ul>
+          <li ng-repeat="league in ctrl.leagues">{{ league.name }}</li>
+        </ul>
+    </div>
+</div>  
