@@ -17,9 +17,10 @@ require("./components/team/team");
 require("./components/player/player");
 
 /* App Dependencies */
-angular.module("myApp", [ 
+angular.module("fantasyBBallApp", [ 
   "ngResource",
   "ngRoute",
+  "angular.filter",
   "Home",
   "League",
   "Team",
@@ -30,4 +31,4 @@ angular.module("myApp", [
 var routesConfig = require("./routes");
 
 /* App Config */
-angular.module("myApp").config(routesConfig);  
+angular.module("fantasyBBallApp").config(routesConfig);  

@@ -1,4 +1,4 @@
-<div ng-controller="PlayerListController as ctrl" ng-init="ctrl.init()">  
+<!-- <div ng-controller="PlayerListController as ctrl" ng-init="ctrl.init()">  
     <div>
         <h1>Players</h1>
         <ul>
@@ -6,3 +6,25 @@
         </ul>
     </div>
 </div>  
+ -->
+<div ng-controller="PlayerListController as ctrl" ng-init="ctrl.init()">
+  {{ ctrl.players.length }} players:
+  <input type="search" ng-model="q" placeholder="filter players..." aria-label="filter players" />
+	<ul class="animate-repeat" ng-repeat="(key, value) in ctrl.players | groupBy: 'nba_team'">
+	  Team: {{ key }}
+	  <li ng-repeat="player in value">
+	    player: {{ player.name }} - ({{ player.position }})
+	  </li>
+	</ul>
+
+  <ul class="animate-container">
+    <li class="animate-repeat" ng-repeat="player in ctrl.players | filter:q as results">
+      {{ player.name }} - {{ player.nba_team }} ({{ player.position }}).
+    </li>
+    <li class="animate-repeat" ng-if="results.length == 0">
+      <strong>No results found...</strong>
+    </li>
+  </ul>
+
+</div>
+

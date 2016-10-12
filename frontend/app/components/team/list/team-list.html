@@ -1,8 +1,26 @@
-<div ng-controller="TeamListController as ctrl" ng-init="ctrl.init()">  
+<div ng-controller="TeamListController as ctrl" ng-init="ctrl.init() checked=true">  
     <div>
         <h1>Teams</h1>
         <ul>
-          <li ng-repeat="team in ctrl.teams">{{ team.name }}</li>
+          <li ng-repeat="team in ctrl.teams">
+          	<label>
+				<input type="checkbox" ng-model="checked" style="float:left; margin-right:10px;"> {{ team.name }}
+			</label>
+			<div class="check-element sample-show-hide" ng-show="checked" style="clear:both;">
+				{{ team.wins }}
+			</div>
+          </li>
         </ul>
     </div>
 </div>  
+
+
+
+<div ng-init="checked=true">
+  <label>
+    <input type="checkbox" ng-model="checked" style="float:left; margin-right:10px;"> {{ team.name }}
+  </label>
+  <div class="check-element sample-show-hide" ng-show="checked" style="clear:both;">
+    Visible...
+  </div>
+</div>

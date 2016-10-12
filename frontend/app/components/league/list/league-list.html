@@ -6,3 +6,17 @@
         </ul>
     </div>
 </div>  
+
+
+<div ng-controller="LeagueListController as ctrl" ng-init="ctrl.init()">
+  {{leagues.length}} available leagues:
+  <input type="search" ng-model="q" placeholder="filter leagues..." aria-label="filter leagues" />
+  <ul class="animate-container">
+    <li class="animate-repeat" ng-repeat="league in ctrl.leagues | filter:q as results">
+      [{{$index + 1}}] {{league.name}} - {{league.max_teams}}.
+    </li>
+    <li class="animate-repeat" ng-if="results.length == 0">
+      <strong>No results found...</strong>
+    </li>
+  </ul>
+</div>
