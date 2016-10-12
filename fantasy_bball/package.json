@@ -1,0 +1,21 @@
+{
+  "name": "fantasy_bball",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "react": "^15.3.2",
+    "react-hot-loader": "^3.0.0-beta.5",
+    "webpack": "^1.13.2",
+    "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
