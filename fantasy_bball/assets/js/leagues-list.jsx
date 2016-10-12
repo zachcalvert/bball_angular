@@ -1,7 +1,3 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
-// var LeaguesList = require('./leagues-list')
-
 var LeaguesList = React.createClass({
     loadLeaguesFromServer: function(){
         $.ajax({
@@ -40,8 +36,3 @@ var LeaguesList = React.createClass({
         )
     }
 })
-
-ReactDOM.render(<LeaguesList url='/api/v1/leagues/?format=json' pollInterval={1000} />, 
-    document.getElementById('container'))
-
-// ReactDOM.render(<App/>, document.getElementById('react-app'))
