@@ -17,5 +17,8 @@
     "webpack": "^1.13.2",
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "react-router": "^2.8.1"
   }
 }

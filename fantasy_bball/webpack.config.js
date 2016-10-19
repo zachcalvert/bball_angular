@@ -27,7 +27,7 @@ module.exports = {
     loaders: [
       { test: /\.jsx?$/, 
         exclude: /node_modules/, 
-        loaders: ['react-hot-loader/webpack', 'babel?presets[]=react']
+        loaders: ['react-hot-loader/webpack', 'babel?presets[]=react,presets[]=es2015']
       } // to transform JSX into JS
     ],
   },
