@@ -1,5 +1,6 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
+
 import { Router, Route, Link, IndexLink, browserHistory, IndexRoute } from 'react-router'
 
 
@@ -69,25 +70,6 @@ var TeamSummary = React.createClass({
 // 	}
 // });
 
-var LeagueSummary = React.createClass({
-  render: function () {
-    var league = this.props.league;
-    var name = league.name;
-    var teams = league.teams;
-
-    return (
-      <div className="league-summary">
-      	<h4>{name}</h4>
-
-	    {teams.map(function(team, i){
-	        return <TeamSummary team={team} key={i} />;
-	    })}
-
-      </div>
-    );
-  }
-});
-
 
 class App extends React.Component {
    render() {
@@ -117,7 +99,7 @@ class Home extends React.Component {
    }
 }
 
-var LeaguesList = React.createClass({
+var LeagueListContainer = React.createClass({
 	loadLeaguesFromServer: function(){
         $.ajax({
             url: '/api/v1/leagues/?format=json',
@@ -139,24 +121,93 @@ var LeaguesList = React.createClass({
                     50000)
     }, 
     render: function() {
-        if (this.state.data) {
-            console.log(this.state.data)
-            var leagueNodes = this.state.data.map(function(league){
-                return <li> {league.name} </li>
-            })
-        }
-        return (
-            <div>
-                <h1>Leagues</h1>
-                <ul>
-                    {leagueNodes}
-                </ul>
-            </div>
-        )
-    }
+		return (<LeagueList leagues={this.state.data} />);
+	}
 })
 
-var Players  = React.createClass({
+var LeagueList = React.createClass({
+  render: function() {
+    return (
+      <ul className="league-list">
+        {this.props.leagues.map(this.createLeagueItem)}
+      </ul>
+    );
+  },
+
+  createLeagueItem: function(league) {
+    return (
+      <li key={league.id}>
+        <Link to="{'/leagues/' + league.id}">{league.name}</Link>
+      </li>
+    );
+  }
+});
+
+var LeagueSummary = React.createClass({
+	getComponent: function(index) {
+        $(this.getDOMNode()).find('li:nth-child(' + index + ')').css({
+            'background-color': '#ccc'
+        });
+    },
+
+	loadLeagueFromServer: function(){
+		var league = this.props.league;
+		var id = league.id;
+
+	    $.ajax({
+	        url: '/api/v1/leagues/' + id + '?format=json',
+	        datatype: 'json',
+	        cache: false,
+	        success: function(data) {
+	            this.setState({data: data});
+	        }.bind(this)
+	    })
+	},
+
+	getInitialState: function() {
+	    return {
+	    	data: [],
+	    	isSelected: false
+	    };
+	},
+	handleClick: function() {
+        this.setState({
+            isSelected: true
+        })
+    },
+	componentDidMount: function() {
+	    this.loadLeagueFromServer();
+	    setInterval(this.loadLeagueFromServer, 
+	                50000)
+	}, 
+	render: function () {
+		var isSelected = this.state.isSelected;
+		var style = {
+            'background-color': ''
+        };
+		var league = this.props.league;
+		var name = league.name;
+		var teams = league.teams;
+
+		if (isSelected) {
+            style = {
+                'background-color': '#ccc'
+            };
+        }
+
+		return (
+		  <div className="league-summary">
+		  	<h4>{name}</h4>
+
+		    {teams.map(function(team, i){
+		        return <li onClick={this.handleClick} style={style} key={team.id}> {team.name} </li>;
+		    }, this)}
+		  </div>
+	);
+  }
+});
+
+var Players = React.createClass({
    loadPlayersFromServer: function(){
         $.ajax({
             url: '/api/v1/players/?format=json',
@@ -179,9 +230,8 @@ var Players  = React.createClass({
     }, 
     render: function() {
         if (this.state.data) {
-            console.log(this.state.data)
             var playerNodes = this.state.data.map(function(player){
-                return <li> {player.name} </li>
+                return <li key={player.id}> {player.name} </li>
             })
         }
         return (
@@ -200,7 +250,7 @@ ReactDOM.render((
       <Route path = "/" component = {App}>
          <IndexRoute component = {Home} />
          <Route path = "home" component = {Home} />
-         <Route path = "leagues" component = {LeaguesList}>
+         <Route path = "leagues" component = {LeagueListContainer}>
          	<Route path="blah" component={LeagueSummary}/>
 		 </Route>
          <Route path = "players" component = {Players} />
@@ -208,5 +258,3 @@ ReactDOM.render((
    </Router>
 	
 ), document.getElementById('container'))
-
-

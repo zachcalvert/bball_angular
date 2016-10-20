@@ -7,8 +7,11 @@ h1, h2, p, ul, li {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-ul.nav-menu {
+ul {
 	list-style: None;
+}
+
+ul.nav-menu {
 	background-color: #111;
 	padding: 0;
 }
@@ -16,11 +19,20 @@ ul.nav-menu li {
   display: inline;
   margin: 0;
 }
+
 ul.nav-menu li a {
   color: #FFF;
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
+  display: inline-block;
+}
+
+ul.league-list li a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px;
   display: inline-block;
 }
 
