@@ -11,16 +11,16 @@ ul {
 	list-style: None;
 }
 
-ul.nav-menu {
+.primary-header ul {
 	background-color: #111;
 	padding: 0;
 }
-ul.nav-menu li {
+.primary-header li {
   display: inline;
   margin: 0;
 }
 
-ul.nav-menu li a {
+.primary-header li a {
   color: #FFF;
   font-weight: bold;
   text-decoration: none;

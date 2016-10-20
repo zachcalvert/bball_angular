@@ -2,7 +2,7 @@
   "name": "fantasy_bball",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,6 +19,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "lodash": "^4.16.4",
     "react-router": "^2.8.1"
   }
 }
