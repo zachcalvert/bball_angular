@@ -1,23 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const LeagueList = React.createClass({
-  render: function() {
-    console.log(this.props)
-    return (
-      <ul className="league-list">
-        {this.props.leagues.map(this.createLeagueItem)}
-      </ul>
-    );
-  },
+// Using "Stateless Functional Components"
+export default function(props) {
+  return (
+    <div className="data-list">
 
-  createLeagueItem: function(league) {
-    return (
-      <li key={league.id}>
-        <Link to={'/leagues/' + league.id}>{league.name}</Link>
-      </li>
-    );
-  }
-});
+      {props.leagues.map(league => {
 
-export default LeagueList;
+        return (
+          <div key={league.id} className="data-list-item">
+            <div className="details">
+              <Link to={'/leagues/' + league.id}>{league.name}</Link>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

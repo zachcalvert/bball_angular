@@ -1,31 +1,31 @@
 import React from 'react';
 import LeagueProfile from '../views/league-profile';
+import * as leagueApi from '../../api/league-api';
 
 const LeagueProfileContainer = React.createClass({
-	loadLeagueFromServer: function(){
-		var league = this.props.league;
-		var id = league.id;
 
-	    $.ajax({
-	        url: '/api/v1/leagues/' + id + '?format=json',
-	        datatype: 'json',
-	        cache: false,
-	        success: function(data) {
-	            this.setState({data: data});
-	        }.bind(this)
-	    })
-	},
 	getInitialState: function() {
-	    return {
-	    	data: [],
-	    	isSelected: false
-	    };
+		return {
+			name: null,
+			manager_id: null,
+			is_public: null,
+			teams: []
+		}
 	},
-	componentDidMount: function() {
-	    this.loadLeagueFromServer().then(league );
-	    let leagueId = this.props.params.leagueId
 
-	}, 
+	componentDidMount: function() {
+		let leagueId = this.props.params.leagueId
+		leagueApi.getLeague(leagueId).then(league => {
+			this.setState({
+				id: league.id,
+				name: league.name,
+				manager_id: league.manager_id,
+				is_public: league.is_public,
+				teams: league.teams
+			});
+		});
+	},
+
 	render: function () {
 		return (
 			<LeagueProfile {...this.state} />

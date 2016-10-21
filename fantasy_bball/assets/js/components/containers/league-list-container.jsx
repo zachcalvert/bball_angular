@@ -1,31 +1,27 @@
 import React from 'react';
 import _ from 'lodash';
 import LeagueList from '../views/league-list';
+import * as leagueApi from '../../api/league-api';
 
 const LeagueListContainer = React.createClass({
-  loadLeaguesFromServer: function(){
-        $.ajax({
-            url: '/api/v1/leagues/?format=json',
-            datatype: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data: data});
-            }.bind(this)
-        })
-    },
 
     getInitialState: function() {
-        return {data: []};
+        return {
+            leagues: []
+        };
     },
 
     componentDidMount: function() {
-        this.loadLeaguesFromServer();
-        setInterval(this.loadLeaguesFromServer, 
-                    50000)
-    }, 
+        leagueApi.getLeagues().then(leagues => {
+          this.setState({leagues: leagues})
+        });
+    },
+
     render: function() {
-        return (<LeagueList leagues={this.state.data} />);
-  }
+        return (
+            <LeagueList leagues={this.state.leagues} />
+        );
+    }
 });
 
 export default LeagueListContainer;

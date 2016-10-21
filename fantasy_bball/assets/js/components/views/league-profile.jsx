@@ -6,18 +6,18 @@ export default function(props) {
       <img src={props.imageUrl} />
       <div className="details">
         <h1>{props.name}</h1>
-        <a href={'http://twtter.com/' + props.twitter}>@{props.twitter}</a>
-        <p>Works on <strong>{props.worksOn}</strong></p>
-        <h3>Github Repos:</h3>
-        <ul className="repos">
+        <p>Manager: {props.manager_id}</p>
+        <p>Public: {props.is_public}</p>
+        <h3>Teams:</h3>
+          <ul className="repos">
 
-          {props.repos.map(repo => {
+            {props.teams.map(team => {
 
-            return (<li key={repo.id}><a href={repo.html_url}>{repo.name}</a></li>);
+              return (<li key={team.id}><a href={team.url}>{team.name}</a></li>);
 
-          })}
+            })}
 
-        </ul>
+          </ul>
       </div>
     </div>
   );
