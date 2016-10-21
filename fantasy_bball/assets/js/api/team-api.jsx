@@ -15,11 +15,9 @@ export function getTeam(teamId) {
       let team = response.data;
       team.name = team.name;
       team.owner = team.owner;
-      team.wins = team.wins;
-      team.losses = team.losses;
-      team.ties = team.ties;
+      team.record = team.record;
       team.leagueId = team.league;
-      team.players = team.players
+      team.players = team.players;
 
       return team;
 

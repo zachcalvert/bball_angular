@@ -27,6 +27,7 @@ const LeagueProfileContainer = React.createClass({
 	},
 
 	render: function () {
+		console.log(this.state)
 		return (
 			<LeagueProfile {...this.state} />
 		);

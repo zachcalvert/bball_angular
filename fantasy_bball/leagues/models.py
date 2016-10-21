@@ -33,6 +33,10 @@ class Team(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def get_players(self):
+		from players.models import Player
+		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
+
 	@property
 	def record(self):
 		return "{0}-{1}-{2}".format(self.wins, self.losses, self.ties)
@@ -42,7 +46,7 @@ class Team(models.Model):
 			if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
 				raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
 
-	def to_data(self):
+	def to_data(self, player_data=False):
 		data = {
 			'id': self.id,
 			'league': {
@@ -50,14 +54,17 @@ class Team(models.Model):
 				'name': self.league.name,
 			},
 			'name': self.name,
-			'record': self.record,
-			'players': [{
+			'record': self.record
+		}
+
+		if player_data:
+			data['players'] = [{
 				'id': player.id,
 				'name': player.name,
 				'position': player.position,
 				'team': player.nba_team,
 			} for player in self.players.all()]
-		}
+
 		if self.owner:
 			data.update({'owner': self.owner.username})
 

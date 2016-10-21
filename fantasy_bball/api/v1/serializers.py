@@ -10,10 +10,13 @@ class LeagueSerializer(ModelSerializer):
 		model = League
 		fields = ('id', 'name', 'manager', 'is_public', 'teams')
 
-class TeamSerializer(ModelSerializer):
 
-    class Meta:
-        model = Team
+class TeamSerializer(ModelSerializer):
+	players = ReadOnlyField(source='get_players')
+
+	class Meta:
+		model = Team
+		fields = ('id', 'name', 'record', 'league', 'owner', 'players')
 
 
 class PlayerSerializer(ModelSerializer):

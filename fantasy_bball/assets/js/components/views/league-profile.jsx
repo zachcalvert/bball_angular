@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default function(props) {
+  console.log(props);
   return (
     <div className="league-profile">
       <img src={props.imageUrl} />
+      
       <div className="details">
         <h1>{props.name}</h1>
         <p>Manager: {props.manager_id}</p>
@@ -24,7 +26,6 @@ export default function(props) {
             })}
 
           </ul>
-          {props.children}
       </div>
     </div>
   );

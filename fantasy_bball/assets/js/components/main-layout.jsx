@@ -7,10 +7,10 @@ const MainLayout = React.createClass({
       <div className="app">
         <header className="primary-header">
           <ul>
-              <li><Link to="/" activeClassName="active">Home</Link></li>
-              <li><Link to="/leagues" activeClassName="active">Leagues</Link></li>
-              <li><Link to="/players" activeClassName="active">Players</Link></li>
-            </ul>
+            <li><Link to="/" activeClassName="active">Home</Link></li>
+            <li><Link to="/leagues" activeClassName="active">Leagues</Link></li>
+            <li><Link to="/players" activeClassName="active">Players</Link></li>
+          </ul>
         </header>
         <aside className="primary-aside"></aside>
         <main>

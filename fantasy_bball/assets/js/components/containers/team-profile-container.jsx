@@ -10,9 +10,7 @@ const TeamProfileContainer = React.createClass({
 			leagueId: null,
 			name: null,
 			owner: null,
-			wins: null,
-			ties: null,
-			losses: null,
+			record: null,
 			players: []
 		}
 	},
@@ -25,16 +23,13 @@ const TeamProfileContainer = React.createClass({
 				leagueId: team.leagueId,
 				name: team.name,
 				owner: team.owner,
-				wins: team.wins,
-				ties: team.ties,
-				losses: team.losses,
+				record: team.record,
 				players: team.players
 			});
 		});
 	},
 
 	render: function () {
-		console.log(this.state)
 		return (
 			<TeamProfile {...this.state} />
 		);

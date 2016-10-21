@@ -55,4 +55,19 @@ class Player(models.Model):
 				return False
 		return True
 
+	def to_data(self, league_id=None):
+		data = {
+			'id': self.id,
+			'name': self.name,
+			'position': self.position,
+			'nba_team': self.nba_team,
+		}
+
+		if league_id is not None:
+			data.update({
+				'is_available': self.is_available(league_id=league_id)
+				})
+
+		return data
+
 		
