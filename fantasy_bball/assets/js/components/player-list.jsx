@@ -18,8 +18,6 @@ const PlayerList = React.createClass({
 
     componentDidMount: function() {
         this.loadPlayersFromServer();
-        setInterval(this.loadPlayersFromServer, 
-                    50000)
     }, 
     render: function() {
         if (this.state.data) {

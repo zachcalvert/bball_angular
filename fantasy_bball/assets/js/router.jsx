@@ -9,6 +9,7 @@ import SearchLayout from './components/search-layout';
 import Home from './components/home';
 import LeagueListContainer from './components/containers/league-list-container';
 import LeagueProfileContainer from './components/containers/league-profile-container';
+import TeamProfileContainer from './components/containers/team-profile-container';
 import PlayerList from './components/player-list';
 
 export default (
@@ -22,6 +23,8 @@ export default (
         </Route>
         <Route path=":leagueId" component={LeagueProfileContainer} />
       </Route>
+
+      <Route path="leagues/:leagueId/teams/:teamId" component={TeamProfileContainer} />
 
       <Route path="players">
         <Route component={SearchLayout}>

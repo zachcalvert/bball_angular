@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export default function(props) {
   return (
@@ -9,15 +10,21 @@ export default function(props) {
         <p>Manager: {props.manager_id}</p>
         <p>Public: {props.is_public}</p>
         <h3>Teams:</h3>
-          <ul className="repos">
+          <ul className="teams">
 
             {props.teams.map(team => {
 
-              return (<li key={team.id}><a href={team.url}>{team.name}</a></li>);
-
+              return (
+                <div key={team.id} className="data-list-item">
+                  <div className="details">
+                    <Link to={'/leagues/' + props.id + '/teams/' + team.id}>{team.name}</Link>
+                  </div>
+                </div>
+              );
             })}
 
           </ul>
+          {props.children}
       </div>
     </div>
   );

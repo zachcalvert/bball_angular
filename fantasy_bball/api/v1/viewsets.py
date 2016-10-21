@@ -14,6 +14,15 @@ class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()
     serializer_class = serializers.TeamSerializer
 
+    def get_queryset(self):
+        queryset = Team.objects.all()
+        league_id = self.request.query_params.get('league_id', None)
+
+        if league_id:
+            queryset = queryset.filter(league_id=league_id)
+
+        return queryset
+
 
 class PlayerViewSet(viewsets.ModelViewSet):  
     queryset = Player.objects.all()
@@ -38,3 +47,4 @@ class PlayerViewSet(viewsets.ModelViewSet):
 	    		queryset = queryset.filter(nba_team=team)
 
     	return queryset
+        
