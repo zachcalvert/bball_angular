@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
     'leagues',
     'players',
+    'schedule',
 )
 
 MIDDLEWARE_CLASSES = [
