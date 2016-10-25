@@ -4,7 +4,7 @@ const Home = React.createClass({
   render: function() {
     return (
       <div className="home-page">
-        <h1>Fantasy Basketball</h1>
+        <h1>Test Frontend</h1>
         <p>
           You already know.
         </p>

@@ -10,11 +10,13 @@ import LeagueLayout from './components/league-layout';
 import Home from './components/home';
 import LeagueListContainer from './components/containers/league-list-container';
 import LeagueProfileContainer from './components/containers/league-profile-container';
+
 import TeamProfileContainer from './components/containers/team-profile-container';
+
+import PlayerListContainer from './components/containers/player-list-container';
 import PlayerProfileContainer from './components/containers/player-profile-container';
 import LeagueMatchupsContainer from './components/containers/league-matchups-container';
 
-import PlayerList from './components/player-list';
 
 export default (
   <Router history={browserHistory}>
@@ -22,13 +24,11 @@ export default (
       <Route path="/" component={Home} />
 
         <Route path="leagues">
-          <Route component={SearchLayout}>
-            <IndexRoute component={LeagueListContainer} />
-          </Route>
+          <IndexRoute component={LeagueListContainer} />
 
           <Route component={LeagueLayout}>
             <Route path=":leagueId" component={LeagueProfileContainer}>
-              <Route path="players" component={PlayerList} />
+              <Route path="players" component={PlayerListContainer} />
               <Route path="matchups" component={LeagueMatchupsContainer} />
             </Route>
            </Route>
@@ -39,9 +39,7 @@ export default (
         
 
       <Route path="players">
-        <Route component={SearchLayout}>
-          <IndexRoute component={PlayerList} />
-        </Route>
+        <IndexRoute component={PlayerListContainer} />
       </Route>
 
     </Route>

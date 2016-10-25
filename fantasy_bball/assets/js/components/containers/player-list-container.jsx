@@ -1,0 +1,27 @@
+import React from 'react';
+import _ from 'lodash';
+import PlayerList from '../views/player-list';
+import * as playerApi from '../../api/player-api';
+
+const PlayerListContainer = React.createClass({
+
+    getInitialState: function() {
+        return {
+            players: []
+        };
+    },
+
+    componentDidMount: function() {
+        playerApi.getPlayers().then(players => {
+          this.setState({players: players})
+        });
+    },
+
+    render: function() {
+        return (
+            <PlayerList players={this.state.players} />
+        );
+    }
+});
+
+export default PlayerListContainer;
