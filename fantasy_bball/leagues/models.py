@@ -17,6 +17,17 @@ class League(models.Model):
 	def get_teams(self):
 		return [team.to_data() for team in Team.objects.filter(league=self)]
 
+	def make_random_team(self, name="temp name", num_players=14, owner=None):
+		from players.models import Player
+		team = Team.objects.create(name=name, league=self, owner=None)
+		i = 0
+		for player in Player.objects.order_by('?'):
+			if player.is_available(self.id):
+				team.players.add(player)
+				i += 1
+				if i >= num_players:
+					break
+
 
 class Team(models.Model):
 	league = models.ForeignKey(League, related_name='teams')
