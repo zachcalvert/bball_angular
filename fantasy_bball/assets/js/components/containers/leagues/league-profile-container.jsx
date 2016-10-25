@@ -1,6 +1,6 @@
 import React from 'react';
-import LeagueProfile from '../views/league-profile';
-import * as leagueApi from '../../api/league-api';
+import LeagueProfile from '../../views/leagues/league-profile';
+import * as leagueApi from '../../../api/league-api';
 
 const LeagueProfileContainer = React.createClass({
 

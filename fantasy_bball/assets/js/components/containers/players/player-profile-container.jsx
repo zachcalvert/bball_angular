@@ -1,6 +1,6 @@
 import React from 'react';
-import PlayerProfile from '../views/player-profile';
-import * as playerApi from '../../api/player-api';
+import PlayerProfile from '../../views/players/player-profile';
+import * as playerApi from '../../../api/player-api';
 
 const PlayerProfileContainer = React.createClass({
 

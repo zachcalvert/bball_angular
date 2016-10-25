@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import PlayerList from '../views/player-list';
-import * as playerApi from '../../api/player-api';
+import PlayerList from '../../views/players/player-list';
+import * as playerApi from '../../../api/player-api';
 
 const PlayerListContainer = React.createClass({
 

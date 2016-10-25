@@ -6,7 +6,7 @@ export default function(props) {
     <div className="player-profile">
       <img src={props.imageUrl} />
       <div className="details">
-        <h1>{props.name}</h1>
+        <h3>{props.name}</h3>
         <p>Team: {props.nba_team}</p>
         <p>Position: {props.position}</p>
       </div>

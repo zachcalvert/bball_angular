@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import LeageMatchups from '../views/league-matchups';
-import * as leagueApi from '../../api/league-api';
+import LeageMatchups from '../../views/leagues/league-matchups';
+import * as leagueApi from '../../../api/league-api';
 
 const LeagueMatchupsContainer = React.createClass({
 

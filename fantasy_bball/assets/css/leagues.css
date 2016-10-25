@@ -1,3 +1,11 @@
+.league-layout {
+  border: 1px solid black;
+  background: #FFF;
+}
+
+.league-header {
+  border-bottom: 1px solid black;
+}
 .league-header ul {
   background-color: #111;
   padding: 0;
@@ -14,6 +22,10 @@
   text-decoration: none;
   padding: 10px;
   display: inline-block;
+}
+
+.league-layout .main {
+  padding: 0 10px;
 }
 
 ul.league-list li a {

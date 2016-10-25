@@ -15,9 +15,9 @@ const LeagueLayout = React.createClass({
             </ul>
         </header>
         <aside className="primary-aside"></aside>
-        <main>
+        <div className="main">
           {this.props.children}
-        </main>
+        </div>
       </div>
     );
   }

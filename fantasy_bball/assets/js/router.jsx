@@ -8,14 +8,14 @@ import LeagueLayout from './components/league-layout';
 
 // Pages
 import Home from './components/home';
-import LeagueListContainer from './components/containers/league-list-container';
-import LeagueProfileContainer from './components/containers/league-profile-container';
+import LeagueListContainer from './components/containers/leagues/league-list-container';
+import LeagueProfileContainer from './components/containers/leagues/league-profile-container';
+import LeagueMatchupsContainer from './components/containers/leagues/league-matchups-container';
 
-import TeamProfileContainer from './components/containers/team-profile-container';
+import TeamProfileContainer from './components/containers/teams/team-profile-container';
 
-import PlayerListContainer from './components/containers/player-list-container';
-import PlayerProfileContainer from './components/containers/player-profile-container';
-import LeagueMatchupsContainer from './components/containers/league-matchups-container';
+import PlayerListContainer from './components/containers/players/player-list-container';
+import PlayerProfileContainer from './components/containers/players/player-profile-container';
 
 
 export default (
@@ -40,6 +40,7 @@ export default (
 
       <Route path="players">
         <IndexRoute component={PlayerListContainer} />
+        <Route path=":playerId" component={PlayerProfileContainer} />
       </Route>
 
     </Route>

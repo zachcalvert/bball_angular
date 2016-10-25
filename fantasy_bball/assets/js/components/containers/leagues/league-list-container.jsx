@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import LeagueList from '../views/league-list';
-import * as leagueApi from '../../api/league-api';
+import LeagueList from '../../views/leagues/league-list';
+import * as leagueApi from '../../../api/league-api';
 
 const LeagueListContainer = React.createClass({
 

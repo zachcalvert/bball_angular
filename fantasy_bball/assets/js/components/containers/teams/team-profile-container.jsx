@@ -1,6 +1,6 @@
 import React from 'react';
-import TeamProfile from '../views/team-profile';
-import * as teamApi from '../../api/team-api';
+import TeamProfile from '../../views/teams/team-profile';
+import * as teamApi from '../../../api/team-api';
 
 const TeamProfileContainer = React.createClass({
 
