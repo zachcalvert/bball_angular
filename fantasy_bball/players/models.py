@@ -39,8 +39,10 @@ class Player(models.Model):
 	position = models.CharField(u'Position', choices=POSITIONS, default='PG', max_length=15)
 	nba_team = models.CharField(u'NBA Team', choices=NBA_TEAMS, default='FA', max_length=25)
 
-	# roto_id = models.IntegerField(default=0)
-	# recent_notes = models.CharField(max_length=2000, default='No recent notes.')
+	# notes
+	roto_id = models.IntegerField(default=0)
+	recent_notes = models.CharField(max_length=2000, default='No recent notes.')
+	image_url = models.CharField(max_length=255, null=True, blank=True)
 
 	class Meta:
 		ordering = ['name']
