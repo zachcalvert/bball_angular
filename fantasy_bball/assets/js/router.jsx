@@ -26,6 +26,7 @@ export default (
         <Route path="leagues">
           <IndexRoute component={LeagueListContainer} />
 
+
           <Route component={LeagueLayout}>
             <Route path=":leagueId" component={LeagueProfileContainer}>
               <Route path="players" component={PlayerListContainer} />

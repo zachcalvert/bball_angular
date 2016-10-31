@@ -1,0 +1,62 @@
+.player-profile {
+	overflow: hidden;
+	padding: 10px;
+}
+
+.player-info {
+	float: left;
+	width: 100px;
+	text-align: center;
+	padding-right, padding-bottom: 20px;
+	padding: 0 20px 20px 0;
+	height: 195px;
+}
+
+.player-info h4 {
+	margin-bottom: 0px;
+	margin-top: 5px;
+}
+
+.player-info p {
+	margin-top: 0px;
+	font-size: 11px;
+}
+
+.player-details {
+    float: left;
+    max-width: 500px;
+    height: 195px;
+    font-size: 11px;
+    text-align: justify;
+    padding-bottom: 20px;
+}
+
+.player-details p {
+	margin: 5px;
+}
+
+.player-quick-stats {
+	max-width: 250px;
+	padding-bottom: 5px;
+}
+
+.player-notes {
+	background-color: #FFFFFF;
+	overflow: scroll;
+}
+
+
+.player-stats {
+	float: left;
+	font-size: 10;
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+
+.player-stats ul {
+	list-style: none;
+}
+
+.player-stats li {
+	display: inline;
+}

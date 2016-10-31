@@ -13,13 +13,15 @@ ul {
 }
 
 #container {
-  background-color: #A9A9A9;
+  background-color: #F7F7F7;
   height: 100%;
+  overflow: hidden; 
 }
 
 .primary-header ul {
 	background-color: #111;
 	padding: 0;
+  margin: 0;
 }
 .primary-header li {
   display: inline;
@@ -34,7 +36,7 @@ ul {
 }
 
 .main {
-  padding: 0 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
 }
 
 
@@ -61,4 +63,35 @@ ul {
 .active {
 	background-color: #A9A9A9;
   color: #000!important;
+}
+
+.rTable {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+}
+.rTableRow {
+    display: table-row;
+}
+.rTableHeading {
+    display: table-header-group;
+    background-color: #ddd;
+}
+.rTableCell, .rTableHead {
+    display: table-cell;
+    padding: 3px 10px;
+    border: 1px solid #999999;
+}
+.rTableHeading {
+    display: table-header-group;
+    background-color: #ddd;
+    font-weight: bold;
+}
+.rTableFoot {
+    display: table-footer-group;
+    font-weight: bold;
+    background-color: #ddd;
+}
+.rTableBody {
+    display: table-row-group;
 }

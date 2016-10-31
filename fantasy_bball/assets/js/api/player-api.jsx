@@ -18,8 +18,14 @@ export function getPlayer(playerId) {
       player.name = player.name;
       player.nba_team = player.nba_team;
       player.position = player.position;
+      player.image_url = player.image_url;
+      
+      player.notes.date = player.notes[0].date;
+      player.notes.report = player.notes[0].report;
+      player.notes.impact = player.notes[0].impact;
+      player.stats = player.stats
 
-      return player;
+      return player
       
     });
 }
