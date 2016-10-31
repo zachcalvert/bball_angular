@@ -73,7 +73,7 @@ class Player(models.Model):
 				note = note.replace("\ ", "")
 				try:
 					note_date, note_report = note.split('report:')
-					note_date = note_date[1:-]
+					note_date = note_date[1:]
 					note_report, note_impact = note.split('impact:')
 					note_report = note_report[25:]
 					note_impact = note_impact[1:]
