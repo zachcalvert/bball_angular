@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework_extensions.mixins import ReadOnlyCacheResponseAndETAGMixin
  
 from leagues.models import League, Team
 from players.models import Player
@@ -24,7 +25,8 @@ class TeamViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class PlayerViewSet(viewsets.ModelViewSet):  
+class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin,
+                  viewsets.ReadOnlyModelViewSet):
     queryset = Player.objects.all()
     serializer_class = serializers.PlayerSerializer
 
