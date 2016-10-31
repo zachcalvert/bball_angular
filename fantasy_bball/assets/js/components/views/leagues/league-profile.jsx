@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default function(props) {
-  console.log(props);
   return (
     <div className="league-profile">
       <img src={props.imageUrl} />
