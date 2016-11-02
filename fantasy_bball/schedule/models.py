@@ -11,6 +11,7 @@ NBA_SEASONS = (
 	('2016-17', '2016-17'),
 )
 
+
 class Season(models.Model):
     year = models.CharField(u'Season', choices=NBA_SEASONS, default='2015-16', max_length=10)
 
@@ -24,8 +25,8 @@ class Game(models.Model):
     tipoff = models.CharField(max_length=8, null=True, blank=True)
     home_team = models.CharField(u'Home Team', max_length=25, choices=NBA_TEAMS)
     away_team = models.CharField(u'Away Team', max_length=25, choices=NBA_TEAMS)
-    home_points = models.IntegerField(default=0)
-    away_points = models.IntegerField(default=0)
+    home_points = models.IntegerField(null=True)
+    away_points = models.IntegerField(null=True)
     boxscore_link = models.URLField(max_length=255, null=True, blank=True)
     statlines = models.ManyToManyField('players.Player', through="StatLine")
 

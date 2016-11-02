@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from schedule.models import Game, StatLine
 from players.models import Player
@@ -18,8 +18,10 @@ class Command(BaseCommand):
 		# can't get the boxscore for a game that hasn't been played
 		now = datetime.now()
 		today = now.date()
+		delta = timedelta(weeks=2)
+		last_week = today - delta
 		# filter by which games aren't represented in the statlines table yet
-		games = Game.objects.filter(date__lt=today)
+		games = Game.objects.filter(date__lt=today, date__gt=last_week)
 
 		for game in games:
 			# don't add game stats twice

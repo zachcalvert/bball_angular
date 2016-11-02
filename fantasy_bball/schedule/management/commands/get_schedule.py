@@ -60,7 +60,7 @@ class Command(BaseCommand):
 		now = datetime.now()
 		today = now.date()
 
-		games = Game.objects.all()
+		games = Game.objects.filter(boxscore_link__isnull=True)
 
 		for game in games:
 			string = game.date.strftime('%m/%d/%Y')

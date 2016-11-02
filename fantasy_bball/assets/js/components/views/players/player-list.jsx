@@ -5,11 +5,11 @@ export default function(props) {
   return (
     <div className="data-list">
       <h1>Players</h1>
-      <div className="player-quick-stats">
+      <div className="player-list-stats">
         <strong>2016-17</strong>
         <div className="rTable">
           <div className="rTableRow">
-            <div className="rTableHead"><strong>NAME</strong></div>
+            <div className="rTableHead name"><strong>NAME</strong></div>
             <div className="rTableHead"><strong>PTS</strong></div>
             <div className="rTableHead"><strong>REBS</strong></div>
             <div className="rTableHead"><strong>ASTS</strong></div>

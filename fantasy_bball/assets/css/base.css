@@ -67,8 +67,11 @@ ul {
 
 .rTable {
     display: table;
-    width: 100%;
+    width: auto;
     font-size: 10px;
+}
+.rtableHead {
+  width:;
 }
 .rTableRow {
     display: table-row;

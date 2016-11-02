@@ -93,7 +93,7 @@ class Player(models.Model):
 		from schedule.models import Game, StatLine
 
 		if not since_date:
-			since_date = date(2015, 10, 10)
+			since_date = date(2016, 10, 10)
 
 		data = {}
 		games = Game.objects.filter(date__gt=since_date)
