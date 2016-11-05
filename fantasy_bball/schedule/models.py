@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import unicode_literals, division
 
 from django.db import models
 
@@ -62,3 +62,79 @@ class StatLine(models.Model):
     def __unicode__(self):
         return "{0} - {1}".format(self.player, self.game)
 
+    @property
+    def game_score(self):
+        """
+        Out of 10. Combines stat totals relative to shot efficiency and turnovers.
+        This is not PER or anything like that, this is an evaluation purely from a 
+        fantasy basketball perspective.
+        """
+        base = 6.0
+        for i in range(self.fgm):
+            base += .2
+            if i == 10:
+                base += .1
+            if i == 15:
+                base += .2
+        for i in range(self.threesm):
+            base += .1
+            if i == 5:
+                base += .1
+            if i == 10:
+                base += .2
+        
+        for i in range(self.fga):
+            base -= .1
+        
+        for i in range(self.ftm):
+            base += .15
+            if i == 10:
+                base += .15
+        
+        for i in range(self.fta):
+            base -= .1
+        
+        for i in range(self.trbs):
+            base += .1
+            if i == 10:
+                base +=.15
+            if i == 20:
+                base += .15
+
+        for i in range(self.asts):
+            base += .1
+            if i == 10:
+                base += .15
+            if i == 20:
+                base += .15
+
+        for i in range(self.stls):
+            base += .1
+            if i == 5:
+                base += .15
+
+        for i in range(self.blks):
+            base += .1
+            if i == 5:
+                base += .15
+
+        for i in range(self.tos):
+            base -= .2
+            if i == 5:
+                base -= .2
+
+        if self.pts >= 20:
+            base += .3
+        if self.pts >= 30:
+            base += .3
+        if self.pts >= 40: 
+            base += .3
+        if self.pts >= 50:
+            base += .3
+        if self.pts >= 60:
+            base += .3
+
+        if base > 10: # max score is, hasn't even happened in 2016
+            base = 10
+
+        return base
