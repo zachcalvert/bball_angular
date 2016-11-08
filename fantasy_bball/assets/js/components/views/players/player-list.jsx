@@ -10,6 +10,8 @@ export default function(props) {
         <div className="rTable">
           <div className="rTableRow">
             <div className="rTableHead name"><strong>NAME</strong></div>
+            <div className="rTableHead"><strong>FG%</strong></div>
+            <div className="rTableHead"><strong>FT%</strong></div>
             <div className="rTableHead"><strong>PTS</strong></div>
             <div className="rTableHead"><strong>REBS</strong></div>
             <div className="rTableHead"><strong>ASTS</strong></div>
@@ -22,6 +24,8 @@ export default function(props) {
             return (
               <div className="rTableRow" key={player.id}>
                 <div className="rTableCell"><Link to={'/players/' + player.id}>{player.name}</Link></div>
+                <div className="rTableCell">{player.stats.averages.fgpct}</div>
+                <div className="rTableCell">{player.stats.averages.ftpct}</div>
                 <div className="rTableCell">{player.stats.averages.pts}</div>
                 <div className="rTableCell">{player.stats.averages.rebs}</div>
                 <div className="rTableCell">{player.stats.averages.asts}</div>
@@ -34,6 +38,8 @@ export default function(props) {
             return (
               <div className="rTableRow" key={player.id}>
                 <div className="rTableCell"><Link to={'/players/' + player.id}>{player.name}</Link></div>
+                <div className="rTableCell">0.0</div>
+                <div className="rTableCell">0.0</div>
                 <div className="rTableCell">0.0</div>
                 <div className="rTableCell">0.0</div>
                 <div className="rTableCell">0.0</div>

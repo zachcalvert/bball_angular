@@ -28,11 +28,11 @@ export default function(props) {
               <div className="rTableHead"><strong>BLKS</strong></div>
             </div>
             <div className="rTableRow">
-              <div className="rTableCell">{props.avg_pts}</div>
-              <div className="rTableCell">{props.avg_rebs}</div>
-              <div className="rTableCell">{props.avg_asts}</div>
-              <div className="rTableCell">{props.avg_stls}</div>
-              <div className="rTableCell">{props.avg_blks}</div>
+              <div className="rTableCell">{props.averages.pts}</div>
+              <div className="rTableCell">{props.averages.rebs}</div>
+              <div className="rTableCell">{props.averages.asts}</div>
+              <div className="rTableCell">{props.averages.stls}</div>
+              <div className="rTableCell">{props.averages.blks}</div>
             </div>
           </div>
         </div>
@@ -64,19 +64,19 @@ export default function(props) {
             <div className="rTableHead"><strong>3PCT</strong></div>
           </div>
           <div className="rTableRow">
-            <div className="rTableCell">{props.total_pts}</div>
-            <div className="rTableCell">{props.total_rebs}</div>
-            <div className="rTableCell">{props.total_asts}</div>
-            <div className="rTableCell">{props.total_stls}</div>
-            <div className="rTableCell">{props.total_blks}</div>
-            <div className="rTableCell">{props.total_fgm}</div>
-            <div className="rTableCell">{props.total_fga}</div>
+            <div className="rTableCell">{props.totals.pts}</div>
+            <div className="rTableCell">{props.totals.rebs}</div>
+            <div className="rTableCell">{props.totals.asts}</div>
+            <div className="rTableCell">{props.totals.stls}</div>
+            <div className="rTableCell">{props.totals.blks}</div>
+            <div className="rTableCell">{props.totals.fgm}</div>
+            <div className="rTableCell">{props.totals.fga}</div>
             <div className="rTableCell">{props.fgpct}</div>
-            <div className="rTableCell">{props.total_ftm}</div>
-            <div className="rTableCell">{props.total_fta}</div>
+            <div className="rTableCell">{props.totals.ftm}</div>
+            <div className="rTableCell">{props.totals.fta}</div>
             <div className="rTableCell">{props.ftpct}</div>
-            <div className="rTableCell">{props.total_threesm}</div>
-            <div className="rTableCell">{props.total_threesa}</div>
+            <div className="rTableCell">{props.totals.threesm}</div>
+            <div className="rTableCell">{props.totals.threesa}</div>
             <div className="rTableCell">{props.threespct}</div>
           </div>
         </div>
@@ -103,19 +103,19 @@ export default function(props) {
           </div>
 
           <div className="rTableRow">
-            <div className="rTableCell">{props.avg_pts}</div>
-            <div className="rTableCell">{props.avg_rebs}</div>
-            <div className="rTableCell">{props.avg_asts}</div>
-            <div className="rTableCell">{props.avg_stls}</div>
-            <div className="rTableCell">{props.avg_blks}</div>
-            <div className="rTableCell">{props.avg_fgm}</div>
-            <div className="rTableCell">{props.avg_fga}</div>
+            <div className="rTableCell">{props.averages.pts}</div>
+            <div className="rTableCell">{props.averages.rebs}</div>
+            <div className="rTableCell">{props.averages.asts}</div>
+            <div className="rTableCell">{props.averages.stls}</div>
+            <div className="rTableCell">{props.averages.blks}</div>
+            <div className="rTableCell">{props.averages.fgm}</div>
+            <div className="rTableCell">{props.averages.fga}</div>
             <div className="rTableCell">{props.fgpct}</div>
-            <div className="rTableCell">{props.avg_ftm}</div>
-            <div className="rTableCell">{props.avg_fta}</div>
+            <div className="rTableCell">{props.averages.ftm}</div>
+            <div className="rTableCell">{props.averages.fta}</div>
             <div className="rTableCell">{props.ftpct}</div>
-            <div className="rTableCell">{props.avg_threesm}</div>
-            <div className="rTableCell">{props.avg_threesa}</div>
+            <div className="rTableCell">{props.averages.threesm}</div>
+            <div className="rTableCell">{props.averages.threesa}</div>
             <div className="rTableCell">{props.threespct}</div>
           </div>
         </div>

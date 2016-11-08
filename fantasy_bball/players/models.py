@@ -134,13 +134,13 @@ class Player(models.Model):
 					'blks': round(blks/gp, 2),
 					'fgm': round(fgm/gp, 1),
 					'fga': round(fga/gp, 1),
-					'fgpct': round(fgm/fga, 3),
+					'fgpct': "{0:.1f}%".format(fgm/fga * 100),
 					'ftm': round(ftm/gp, 1),
 					'fta': round(fta/gp, 1),
-					'ftpct': round(ftm/fta, 3),
+					'ftpct': "{0:.1f}%".format(ftm/fta * 100),
 					'threesm': round(threesm/gp, 1),
 					'threesa': round(threesa/gp, 1),
-					'threespct': round(threesm/threesa, 3),
+					'threespct': "{0:.1f}%".format(threesm/threesa * 100),
 				}
 			}
 		except ZeroDivisionError:
