@@ -84,7 +84,7 @@ class StatLine(models.Model):
                 base += .2
         
         for i in range(self.fga):
-            base -= .1
+            base -= .12
         
         for i in range(self.ftm):
             base += .15
@@ -92,7 +92,7 @@ class StatLine(models.Model):
                 base += .15
         
         for i in range(self.fta):
-            base -= .1
+            base -= .11
         
         for i in range(self.trbs):
             base += .1
@@ -104,24 +104,28 @@ class StatLine(models.Model):
         for i in range(self.asts):
             base += .1
             if i == 10:
-                base += .15
+                # if they triple doubled, extra bonus
+                if self.trbs >= 10 and self.pts >= 10:
+                    base += .3
+                else:
+                    base += .15
             if i == 20:
                 base += .15
 
         for i in range(self.stls):
             base += .1
             if i == 5:
-                base += .15
+                base += .2
 
         for i in range(self.blks):
             base += .1
             if i == 5:
-                base += .15
+                base += .2
 
         for i in range(self.tos):
             base -= .2
             if i == 5:
-                base -= .2
+                base -= .21
 
         if self.pts >= 20:
             base += .3
@@ -134,7 +138,25 @@ class StatLine(models.Model):
         if self.pts >= 60:
             base += .3
 
-        if base > 10: # max score is, hasn't even happened in 2016
+        if base > 10: # hasn't even happened in 2016
             base = 10
 
-        return base
+        return round(base, 2)
+
+    def to_data(self, expanded=False):
+        return {
+            'game_id': self.game_id,
+            'player_id': self.player_id,
+            'pts': self.pts,
+            'trbs': self.trbs,
+            'asts': self.asts,
+            'stls': self.stls,
+            'blks': self.tos,
+            'tos': self.tos,
+            'fgm': self.fgm,
+            'fga': self.fga,
+            'ftm': self.ftm,
+            'fta': self.fta,
+            'threesm': self.threesm,
+            'game_score': self.game_score
+        }

@@ -42,11 +42,13 @@ class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin,
 	    		fa_ids = [player.id for player in queryset if player.is_available(league_id)]
 	    		queryset = queryset.filter(id__in=fa_ids)
 
-	    	if position:
-	    		queryset = queryset.filter(position=position)
+    	if position:
+    		queryset = queryset.filter(position=position)
 
-	    	if team:
-	    		queryset = queryset.filter(nba_team=team)
+    	if team:
+    		queryset = queryset.filter(nba_team=team)
+
+
 
     	return queryset
         

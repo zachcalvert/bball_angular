@@ -91,9 +91,8 @@ class Player(models.Model):
 
 	def stats(self, since_date=None):
 		from schedule.models import Game, StatLine
-
 		if not since_date:
-			since_date = date(2016, 10, 10)
+			since_date = date(2015, 10, 10)
 
 		data = {}
 		games = Game.objects.filter(date__gt=since_date)
@@ -149,6 +148,16 @@ class Player(models.Model):
 
 		return data
 
+	def recent_games(self, num_games=10):
+		from schedule.models import Game, StatLine
+
+		statlines = StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games]
+		data = {
+			'statlines': [
+				statline.to_data() for statline in statlines]
+		}
+
+		return data
 
 	def to_data(self, league_id=None):
 		data = {
