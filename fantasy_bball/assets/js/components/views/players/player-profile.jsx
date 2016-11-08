@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+var LineChart = require("react-chartjs").Line;
 
 export default function(props) {
   return (
@@ -118,6 +119,19 @@ export default function(props) {
             <div className="rTableCell">{props.threespct}</div>
           </div>
         </div>
+      </div>
+
+      <div className="recent-games">
+        <dl>
+          <dt>
+            Recent Form
+          </dt>
+          {props.recent_games.map(statline => {
+            return (
+              <dd key={statline.game_id} className="percentage percentage-11"><span className="text">{statline.game_score}</span></dd>
+              );
+          })}
+        </dl>
       </div>
 
 

@@ -23,7 +23,8 @@ export function getPlayer(playerId) {
       player.notes.date = player.notes[0].date;
       player.notes.report = player.notes[0].report;
       player.notes.impact = player.notes[0].impact;
-      player.stats = player.stats
+      player.stats = player.stats;
+      player.recent_games = player.recent_games.statlines;
 
       return player
       

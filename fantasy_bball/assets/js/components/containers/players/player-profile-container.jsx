@@ -13,7 +13,7 @@ const PlayerProfileContainer = React.createClass({
 			date: null,
 			report: null,
 			impact: null,
-			total_pts: null,
+			recent_games: []
 		}
 	},
 
@@ -58,6 +58,8 @@ const PlayerProfileContainer = React.createClass({
 				fgpct: player.stats.averages.fgpct,
 				ftpct: player.stats.averages.ftpct,
 				threespct: player.stats.averages.threespct,
+
+				recent_games: player.recent_games,
 				
 			});
 		});
