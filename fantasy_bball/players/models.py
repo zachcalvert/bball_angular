@@ -154,7 +154,7 @@ class Player(models.Model):
 		statlines = StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games]
 		data = {
 			'statlines': [
-				statline.to_data() for statline in statlines]
+				statline.game_score for statline in statlines]
 		}
 
 		return data
