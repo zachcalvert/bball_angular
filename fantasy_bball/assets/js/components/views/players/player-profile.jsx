@@ -4,10 +4,10 @@ import {Line} from 'react-chartjs-2';
 
 export default function(props) {
   var gameChartData = {
-    "labels": ['Games'],
+    "labels": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     "datasets": [
       {
-        "label": 'My First dataset',
+        "label": 'Recent Form',
         "fill": false,
         "lineTension": 0.1,
         "backgroundColor": 'rgba(75,192,192,0.4)',
@@ -29,6 +29,16 @@ export default function(props) {
       }
     ]
   }
+
+  var gameChartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 
   return (
     <div className="player-profile">
@@ -69,6 +79,10 @@ export default function(props) {
           <p>{props.report}</p>
           <p>{props.impact}</p>
         </div>
+      </div>
+
+      <div className="player-game-chart">
+        <Line data={gameChartData} options={gameChartOptions} />
       </div>
 
       <div className="player-stats">
@@ -146,11 +160,6 @@ export default function(props) {
             <div className="rTableCell">{props.threespct}</div>
           </div>
         </div>
-      </div>
-
-      <div className="player-game-chart">
-        <h2>Line Example</h2>
-        <Line data={gameChartData} />
       </div>
 
     </div>

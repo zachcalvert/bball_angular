@@ -24,7 +24,7 @@
 
 .player-details {
     float: left;
-    max-width: 500px;
+    max-width: 350px;
     height: 195px;
     font-size: 11px;
     text-align: justify;
@@ -33,6 +33,17 @@
 
 .player-details p {
 	margin: 5px;
+}
+
+.player-game-chart {
+    float: left;
+    max-width: 450px;
+}
+
+.player-game-chart canvas {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 .player-quick-stats {
