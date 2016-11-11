@@ -38,6 +38,7 @@
 .player-game-chart {
     float: left;
     width: 450px;
+    padding: 0 10px 10px;
 }
 
 .player-game-chart canvas {

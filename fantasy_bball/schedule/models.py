@@ -170,6 +170,5 @@ class StatLine(models.Model):
         else:
             opp = "@{}".format(self.game.away_team)
 
-        date = self.game.date.strftime('%-m/%-d/%y')
-        return date
+        date = self.game.date.strftime('%-m/%-d')
         return "{0} {1}".format(opp, date) 

@@ -119,13 +119,13 @@ export default function(props) {
             <div className="rTableCell">{props.totals.blks}</div>
             <div className="rTableCell">{props.totals.fgm}</div>
             <div className="rTableCell">{props.totals.fga}</div>
-            <div className="rTableCell">{props.fgpct}</div>
+            <div className="rTableCell">{props.averages.fgpct}</div>
             <div className="rTableCell">{props.totals.ftm}</div>
             <div className="rTableCell">{props.totals.fta}</div>
-            <div className="rTableCell">{props.ftpct}</div>
+            <div className="rTableCell">{props.averages.ftpct}</div>
             <div className="rTableCell">{props.totals.threesm}</div>
             <div className="rTableCell">{props.totals.threesa}</div>
-            <div className="rTableCell">{props.threespct}</div>
+            <div className="rTableCell">{props.averages.threespct}</div>
           </div>
         </div>
       </div>
@@ -158,13 +158,13 @@ export default function(props) {
             <div className="rTableCell">{props.averages.blks}</div>
             <div className="rTableCell">{props.averages.fgm}</div>
             <div className="rTableCell">{props.averages.fga}</div>
-            <div className="rTableCell">{props.fgpct}</div>
+            <div className="rTableCell">{props.averages.fgpct}</div>
             <div className="rTableCell">{props.averages.ftm}</div>
             <div className="rTableCell">{props.averages.fta}</div>
-            <div className="rTableCell">{props.ftpct}</div>
+            <div className="rTableCell">{props.averages.ftpct}</div>
             <div className="rTableCell">{props.averages.threesm}</div>
             <div className="rTableCell">{props.averages.threesa}</div>
-            <div className="rTableCell">{props.threespct}</div>
+            <div className="rTableCell">{props.averages.threespct}</div>
           </div>
         </div>
       </div>
