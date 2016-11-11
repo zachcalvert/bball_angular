@@ -73,3 +73,11 @@
 .player-stats li {
 	display: inline;
 }
+
+/* player list table */
+.reactable-data td {
+    width: auto;
+    min-width: 25px;
+    font-size: 12px;
+    padding: 3px 10px;
+}

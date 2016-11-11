@@ -5,6 +5,7 @@ from datetime import date
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.query import QuerySet
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from leagues.models import League
@@ -33,6 +34,18 @@ NBA_TEAMS = (
 )
 
 
+def memoize(function):
+	memo = {}
+	def wrapper(*args):
+		if args in memo:
+			return memo[args]
+		else:
+			rv = function(*args)
+			memo[args] = rv
+			return rv
+	return wrapper
+
+
 class Player(models.Model):
 	"""
 	A simple model describing an NBA player that may be on one Team per League.
@@ -52,6 +65,10 @@ class Player(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	@property
+	def short_name(self):
+		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
 
 	def is_available(self, league_id):
 		league = League.objects.get(id=league_id)
@@ -89,6 +106,7 @@ class Player(models.Model):
 
 				return notes
 
+	@property
 	def stats(self, since_date=None):
 		from schedule.models import Game, StatLine
 		if not since_date:
@@ -147,6 +165,12 @@ class Player(models.Model):
 			pass
 
 		return data
+
+	def recent_form(self, num_games=25):
+		from schedule.models import Game, StatLine
+		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
+		total = sum(statline.game_score for statline in statlines)
+		return round(total/num_games, 2)
 
 	def recent_games(self, num_games=10):
 		from schedule.models import Game, StatLine

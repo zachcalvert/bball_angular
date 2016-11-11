@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, ReadOnlyField  
+from rest_framework.serializers import ModelSerializer, ReadOnlyField, SerializerMethodField
 
 from leagues.models import League, Team
 from players.models import Player
@@ -21,10 +21,45 @@ class TeamSerializer(ModelSerializer):
 
 
 class PlayerList(ModelSerializer):
+	pts = SerializerMethodField('ppg')
+	rebs = SerializerMethodField('rpg')
+	asts = SerializerMethodField('apg')
+	stls = SerializerMethodField('spg')
+	blks = SerializerMethodField('bpg')
+
+	def ppg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('pts')
+		else:
+			return 0.0
+
+	def rpg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('rebs')
+		else:
+			return 0.0
+
+	def apg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('asts')
+		else:
+			return 0.0
+
+	def spg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('stls')
+		else:
+			return 0.0
+
+	def bpg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('blks')
+		else:
+			return 0.0
 
 	class Meta:
 		model = Player
-		fields = ('id', 'name', 'position', 'nba_team', 'stats')
+		fields = ('short_name', 'recent_form', 'pts', 'rebs', 'asts', 'stls', 'blks')
 
 
 class PlayerDetail(ModelSerializer):

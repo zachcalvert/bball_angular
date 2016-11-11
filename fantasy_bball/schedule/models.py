@@ -71,13 +71,14 @@ class StatLine(models.Model):
         """
         base = 6.0
         for i in range(self.fgm):
-            base += .2
+            base += .22
             if i == 10:
-                base += .1
+                base += .15
             if i == 15:
-                base += .2
+                base += .22
+        
         for i in range(self.threesm):
-            base += .1
+            base += .12
             if i == 5:
                 base += .1
             if i == 10:
@@ -87,22 +88,22 @@ class StatLine(models.Model):
             base -= .12
         
         for i in range(self.ftm):
-            base += .15
+            base += .2
             if i == 10:
                 base += .15
         
         for i in range(self.fta):
-            base -= .11
+            base -= .15
         
         for i in range(self.trbs):
-            base += .1
+            base += .12
             if i == 10:
                 base +=.15
             if i == 20:
                 base += .15
 
         for i in range(self.asts):
-            base += .1
+            base += .15
             if i == 10:
                 # if they triple doubled, extra bonus
                 if self.trbs >= 10 and self.pts >= 10:
@@ -113,19 +114,19 @@ class StatLine(models.Model):
                 base += .15
 
         for i in range(self.stls):
-            base += .1
+            base += .26
             if i == 5:
-                base += .2
+                base += .35
 
         for i in range(self.blks):
-            base += .1
+            base += .2
             if i == 5:
-                base += .2
+                base += .35
 
         for i in range(self.tos):
-            base -= .2
+            base -= .25
             if i == 5:
-                base -= .21
+                base -= .22
 
         if self.pts >= 20:
             base += .3
