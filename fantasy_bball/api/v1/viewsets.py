@@ -48,7 +48,5 @@ class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin,
     	if team:
     		queryset = queryset.filter(nba_team=team)
 
-
-
     	return queryset
         

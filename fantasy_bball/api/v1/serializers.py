@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ReadOnlyField  
+
 from leagues.models import League, Team
 from players.models import Player
 
@@ -24,3 +25,5 @@ class PlayerSerializer(ModelSerializer):
 	class Meta:
 		model = Player
 		fields = ('id', 'name', 'image_url', 'position', 'nba_team', 'notes', 'stats', 'recent_games')
+
+		
