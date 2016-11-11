@@ -23,30 +23,36 @@ class TeamViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(league_id=league_id)
 
         return queryset
+    
 
-
-class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin,
-                  viewsets.ReadOnlyModelViewSet):
+class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Player.objects.all()
-    serializer_class = serializers.PlayerSerializer
+
+    def get_serializer_class(self):
+        if hasattr(self, 'action') and self.action == 'list':
+            return serializers.PlayerList
+        if hasattr(self, 'action') and self.action == 'retrieve':
+            return serializers.PlayerDetail
+        return serializers.PlayerList
+
 
     def get_queryset(self):
-    	queryset = Player.objects.all()
-    	league_id = self.request.query_params.get('league_id', None)
-    	free_agents = self.request.query_params.get('free_agents', None)
-    	position = self.request.query_params.get('pos', None)
-    	team = self.request.query_params.get('team', None)
+        queryset = Player.objects.all()
+        league_id = self.request.query_params.get('league_id', None)
+        free_agents = self.request.query_params.get('free_agents', None)
+        position = self.request.query_params.get('pos', None)
+        team = self.request.query_params.get('team', None)
 
-    	if league_id:
-    		if free_agents:
-	    		fa_ids = [player.id for player in queryset if player.is_available(league_id)]
-	    		queryset = queryset.filter(id__in=fa_ids)
+        if league_id:
+            if free_agents:
+                fa_ids = [player.id for player in queryset if player.is_available(league_id)]
+                queryset = queryset.filter(id__in=fa_ids)
 
-    	if position:
-    		queryset = queryset.filter(position=position)
+        if position:
+            queryset = queryset.filter(position=position)
 
-    	if team:
-    		queryset = queryset.filter(nba_team=team)
+        if team:
+            queryset = queryset.filter(nba_team=team)
 
-    	return queryset
+        return queryset
         

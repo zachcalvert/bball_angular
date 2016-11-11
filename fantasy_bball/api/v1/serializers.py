@@ -20,7 +20,14 @@ class TeamSerializer(ModelSerializer):
 		fields = ('id', 'name', 'record', 'league', 'owner', 'players')
 
 
-class PlayerSerializer(ModelSerializer):
+class PlayerList(ModelSerializer):
+
+	class Meta:
+		model = Player
+		fields = ('id', 'name', 'position', 'nba_team', 'stats')
+
+
+class PlayerDetail(ModelSerializer):
 
 	class Meta:
 		model = Player
