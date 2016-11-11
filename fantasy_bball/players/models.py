@@ -151,10 +151,15 @@ class Player(models.Model):
 	def recent_games(self, num_games=10):
 		from schedule.models import Game, StatLine
 
-		statlines = StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games]
+		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
+		statlines.reverse()
 		data = {
 			'statlines': [
-				statline.game_score for statline in statlines]
+				statline.game_score for statline in statlines
+			],
+			'games': [
+				statline.short_format for statline in statlines
+			]
 		}
 
 		return data

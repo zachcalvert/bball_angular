@@ -160,3 +160,16 @@ class StatLine(models.Model):
             'threesm': self.threesm,
             'game_score': self.game_score
         }
+
+    @property
+    def short_format(self):
+        away = False
+        if self.game.away_team == self.player.nba_team:
+            opp = self.game.home_team
+            away = True
+        else:
+            opp = "@{}".format(self.game.away_team)
+
+        date = self.game.date.strftime('%-m/%-d/%y')
+        return date
+        return "{0} {1}".format(opp, date) 

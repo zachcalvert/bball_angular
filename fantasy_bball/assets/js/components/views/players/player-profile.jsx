@@ -4,7 +4,7 @@ import {Line} from 'react-chartjs-2';
 
 export default function(props) {
   var gameChartData = {
-    "labels": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "labels": props.recent_games,
     "datasets": [
       {
         "label": 'Recent Form',
@@ -25,7 +25,7 @@ export default function(props) {
         "pointHoverBorderWidth": 2,
         "pointRadius": 1,
         "pointHitRadius": 10,
-        "data": props.recent_games
+        "data": props.recent_scores
       }
     ]
   }
@@ -34,7 +34,9 @@ export default function(props) {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:true,
+                    max: 10,
+                    steps: 1
                 }
             }]
         }
@@ -58,6 +60,8 @@ export default function(props) {
           <strong>2016-17</strong>
           <div className="rTable">
             <div className="rTableRow">
+              <div className="rTableHead"><strong>FG%</strong></div>
+              <div className="rTableHead"><strong>FT%</strong></div>
               <div className="rTableHead"><strong>PTS</strong></div>
               <div className="rTableHead"><strong>REBS</strong></div>
               <div className="rTableHead"><strong>ASTS</strong></div>
@@ -65,6 +69,8 @@ export default function(props) {
               <div className="rTableHead"><strong>BLKS</strong></div>
             </div>
             <div className="rTableRow">
+              <div className="rTableCell">{props.averages.fgpct}</div>
+              <div className="rTableCell">{props.averages.ftpct}</div>
               <div className="rTableCell">{props.averages.pts}</div>
               <div className="rTableCell">{props.averages.rebs}</div>
               <div className="rTableCell">{props.averages.asts}</div>
@@ -73,6 +79,7 @@ export default function(props) {
             </div>
           </div>
         </div>
+
         <strong>Recent Notes</strong>
         <div className="player-notes">
           <p>{props.date}</p>
