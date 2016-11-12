@@ -69,78 +69,26 @@ class StatLine(models.Model):
         This is not PER or anything like that, this is an evaluation purely from a 
         fantasy basketball perspective.
         """
-        base = 6.0
-        for i in range(self.fgm):
-            base += .22
-            if i == 10:
-                base += .15
-            if i == 15:
-                base += .22
-        
-        for i in range(self.threesm):
-            base += .12
-            if i == 5:
-                base += .1
-            if i == 10:
-                base += .2
-        
-        for i in range(self.fga):
-            base -= .12
-        
-        for i in range(self.ftm):
-            base += .2
-            if i == 10:
-                base += .15
-        
-        for i in range(self.fta):
-            base -= .15
-        
-        for i in range(self.trbs):
-            base += .12
-            if i == 10:
-                base +=.15
-            if i == 20:
-                base += .15
+        base = 5.0
 
-        for i in range(self.asts):
-            base += .15
-            if i == 10:
-                # if they triple doubled, extra bonus
-                if self.trbs >= 10 and self.pts >= 10:
-                    base += .3
-                else:
-                    base += .15
-            if i == 20:
-                base += .15
+        base += self.fgm *.235 # 43% shooter comes out even
+        base -= self.fga * .1
 
-        for i in range(self.stls):
-            base += .26
-            if i == 5:
-                base += .35
+        base += self.ftm * .13 # 77% free throw shooter comes out even
+        base -= self.fta * .1
 
-        for i in range(self.blks):
-            base += .2
-            if i == 5:
-                base += .35
+        base += self.threesm * .2
 
-        for i in range(self.tos):
-            base -= .25
-            if i == 5:
-                base -= .22
+        base += self.trbs * .13
+        base += self.asts * .16
+        base += self.stls * .3
+        base += self.blks * .3
+        base -= self.tos * .2
 
-        if self.pts >= 20:
-            base += .3
-        if self.pts >= 30:
-            base += .3
-        if self.pts >= 40: 
-            base += .3
-        if self.pts >= 50:
-            base += .3
-        if self.pts >= 60:
-            base += .3
+        base += (self.pts / 10) *.3 # for every 10 pts, +0.3
 
-        if base > 10: # hasn't even happened in 2016
-            base = 10
+        # if base > 10: # hasn't even happened in 2016
+        #     base = 10
 
         return round(base, 2)
 

@@ -81,3 +81,12 @@
     font-size: 12px;
     padding: 3px 10px;
 }
+
+.reactable-pagination {
+	padding: 10px;
+}
+
+.reactable-pagination a {
+	padding: 0 8px;
+	color: #000;
+}

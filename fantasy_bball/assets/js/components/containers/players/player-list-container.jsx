@@ -18,7 +18,6 @@ const PlayerListContainer = React.createClass({
     },
 
     render: function() {
-        console.log(this.state.players)
         return (
             <PlayerList players={this.state.players} />
         );

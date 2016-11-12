@@ -26,6 +26,7 @@ class PlayerList(ModelSerializer):
 	asts = SerializerMethodField('apg')
 	stls = SerializerMethodField('spg')
 	blks = SerializerMethodField('bpg')
+	tos = SerializerMethodField('topg')
 
 	def ppg(self, obj):
 		if obj.stats != {}:
@@ -57,9 +58,21 @@ class PlayerList(ModelSerializer):
 		else:
 			return 0.0
 
+	def topg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('tos')
+		else:
+			return 0.0
+
+	def topg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('tos')
+		else:
+			return 0.0
+
 	class Meta:
 		model = Player
-		fields = ('short_name', 'recent_form', 'pts', 'rebs', 'asts', 'stls', 'blks')
+		fields = ('short_name', 'recent_form', 'pts', 'rebs', 'asts', 'stls', 'blks', 'tos')
 
 
 class PlayerDetail(ModelSerializer):

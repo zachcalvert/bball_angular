@@ -5,8 +5,9 @@ from datetime import date
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.query import QuerySet
-from django.utils.html import escape
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
+
 
 from leagues.models import League
 
@@ -106,11 +107,11 @@ class Player(models.Model):
 
 				return notes
 
-	@property
+	@cached_property
 	def stats(self, since_date=None):
 		from schedule.models import Game, StatLine
 		if not since_date:
-			since_date = date(2015, 10, 10)
+			since_date = date(2016, 03, 10)
 
 		data = {}
 		games = Game.objects.filter(date__gt=since_date)
@@ -172,7 +173,7 @@ class Player(models.Model):
 		total = sum(statline.game_score for statline in statlines)
 		return round(total/num_games, 2)
 
-	def recent_games(self, num_games=10):
+	def recent_games(self, num_games=20):
 		from schedule.models import Game, StatLine
 
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
