@@ -21,16 +21,37 @@ class TeamSerializer(ModelSerializer):
 
 
 class PlayerList(ModelSerializer):
+	fgpct = SerializerMethodField('fgpctpg')
+	ftpct = SerializerMethodField('ftpctpg')
 	pts = SerializerMethodField('ppg')
+	threesm = SerializerMethodField('threespg')
 	rebs = SerializerMethodField('rpg')
 	asts = SerializerMethodField('apg')
 	stls = SerializerMethodField('spg')
 	blks = SerializerMethodField('bpg')
 	tos = SerializerMethodField('topg')
 
+	def fgpctpg(self, obj):
+			if obj.stats != {}:
+				return obj.stats['averages'].get('fgpct')
+			else:
+				return 0.0
+
+	def ftpctpg(self, obj):
+			if obj.stats != {}:
+				return obj.stats['averages'].get('ftpct')
+			else:
+				return 0.0
+
 	def ppg(self, obj):
 		if obj.stats != {}:
 			return obj.stats['averages'].get('pts')
+		else:
+			return 0.0
+
+	def threespg(self, obj):
+		if obj.stats != {}:
+			return obj.stats['averages'].get('threesm')
 		else:
 			return 0.0
 
@@ -64,15 +85,9 @@ class PlayerList(ModelSerializer):
 		else:
 			return 0.0
 
-	def topg(self, obj):
-		if obj.stats != {}:
-			return obj.stats['averages'].get('tos')
-		else:
-			return 0.0
-
 	class Meta:
 		model = Player
-		fields = ('short_name', 'recent_form', 'pts', 'rebs', 'asts', 'stls', 'blks', 'tos')
+		fields = ('short_name', 'recent_form', 'fgpct', 'ftpct', 'pts', 'threesm', 'rebs', 'asts', 'stls', 'blks', 'tos')
 
 
 class PlayerDetail(ModelSerializer):

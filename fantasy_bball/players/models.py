@@ -130,6 +130,7 @@ class Player(models.Model):
 			fta = sum(sl.fta for sl in statlines)
 			threesm = sum(sl.threesm for sl in statlines)
 			threesa = sum(sl.threesa for sl in statlines)
+			tos = sum(sl.tos for sl in statlines)
 
 			data = {
 				'totals': {
@@ -143,7 +144,8 @@ class Player(models.Model):
 					'ftm': ftm,
 					'fta': fta,
 					'threesm': threesm,
-					'threesa': threesa
+					'threesa': threesa,
+					'tos': tos
 				},
 				'averages': {
 					'pts': round(pts/gp, 2),
@@ -160,6 +162,7 @@ class Player(models.Model):
 					'threesm': round(threesm/gp, 1),
 					'threesa': round(threesa/gp, 1),
 					'threespct': "{0:.1f}%".format(threesm/threesa * 100),
+					'tos': round(tos/gp, 2)
 				}
 			}
 		except ZeroDivisionError:
