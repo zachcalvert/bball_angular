@@ -12,7 +12,7 @@ const PlayerListContainer = React.createClass({
     },
 
     componentDidMount: function() {
-        playerApi.getPlayers().then(players => {
+        playerApi.getPlayers(this.props.routeParams.leagueId).then(players => {
           this.setState({players: players})
         });
     },

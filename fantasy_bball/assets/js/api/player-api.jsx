@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export function getPlayers() {
+export function getPlayers(leagueId) {
+  if (leagueId) {
+    return axios.get('http://localhost:8001/api/v1/players/?league_id=' + leagueId + '&free_agents=Trueformat=json')
+      .then(response => response.data);
+    }
   return axios.get('http://localhost:8001/api/v1/players/?format=json')
     .then(response => response.data);
 }

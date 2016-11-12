@@ -29,13 +29,13 @@ export default (
 
           <Route component={LeagueLayout}>
             <Route path=":leagueId" component={LeagueProfileContainer}>
-              <Route path="players" component={PlayerListContainer} />
               <Route path="matchups" component={LeagueMatchupsContainer} />
             </Route>
            </Route>
         </Route>
 
         <Route path="leagues/:leagueId/teams/:teamId" component={TeamProfileContainer} />
+        <Route path="leagues/:leagueId/free_agents" component={PlayerListContainer} />
         <Route path="players/:playerId" component={PlayerProfileContainer} />
         
 
