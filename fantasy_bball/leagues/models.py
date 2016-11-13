@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.functional import cached_property
 
 
 class League(models.Model):
@@ -32,6 +33,11 @@ class League(models.Model):
 			i += 1
 			if i >= num_players:
 				break
+
+	@cached_property
+	def free_agents(self):
+		from players.models import Player
+		return [p.id for p in Player.objects.all() if p.is_available(self.pk)]
 
 
 class Team(models.Model):

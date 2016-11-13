@@ -87,7 +87,7 @@ class PlayerList(ModelSerializer):
 
 	class Meta:
 		model = Player
-		fields = ('short_name', 'recent_form', 'fgpct', 'ftpct', 'pts', 'threesm', 'rebs', 'asts', 'stls', 'blks', 'tos')
+		fields = ('id', 'short_name', 'recent_form', 'fgpct', 'ftpct', 'pts', 'threesm', 'rebs', 'asts', 'stls', 'blks', 'tos')
 
 
 class PlayerDetail(ModelSerializer):

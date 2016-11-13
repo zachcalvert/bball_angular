@@ -92,26 +92,11 @@ class StatLine(models.Model):
 
         return round(base, 2)
 
-    def to_data(self, expanded=False):
-        return {
-            'game_id': self.game_id,
-            'player_id': self.player_id,
-            'pts': self.pts,
-            'trbs': self.trbs,
-            'asts': self.asts,
-            'stls': self.stls,
-            'blks': self.tos,
-            'tos': self.tos,
-            'fgm': self.fgm,
-            'fga': self.fga,
-            'ftm': self.ftm,
-            'fta': self.fta,
-            'threesm': self.threesm,
-            'game_score': self.game_score
-        }
-
     @property
     def short_format(self):
+        """
+        Concise representation of the game this took place in, relative to this statline's player's team
+        """
         away = False
         if self.game.away_team == self.player.nba_team:
             opp = self.game.home_team

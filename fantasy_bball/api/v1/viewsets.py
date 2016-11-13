@@ -45,7 +45,8 @@ class PlayerViewSet(ReadOnlyCacheResponseAndETAGMixin, viewsets.ReadOnlyModelVie
 
         if league_id:
             if free_agents:
-                fa_ids = [player.id for player in queryset if player.is_available(league_id)]
+                league = League.objects.get(id=league_id)
+                fa_ids = league.free_agents
                 queryset = queryset.filter(id__in=fa_ids)
 
         if position:
