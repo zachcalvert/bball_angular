@@ -81,6 +81,10 @@
     padding: 3px 10px;
 }
 
+.reactable-data li {
+	list-style: none;
+}
+
 .reactable-pagination {
 	padding: 10px;
 }

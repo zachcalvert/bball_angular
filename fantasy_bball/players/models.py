@@ -198,13 +198,14 @@ class Player(models.Model):
 		return data
 
 	def to_data(self, league_id=None):
-		data = {
-			'id': self.id,
-			'name': self.name,
-			'position': self.position,
-			'nba_team': self.nba_team,
-			'stats': self.stats
-		}
+		data = self.stats.get('averages')
+		if not data:
+			data = {}
+		data['id'] = self.id
+		data['name'] = self.name
+		data['position'] = self.position
+		data['nba_team'] = self.nba_team
+		data['recent_form'] = self.recent_form
 
 		if league_id is not None:
 			data.update({
