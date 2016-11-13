@@ -39,6 +39,18 @@ class League(models.Model):
 		from players.models import Player
 		return [p.id for p in Player.objects.all() if p.is_available(self.pk)]
 
+	def to_data(self):
+		data = {
+			'id': self.id,
+			'name': self.name,
+			'is_public': self.is_public,
+			'dynasty': self.is_dynasty,
+			'manager': self.manager.username,
+			'teams': [team.to_data() for team in self.teams.all()]
+		}
+
+		return data
+
 
 class Team(models.Model):
 	league = models.ForeignKey(League, related_name='teams')
@@ -87,8 +99,5 @@ class Team(models.Model):
 				'position': player.position,
 				'team': player.nba_team,
 			} for player in self.players.all()]
-
-		if self.owner:
-			data.update({'owner': self.owner.username})
 
 		return data

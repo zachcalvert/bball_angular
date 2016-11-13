@@ -10,5 +10,10 @@ urlpatterns = [
     # API:V1
     url(r'^api/v1/', include(api_router.urls)),
 
+    url(r'^api/v2/', include('leagues.api_urls')),
+    # url(r'^api/v2/teams', include('teams.api_urls')),
+    # url(r'^api/v2/players', include('players.api_urls')),
+
+
     url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),  
 ]
