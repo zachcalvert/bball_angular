@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
-from leagues.models import League
+from leagues.models import League, Team
 
 
 class JSONHttpResponse(HttpResponse):
@@ -38,4 +38,11 @@ class LeagueView(JSONView):
 	def get(self, request, league_id):
 		league = League.objects.get(id=league_id)
 		return league.to_data()
+
+
+class TeamView(JSONView):
+
+	def get(self, request, team_id):
+		team = Team.objects.get(id=team_id)
+		return team.to_data(player_data=True)
 

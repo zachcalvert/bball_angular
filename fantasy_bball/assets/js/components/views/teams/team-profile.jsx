@@ -46,7 +46,7 @@ export default function(props) {
           
           {props.players.map((player, i) => {
             return (
-              <Tr>
+              <Tr key={i}>
                 <Td column="name">
                   <li><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</li>
                 </Td>
@@ -54,38 +54,36 @@ export default function(props) {
                   {player.recent_form}
                 </Td>
                 <Td column="fgpct">
-                  {player.fgpct}
+                  {player.stats.averages.fgpct}
                 </Td>
                 <Td column="ftpct">
-                  {player.ftpct}
+                  {player.stats.averages.ftpct}
                 </Td>
                 <Td column="pts">
-                  {player.pts}
+                  {player.stats.averages.pts}
                 </Td>
                 <Td column="threesm">
-                  {player.threesm}
+                  {player.stats.averages.threesm}
                 </Td>
                 <Td column="rebs">
-                  {player.rebs}
+                  {player.stats.averages.rebs}
                 </Td>
                 <Td column="asts">
-                  {player.asts}
+                  {player.stats.averages.asts}
                 </Td>
                 <Td column="stls">
-                  {player.stls}
+                  {player.stats.averages.stls}
                 </Td>
                 <Td column="blks">
-                  {player.blks}
+                  {player.stats.averages.blks}
                 </Td>
                 <Td column="tos">
-                  {player.tos}
+                  {player.stats.averages.tos}
                 </Td>
               </Tr>
             );
           })}  
-
         </Table>
-
       </div>
     </div>
   );

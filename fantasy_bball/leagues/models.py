@@ -84,10 +84,7 @@ class Team(models.Model):
 	def to_data(self, player_data=False):
 		data = {
 			'id': self.id,
-			'league': {
-				'id': self.league.id,
-				'name': self.league.name,
-			},
+			'league_id': self.league.id,
 			'name': self.name,
 			'record': self.record
 		}
@@ -98,6 +95,8 @@ class Team(models.Model):
 				'name': player.name,
 				'position': player.position,
 				'team': player.nba_team,
+				'stats': player.stats,
+				'recent_form': player.recent_form
 			} for player in self.players.all()]
 
 		return data
