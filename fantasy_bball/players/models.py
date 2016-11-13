@@ -175,13 +175,13 @@ class Player(models.Model):
 		return data
 
 	@property
-	def recent_form(self, num_games=25):
+	def recent_form(self, num_games=15):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
 		total = sum(statline.game_score for statline in statlines)
 		return round(total/num_games, 2)
 
-	def recent_games(self, num_games=20):
+	def recent_games(self, num_games=15):
 		from schedule.models import Game, StatLine
 
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])

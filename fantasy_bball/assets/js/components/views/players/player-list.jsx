@@ -13,7 +13,8 @@ export default function(props) {
     <Table className="table" 
       sortable={['recent_form', 'fgpct', 'ftpct', 'pts', 'threesm', 'rebs', 'asts', 'stls', 'blks', 'tos']} 
       defaultSort={{column: 'recent_form', direction: 'desc'}} 
-      defaultSortDescending>
+      defaultSortDescending
+      itemsPerPage={25} pageButtonLimit={5}>
       <Thead>
         <Th className="player-header-name" column="name">Name</Th>
         <Th column="recent_form">Form</Th>
