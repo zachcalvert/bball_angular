@@ -111,7 +111,7 @@ class Player(models.Model):
 	def stats(self, since_date=None):
 		from schedule.models import Game, StatLine
 		if not since_date:
-			since_date = date(2016, 03, 10)
+			since_date = date(2015, 9, 10)
 
 		data = {}
 		games = Game.objects.filter(date__gt=since_date)
@@ -161,10 +161,14 @@ class Player(models.Model):
 					'ftpct': "{0:.1f}%".format(ftm/fta * 100),
 					'threesm': round(threesm/gp, 1),
 					'threesa': round(threesa/gp, 1),
-					'threespct': "{0:.1f}%".format(threesm/threesa * 100),
 					'tos': round(tos/gp, 2)
 				}
 			}
+			if threesa == 0:
+				data['threespct'] = "0%"
+			else: 
+				data['threespct'] = "{0:.1f}%".format(threesm/threesa * 100)
+
 		except ZeroDivisionError:
 			pass
 
@@ -199,6 +203,7 @@ class Player(models.Model):
 			'name': self.name,
 			'position': self.position,
 			'nba_team': self.nba_team,
+			'stats': self.stats
 		}
 
 		if league_id is not None:

@@ -27,6 +27,7 @@ class League(models.Model):
 
 		for p in pl[i::10]:
 			team.players.add(p)
+			print('added {} to {}'.format(p, team))
 
 			i += 1
 			if i >= num_players:

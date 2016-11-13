@@ -17,7 +17,7 @@ export default function(props) {
               previousPageLabel="Prev">
 
           <Thead>
-            <Th column="short_name">Name</Th>
+            <Th className="player-list-name" column="short_name">Name</Th>
             <Th column="recent_form">Form</Th>
             <Th column="fgpct">FGPCT</Th>
             <Th column="ftpct">FTPCT</Th>

@@ -1,0 +1,8 @@
+.team-player-details ul {
+	list-style: None;
+}
+
+.team-player-details li {
+	display: inline-block;
+	padding: 5px 10px;
+}

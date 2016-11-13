@@ -76,7 +76,6 @@
 
 /* player list table */
 .reactable-data td {
-    width: auto;
     min-width: 25px;
     font-size: 12px;
     padding: 3px 10px;
@@ -89,4 +88,8 @@
 .reactable-pagination a {
 	padding: 0 8px;
 	color: #000;
+}
+
+label[for=name] {
+	width: 190px;
 }

@@ -20,20 +20,23 @@ export default function(props) {
         <p>Manager: {props.owner}</p>
         <p>Record: {props.record}</p>
         <h3>Roster:</h3>
-          <ul className="roster">
 
-            {props.players.map(player => {
+        {props.players.map(player => {
 
-              return (
-                <div key={player.id} className="data-list-item">
-                  <div className="details">
-                    <Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}
-                  </div>
-                </div>
-              );
-            })}
+          return (
+            <div key={player.id}>
+             <ul className="team-player-details">
+                <li><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</li>
+                <li><Link to={"/leagues/" + props.leagueId} activeClassName="active">League Home</Link></li>
+                <li><Link to={"/leagues/" + props.leagueId + "/players"} activeClassName="active">Free Agents</Link></li>
+                <li><Link to={"/leagues/" + props.leagueId + "/matchups"} activeClassName="active">Matchups</Link></li>
+                <li><Link to={"/leagues/" + props.leagueId + "/standings"} activeClassName="active">Standings</Link></li>
+                <li><Link to={"/leagues/" + props.leagueId + "/schedule"} activeClassName="active">Schedule</Link></li>
+              </ul>
+            </div>
+          );
+        })}
 
-          </ul>
       </div>
     </div>
   );
