@@ -21,12 +21,16 @@ class League(models.Model):
 		from players.models import Player
 		team = Team.objects.create(name=name, league=self, owner=None)
 		i = 0
-		for player in Player.objects.order_by('?'):
-			if player.is_available(self.id):
-				team.players.add(player)
-				i += 1
-				if i >= num_players:
-					break
+		players = [p for p in Player.objects.all() if p.is_available(league_id=self.pk)]
+		pl = sorted(players, key=lambda t: t.recent_form)
+		pl.reverse()
+
+		for p in pl[i::10]:
+			team.players.add(p)
+
+			i += 1
+			if i >= num_players:
+				break
 
 
 class Team(models.Model):
@@ -53,9 +57,10 @@ class Team(models.Model):
 		return "{0}-{1}-{2}".format(self.wins, self.losses, self.ties)
 
 	def clean(self):
-		for player in self.players.all():
-			if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
-				raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
+		if self.pk:
+			for player in self.players.all():
+				if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
+					raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
 
 	def to_data(self, player_data=False):
 		data = {

@@ -170,6 +170,7 @@ class Player(models.Model):
 
 		return data
 
+	@property
 	def recent_form(self, num_games=25):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
