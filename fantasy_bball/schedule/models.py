@@ -32,7 +32,7 @@ class Game(models.Model):
 
     @property
     def result(self):
-        return ("{0} {1} - {2} {3}".format(self.away_team, self.away_points, self.home_points, self.home_team))
+        return ("{0} {1}-{2} {3}".format(self.away_team, self.away_points, self.home_points, self.home_team))
 
     def __unicode__(self):
         return "{0}: {1} @ {2}".format(self.date, self.away_team, self.home_team)
@@ -61,6 +61,26 @@ class StatLine(models.Model):
 
     def __unicode__(self):
         return "{0} - {1}".format(self.player, self.game)
+
+    def to_data(self):
+        return {
+            "game": self.game.result,
+            "player": self.player.to_data(),
+            "game_score": self.game_score,
+            "mp": self.mp,
+            "fgm": self.fgm,
+            "fga": self.fga,
+            "ftm": self.ftm,
+            "fta": self.fta,
+            "threesm": self.threesm,
+            "threesa": self.threesa,
+            "rebs": self.trbs,
+            "asts": self.asts,
+            "stls": self.stls,
+            "blks": self.blks,
+            "tos": self.tos,
+            "pts": self.pts
+        }
 
     @property
     def game_score(self):
@@ -105,4 +125,4 @@ class StatLine(models.Model):
             opp = "@{}".format(self.game.away_team)
 
         date = self.game.date.strftime('%-m/%-d')
-        return "{0} {1}".format(opp, date) 
+        return "{0} {1}".format(opp, date)

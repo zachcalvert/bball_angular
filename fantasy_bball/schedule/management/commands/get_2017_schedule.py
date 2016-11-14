@@ -52,8 +52,12 @@ class Command(BaseCommand):
 
 
 				if row.find('td'):
-					game = Game.objects.get_or_create(season=season, date=date_object,away_team=away_team, 
-						away_points=away_points, home_team=home_team, home_points=home_points)
+					game, created = Game.objects.get_or_create(season=season, date=date_object,
+						away_team=away_team, home_team=home_team)
+					if home_points:
+						game.home_points=home_points
+						game.away_points=away_points
+						game.save()
 					print('Loaded game: {}'.format(game))
 
 		now = datetime.now()

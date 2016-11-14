@@ -7,7 +7,7 @@ import SearchLayout from './components/search-layout';
 import LeagueLayout from './components/league-layout';
 
 // Pages
-import Home from './components/home';
+import HomeContainer from './components/containers/home-container';
 import LeagueListContainer from './components/containers/leagues/league-list-container';
 import LeagueProfileContainer from './components/containers/leagues/league-profile-container';
 import LeagueMatchupsContainer from './components/containers/leagues/league-matchups-container';
@@ -21,7 +21,7 @@ import PlayerProfileContainer from './components/containers/players/player-profi
 export default (
   <Router history={browserHistory}>
     <Route component={MainLayout}>
-      <Route path="/" component={Home} />
+      <Route path="/" component={HomeContainer} />
 
         <Route path="leagues">
           <IndexRoute component={LeagueListContainer} />
