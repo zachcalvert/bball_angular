@@ -71,7 +71,6 @@ class Player(models.Model):
 	def short_name(self):
 		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
 
-	@cached_property
 	def is_available(self, league_id):
 		league = League.objects.get(id=league_id)
 		for team in league.teams.all():

@@ -13,7 +13,7 @@ export default function(props) {
       <header className="league-header">
         <ul>
           <li><Link to={"/leagues/" + props.leagueId} activeClassName="active">League Home</Link></li>
-          <li><Link to={"/leagues/" + props.leagueId + "/players"} activeClassName="active">Free Agents</Link></li>
+          <li><Link to={"/leagues/" + props.leagueId + "/free_agents"} activeClassName="active">Free Agents</Link></li>
           <li><Link to={"/leagues/" + props.leagueId + "/matchups"} activeClassName="active">Matchups</Link></li>
           <li><Link to={"/leagues/" + props.leagueId + "/standings"} activeClassName="active">Standings</Link></li>
           <li><Link to={"/leagues/" + props.leagueId + "/schedule"} activeClassName="active">Schedule</Link></li>
@@ -44,9 +44,9 @@ export default function(props) {
             <Th column="tos">TOPG</Th>
           </Thead>
           
-          {props.players.map((player, i) => {
+          {props.players.map((player) => {
             return (
-              <Tr key={i}>
+              <Tr key={player.id}>
                 <Td column="name">
                   <li><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</li>
                 </Td>

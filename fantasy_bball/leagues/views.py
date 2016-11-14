@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from leagues.models import League, Team
+from players.models import Player
 
 
 class JSONHttpResponse(HttpResponse):
@@ -36,8 +37,19 @@ class LeaguesView(JSONView):
 class LeagueView(JSONView):
 
 	def get(self, request, league_id):
-		league = League.objects.get(id=league_id)
-		return league.to_data()
+		data = League.objects.get(id=league_id).to_data()
+		return data
+
+
+class FreeAgentsView(JSONView):
+
+    def get(self, request, league_id):
+        players = [p for p in Player.objects.all() if p.is_available(league_id=league_id)]
+        data = [
+            player.to_data() for player in players
+        ]
+
+        return data
 
 
 class TeamView(JSONView):

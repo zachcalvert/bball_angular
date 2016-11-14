@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function getPlayers(leagueId) {
   if (leagueId) {
-    return axios.get('http://localhost:8001/api/v2/players/?league_id=' + leagueId + '&free_agents=Trueformat=json')
+    return axios.get('http://localhost:8001/api/v2/leagues/' + leagueId + '/free_agents.json')
       .then(response => response.data);
     }
   return axios.get('http://localhost:8001/api/v2/players/all.json')

@@ -29,7 +29,7 @@ export default function(props) {
         <Th column="tos">TOPG</Th>
       </Thead>
       
-      {props.players.map((player, i) => {
+      {props.players.map((player) => {
         return (
           <Tr key={player.id}>
             <Td column="name">
