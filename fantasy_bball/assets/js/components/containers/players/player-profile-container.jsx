@@ -9,14 +9,15 @@ const PlayerProfileContainer = React.createClass({
 			id: null,
 			name: null,
 			position: null,
-			nba_team: null,
+			nbaTeam: null,
+			imageUrl: null,
 			date: null,
 			report: null,
 			impact: null,
 			recent_games: [],
 			recent_scores: [],
 			totals: [],
-			averages: []
+			averages: [],
 		}
 	},
 
@@ -27,18 +28,18 @@ const PlayerProfileContainer = React.createClass({
 				id: player.id,
 				name: player.name,
 				position: player.position,
-				nbaTeam: player.nba_team,
-				imageUrl: player.image_url,
+				nbaTeam: player.nbaTeam,
+				imageUrl: player.imageUrl,
 				
 				date: player.notes.date,
 				report: player.notes.report,
 				impact: player.notes.impact,
-				
-				totals: player.stats.totals,
-				averages: player.stats.averages,
 
 				recent_games: player.recent_games,
-				recent_scores: player.recent_scores
+				recent_scores: player.recent_scores,
+
+				totals: player.totals,
+				averages: player.averages
 			});
 		});
 	},

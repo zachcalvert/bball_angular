@@ -31,39 +31,39 @@ export default function(props) {
       
       {props.players.map((player, i) => {
         return (
-          <Tr>
+          <Tr key={player.id}>
             <Td column="name">
-              <li><Link to={'/players/' + player.id}>{player.short_name}</Link> {player.position} {player.nba_team}</li>
+              <li><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</li>
             </Td>
             <Td column="recent_form">
               {player.recent_form}
             </Td>
             <Td column="fgpct">
-              {player.fgpct}
+              {player.stats.fgpct}
             </Td>
             <Td column="ftpct">
-              {player.ftpct}
+              {player.stats.ftpct}
             </Td>
             <Td column="pts">
-              {player.pts}
+              {player.stats.pts}
             </Td>
             <Td column="threesm">
-              {player.threesm}
+              {player.stats.threesm}
             </Td>
             <Td column="rebs">
-              {player.rebs}
+              {player.stats.rebs}
             </Td>
             <Td column="asts">
-              {player.asts}
+              {player.stats.asts}
             </Td>
             <Td column="stls">
-              {player.stls}
+              {player.stats.stls}
             </Td>
             <Td column="blks">
-              {player.blks}
+              {player.stats.blks}
             </Td>
             <Td column="tos">
-              {player.tos}
+              {player.stats.tos}
             </Td>
           </Tr>
         );

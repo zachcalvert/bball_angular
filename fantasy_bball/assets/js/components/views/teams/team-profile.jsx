@@ -54,31 +54,31 @@ export default function(props) {
                   {player.recent_form}
                 </Td>
                 <Td column="fgpct">
-                  {player.stats.averages.fgpct}
+                  {player.stats.fgpct}
                 </Td>
                 <Td column="ftpct">
-                  {player.stats.averages.ftpct}
+                  {player.stats.ftpct}
                 </Td>
                 <Td column="pts">
-                  {player.stats.averages.pts}
+                  {player.stats.pts}
                 </Td>
                 <Td column="threesm">
-                  {player.stats.averages.threesm}
+                  {player.stats.threesm}
                 </Td>
                 <Td column="rebs">
-                  {player.stats.averages.rebs}
+                  {player.stats.rebs}
                 </Td>
                 <Td column="asts">
-                  {player.stats.averages.asts}
+                  {player.stats.asts}
                 </Td>
                 <Td column="stls">
-                  {player.stats.averages.stls}
+                  {player.stats.stls}
                 </Td>
                 <Td column="blks">
-                  {player.stats.averages.blks}
+                  {player.stats.blks}
                 </Td>
                 <Td column="tos">
-                  {player.stats.averages.tos}
+                  {player.stats.tos}
                 </Td>
               </Tr>
             );

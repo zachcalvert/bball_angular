@@ -90,13 +90,6 @@ class Team(models.Model):
 		}
 
 		if player_data:
-			data['players'] = [{
-				'id': player.id,
-				'name': player.name,
-				'position': player.position,
-				'team': player.nba_team,
-				'stats': player.stats,
-				'recent_form': player.recent_form
-			} for player in self.players.all()]
+			data['players'] = [player.to_data() for player in self.players.all()]
 
 		return data

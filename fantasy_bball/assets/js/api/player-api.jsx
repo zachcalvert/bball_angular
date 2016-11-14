@@ -2,10 +2,10 @@ import axios from 'axios';
 
 export function getPlayers(leagueId) {
   if (leagueId) {
-    return axios.get('http://localhost:8001/api/v1/players/?league_id=' + leagueId + '&free_agents=Trueformat=json')
+    return axios.get('http://localhost:8001/api/v2/players/?league_id=' + leagueId + '&free_agents=Trueformat=json')
       .then(response => response.data);
     }
-  return axios.get('http://localhost:8001/api/v1/players/?format=json')
+  return axios.get('http://localhost:8001/api/v2/players/all.json')
     .then(response => response.data);
 }
 
@@ -14,22 +14,24 @@ export function getPlayer(playerId) {
   let player = {};
 
   // Get the league data from our local django api
-  return axios.get('http://localhost:8001/api/v1/players/' + playerId + '/?format=json')
+  return axios.get('http://localhost:8001/api/v2/players/' + playerId + '.json')
     .then(response => {
 
       let player = response.data;
       player.id = player.id
       player.name = player.name;
-      player.nba_team = player.nba_team;
       player.position = player.position;
-      player.image_url = player.image_url;
+      player.nbaTeam = player.nba_team; 
+      player.imageUrl = player.image_url;
       
+      player.averages = player.stats[0].averages;
+      player.totals = player.stats[0].totals;
+      player.recent_scores = player.recent_games[0].statlines;
+      player.recent_games = player.recent_games[0].games;
+
       player.notes.date = player.notes[0].date;
       player.notes.report = player.notes[0].report;
       player.notes.impact = player.notes[0].impact;
-      player.stats = player.stats;
-      player.recent_scores = player.recent_games.statlines;
-      player.recent_games = player.recent_games.games;
 
       return player
       

@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import {Line} from 'react-chartjs-2';
 
-export default function(props) {
+export default function(player) {
   var gameChartData = {
-    "labels": props.recent_games,
+    "labels": player.recent_games,
     "datasets": [
       {
         "label": 'Recent Form',
@@ -25,7 +25,7 @@ export default function(props) {
         "pointHoverBorderWidth": 2,
         "pointRadius": 1,
         "pointHitRadius": 10,
-        "data": props.recent_scores
+        "data": player.recent_scores
       }
     ]
   }
@@ -42,17 +42,16 @@ export default function(props) {
         }
     }
 
-  return (
-    <div className="player-profile">
+  return (<div className="player-profile">
 
       <div className="player-info">
         
         <div className="player-image">
-          <img src={props.imageUrl} />
+          <img src={player.imageUrl} />
         </div>
         
-        <h4>{props.name}</h4>
-        <p>{props.nbaTeam}  &#8226; {props.position}</p>
+        <h4>{player.name}</h4>
+        <p>{player.nbaTeam}  &#8226; {player.position}</p>
       </div>
 
       <div className="player-details">
@@ -69,22 +68,22 @@ export default function(props) {
               <div className="rTableHead"><strong>BLKS</strong></div>
             </div>
             <div className="rTableRow">
-              <div className="rTableCell">{props.averages.fgpct}</div>
-              <div className="rTableCell">{props.averages.ftpct}</div>
-              <div className="rTableCell">{props.averages.pts}</div>
-              <div className="rTableCell">{props.averages.rebs}</div>
-              <div className="rTableCell">{props.averages.asts}</div>
-              <div className="rTableCell">{props.averages.stls}</div>
-              <div className="rTableCell">{props.averages.blks}</div>
+              <div className="rTableCell">{player.averages.fgpct}</div>
+              <div className="rTableCell">{player.averages.ftpct}</div>
+              <div className="rTableCell">{player.averages.pts}</div>
+              <div className="rTableCell">{player.averages.rebs}</div>
+              <div className="rTableCell">{player.averages.asts}</div>
+              <div className="rTableCell">{player.averages.stls}</div>
+              <div className="rTableCell">{player.averages.blks}</div>
             </div>
           </div>
         </div>
 
         <strong>Recent Notes</strong>
         <div className="player-notes">
-          <p>{props.date}</p>
-          <p>{props.report}</p>
-          <p>{props.impact}</p>
+          <p>{player.date}</p>
+          <p>{player.report}</p>
+          <p>{player.impact}</p>
         </div>
       </div>
 
@@ -112,20 +111,20 @@ export default function(props) {
             <div className="rTableHead"><strong>3PCT</strong></div>
           </div>
           <div className="rTableRow">
-            <div className="rTableCell">{props.totals.pts}</div>
-            <div className="rTableCell">{props.totals.rebs}</div>
-            <div className="rTableCell">{props.totals.asts}</div>
-            <div className="rTableCell">{props.totals.stls}</div>
-            <div className="rTableCell">{props.totals.blks}</div>
-            <div className="rTableCell">{props.totals.fgm}</div>
-            <div className="rTableCell">{props.totals.fga}</div>
-            <div className="rTableCell">{props.averages.fgpct}</div>
-            <div className="rTableCell">{props.totals.ftm}</div>
-            <div className="rTableCell">{props.totals.fta}</div>
-            <div className="rTableCell">{props.averages.ftpct}</div>
-            <div className="rTableCell">{props.totals.threesm}</div>
-            <div className="rTableCell">{props.totals.threesa}</div>
-            <div className="rTableCell">{props.averages.threespct}</div>
+            <div className="rTableCell">{player.totals.pts}</div>
+            <div className="rTableCell">{player.totals.rebs}</div>
+            <div className="rTableCell">{player.totals.asts}</div>
+            <div className="rTableCell">{player.totals.stls}</div>
+            <div className="rTableCell">{player.totals.blks}</div>
+            <div className="rTableCell">{player.totals.fgm}</div>
+            <div className="rTableCell">{player.totals.fga}</div>
+            <div className="rTableCell">{player.averages.fgpct}</div>
+            <div className="rTableCell">{player.totals.ftm}</div>
+            <div className="rTableCell">{player.totals.fta}</div>
+            <div className="rTableCell">{player.averages.ftpct}</div>
+            <div className="rTableCell">{player.totals.threesm}</div>
+            <div className="rTableCell">{player.totals.threesa}</div>
+            <div className="rTableCell">{player.averages.threespct}</div>
           </div>
         </div>
       </div>
@@ -151,25 +150,23 @@ export default function(props) {
           </div>
 
           <div className="rTableRow">
-            <div className="rTableCell">{props.averages.pts}</div>
-            <div className="rTableCell">{props.averages.rebs}</div>
-            <div className="rTableCell">{props.averages.asts}</div>
-            <div className="rTableCell">{props.averages.stls}</div>
-            <div className="rTableCell">{props.averages.blks}</div>
-            <div className="rTableCell">{props.averages.fgm}</div>
-            <div className="rTableCell">{props.averages.fga}</div>
-            <div className="rTableCell">{props.averages.fgpct}</div>
-            <div className="rTableCell">{props.averages.ftm}</div>
-            <div className="rTableCell">{props.averages.fta}</div>
-            <div className="rTableCell">{props.averages.ftpct}</div>
-            <div className="rTableCell">{props.averages.threesm}</div>
-            <div className="rTableCell">{props.averages.threesa}</div>
-            <div className="rTableCell">{props.averages.threespct}</div>
+            <div className="rTableCell">{player.averages.pts}</div>
+            <div className="rTableCell">{player.averages.rebs}</div>
+            <div className="rTableCell">{player.averages.asts}</div>
+            <div className="rTableCell">{player.averages.stls}</div>
+            <div className="rTableCell">{player.averages.blks}</div>
+            <div className="rTableCell">{player.averages.fgm}</div>
+            <div className="rTableCell">{player.averages.fga}</div>
+            <div className="rTableCell">{player.averages.fgpct}</div>
+            <div className="rTableCell">{player.averages.ftm}</div>
+            <div className="rTableCell">{player.averages.fta}</div>
+            <div className="rTableCell">{player.averages.ftpct}</div>
+            <div className="rTableCell">{player.averages.threesm}</div>
+            <div className="rTableCell">{player.averages.threesa}</div>
+            <div className="rTableCell">{player.averages.threespct}</div>
           </div>
         </div>
       </div>
-
     </div>
-
   );
 }

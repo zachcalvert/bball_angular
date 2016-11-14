@@ -71,6 +71,7 @@ class Player(models.Model):
 	def short_name(self):
 		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
 
+	@cached_property
 	def is_available(self, league_id):
 		league = League.objects.get(id=league_id)
 		for team in league.teams.all():
@@ -78,6 +79,7 @@ class Player(models.Model):
 				return False
 		return True
 
+	@cached_property
 	def notes(self):
 		splits = self.recent_notes.split('date:')
 		notes = []
@@ -118,7 +120,7 @@ class Player(models.Model):
 		statlines = StatLine.objects.filter(game__in=games, player_id=self.pk)
 		gp = statlines.count() # games played
 		
-		try:
+		if gp > 0:
 			pts = sum(sl.pts for sl in statlines)
 			rebs = sum(sl.trbs for sl in statlines)
 			asts = sum(sl.asts for sl in statlines)
@@ -155,32 +157,40 @@ class Player(models.Model):
 					'blks': round(blks/gp, 2),
 					'fgm': round(fgm/gp, 1),
 					'fga': round(fga/gp, 1),
-					'fgpct': "{0:.1f}%".format(fgm/fga * 100),
 					'ftm': round(ftm/gp, 1),
 					'fta': round(fta/gp, 1),
-					'ftpct': "{0:.1f}%".format(ftm/fta * 100),
 					'threesm': round(threesm/gp, 1),
 					'threesa': round(threesa/gp, 1),
 					'tos': round(tos/gp, 2)
 				}
 			}
-			if threesa == 0:
-				data['threespct'] = "0%"
-			else: 
-				data['threespct'] = "{0:.1f}%".format(threesm/threesa * 100)
 
-		except ZeroDivisionError:
-			pass
+			if fga == 0:
+				data['averages']['fgpct'] = "0%"
+			else:
+				data['averages']['fgpct'] = "{0:.1f}%".format(fgm/fga * 100)
+			if fta == 0:
+				data['averages']['ftpct'] = "0%"
+			else:
+				data['averages']['ftpct'] = "{0:.1f}%".format(ftm/fta * 100)
+			if threesa == 0:
+				data['averages']['threespct'] = "0%"
+			else: 
+				data['averages']['threespct'] = "{0:.1f}%".format(threesm/threesa * 100)
+
+		else:
+			data = {'totals': {}, "averages": {}}
 
 		return data
 
-	@property
+	@cached_property
 	def recent_form(self, num_games=15):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
 		total = sum(statline.game_score for statline in statlines)
 		return round(total/num_games, 2)
 
+	@cached_property
 	def recent_games(self, num_games=15):
 		from schedule.models import Game, StatLine
 
@@ -197,20 +207,22 @@ class Player(models.Model):
 
 		return data
 
-	def to_data(self, league_id=None):
-		data = self.stats.get('averages')
-		if not data:
-			data = {}
-		data['id'] = self.id
-		data['name'] = self.name
-		data['position'] = self.position
-		data['nba_team'] = self.nba_team
-		data['recent_form'] = self.recent_form
+	def to_data(self, league_id=None, details=False):
+		data = {
+			"id": self.id,
+			"name": self.name,
+			"position": self.position,
+			"nba_team": self.nba_team,
+			"image_url": self.image_url,
+			"recent_form": self.recent_form
+		}
 
-		if league_id is not None:
-			data.update({
-				'is_available': self.is_available(league_id=league_id)
-				})
+		if details:
+			data["recent_games"] = self.recent_games,
+			data["stats"] = self.stats,
+			data["notes"] = self.notes
+		else:
+			data["stats"] = self.stats.get("averages")
 
 		return data
 
