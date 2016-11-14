@@ -103,7 +103,7 @@ class Command(BaseCommand):
 
 			home_table = bs.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="box_{}_basic".format(game.home_team.lower()))
 			try:
-				home_rows = away_table.findAll(lambda tag: tag.name=='tr')
+				home_rows = home_table.findAll(lambda tag: tag.name=='tr')
 			except Exception:
 				continue
 
@@ -115,7 +115,7 @@ class Command(BaseCommand):
 					last_name, first_name = player_name.split(',')
 					full_name = "{0} {1}".format(first_name, last_name)
 					player, created = Player.objects.get_or_create(name=full_name)
-					player.nba_team = game.away_team
+					player.nba_team = game.home_team
 					player.save()
 				except Exception:
 					continue
