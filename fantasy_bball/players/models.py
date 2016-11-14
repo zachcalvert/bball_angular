@@ -35,18 +35,6 @@ NBA_TEAMS = (
 )
 
 
-def memoize(function):
-	memo = {}
-	def wrapper(*args):
-		if args in memo:
-			return memo[args]
-		else:
-			rv = function(*args)
-			memo[args] = rv
-			return rv
-	return wrapper
-
-
 class Player(models.Model):
 	"""
 	A simple model describing an NBA player that may be on one Team per League.
@@ -112,7 +100,7 @@ class Player(models.Model):
 	def stats(self, since_date=None):
 		from schedule.models import Game, StatLine
 		if not since_date:
-			since_date = date(2015, 9, 10)
+			since_date = date(2016, 10, 24)
 
 		data = {}
 		games = Game.objects.filter(date__gt=since_date)

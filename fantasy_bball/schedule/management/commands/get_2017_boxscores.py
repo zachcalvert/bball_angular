@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime, timedelta
 
-from schedule.models import Game, StatLine
+from schedule.models import Season, Game, StatLine
 from players.models import Player
 
 from django.core.management.base import BaseCommand
@@ -15,15 +15,13 @@ class Command(BaseCommand):
 	for use in the app
 	"""
 	def handle(self, *args, **options):
-		# can't get the boxscore for a game that hasn't been played
-		now = datetime.now()
-		today = now.date()
-		delta = timedelta(weeks=3)
-		three_weeks_ago = today - delta
-		# filter by which games aren't represented in the statlines table yet
-		games = Game.objects.filter(date__lt=today, date__gt=three_weeks_ago)
+		# can't get the boxscore for a game that hasn't yet been played
+		today = datetime.today()
+		season = Season.objects.last()
+		games = Game.objects.filter(season=season, date__lt=today)
 
 		for game in games:
+			print("about to load stats for game: {}".format(game))
 			# don't add game stats twice
 			sls = StatLine.objects.filter(game_id=game.id)
 			if sls.count() > 0:
@@ -45,8 +43,13 @@ class Command(BaseCommand):
 					player_name = name['csk']
 					last_name, first_name = player_name.split(',')
 					full_name = "{0} {1}".format(first_name, last_name)
-					player = Player.objects.get(name=full_name)
+					player, created = Player.objects.get_or_create(name=full_name)
+					player.nba_team = game.away_team
+					player.save()
 				except Exception:
+					continue
+
+				if StatLine.objects.filter(player=player, game=game).exists():
 					continue
 
 				try:
@@ -54,6 +57,9 @@ class Command(BaseCommand):
 				except Exception:
 					continue
 				for cell in cells:
+					if cell.text == 'Did Not Play' or cell.text == 'Player Suspended':
+						continue
+
 					if cell['data-stat'] == "mp":
 						mp = cell.text
 					elif cell['data-stat'] == "fg":
@@ -87,23 +93,15 @@ class Command(BaseCommand):
 					elif cell['data-stat'] == "pts":
 						pts = cell.text
 
-				if row.find('td'):
-					if mp == 'Did Not Play' or mp == 'Player Suspended':
-							continue
-					else:
-						# account for trades
-						if player.nba_team != game.away_team:
-							player.nba_team = game.away_team
-							player.save()
-						away_statline = StatLine.objects.create(game=game, player=player,
-							mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
-							orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
-							pfs=pfs,pts=pts)
-						# TODO: update the Game instance with the final score
-						print('Loaded statline for {0} in game {1}'.format(player.name, game))
+				away_statline = StatLine.objects.create(game=game, player=player,
+					mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
+					orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
+					pfs=pfs,pts=pts)
+				# TODO: update the Game instance with the final score
+				print('Loaded statline for {0} in game {1}'.format(player.name, game))
 
 
-			home_table = bs.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="{}_basic".format(game.home_team))
+			home_table = bs.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="box_{}_basic".format(game.home_team.lower()))
 			try:
 				home_rows = away_table.findAll(lambda tag: tag.name=='tr')
 			except Exception:
@@ -116,8 +114,13 @@ class Command(BaseCommand):
 					player_name = name['csk']
 					last_name, first_name = player_name.split(',')
 					full_name = "{0} {1}".format(first_name, last_name)
-					player = Player.objects.get(name=full_name)
+					player, created = Player.objects.get_or_create(name=full_name)
+					player.nba_team = game.away_team
+					player.save()
 				except Exception:
+					continue
+
+				if StatLine.objects.filter(player=player, game=game).exists():
 					continue
 
 				try:
@@ -125,6 +128,9 @@ class Command(BaseCommand):
 				except Exception:
 					continue
 				for cell in cells:
+					if cell.text == 'Did Not Play' or cell.text == 'Player Suspended':
+						continue
+
 					if cell['data-stat'] == "mp":
 						mp = cell.text
 					elif cell['data-stat'] == "fg":
@@ -158,20 +164,12 @@ class Command(BaseCommand):
 					elif cell['data-stat'] == "pts":
 						pts = cell.text
 
-				if row.find('td'):
-					if mp == 'Did Not Play' or mp == 'Player Suspended':
-							continue
-					else:
-						# account for trades
-						if player.nba_team != game.home_team:
-							player.nba_team = game.home_team
-							player.save()
-						home_statline = StatLine.objects.create(game=game, player=player,
-							mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
-							orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
-							pfs=pfs,pts=pts)
-						# TODO: update the Game instance with the final score
-						print('Loaded statline for {0} in game {1}'.format(player.name, game))
+				home_statline = StatLine.objects.create(game=game, player=player,
+					mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
+					orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
+					pfs=pfs,pts=pts)
+				# TODO: update the Game instance with the final score
+				print('Loaded statline for {0} in game {1}'.format(player.name, game))
 
 
 
