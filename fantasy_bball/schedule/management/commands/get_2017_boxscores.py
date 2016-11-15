@@ -11,14 +11,29 @@ ROOT_URL = 'http://www.basketball-reference.com/'
 
 class Command(BaseCommand):
 	"""
-	Scrapes the box scores on basketball reference and loads the relevant stats 
-	for use in the app
+	Scrapes the 2016-2017 box scores on basketball reference and loads the relevant stats 
+	for use in the app:
+
+	USAGE
+	    get just yesterday's boxscores: './manage.py get_2017_boxscores --yesterday_only'
+
+	    get the whole season's boxscores so far: './manage.py get_2017_boxscores'
 	"""
+
+	def add_arguments(self, parser):
+		parser.add_argument('--yesterday_only', action="store_true") # optional arg, defaults to False
+
 	def handle(self, *args, **options):
-		# can't get the boxscore for a game that hasn't yet been played
 		today = datetime.today()
 		season = Season.objects.last()
-		games = Game.objects.filter(season=season, date=today)
+
+		yesterday_only = options['yesterday_only']
+		if yesterday_only:
+			yesterday = today - timedelta(days=1)
+			games = Game.objects.filter(season=season, date=yesterday)
+
+		else:
+			games = Game.objects.filter(season=season, date__lt=today)
 
 		for game in games:
 			print("about to load stats for game: {}".format(game))
