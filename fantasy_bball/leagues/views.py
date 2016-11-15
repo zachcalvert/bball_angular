@@ -31,16 +31,21 @@ class JSONView(View):
 
 class HomePageView(JSONView):
 
-    def get(self, request):
-        yesterday = date.today() - timedelta(days=1)
-        games = Game.objects.filter(date=yesterday)
-        yesterday = yesterday.strftime("%A, %B %-d")
+    def top_performers(self, day):
+        games = Game.objects.filter(date=day)
         statlines = list(StatLine.objects.filter(game__in=games))
         statlines.sort(key=lambda x: x.game_score, reverse=True)
-        top_performances = statlines[:6] # grab the 6 best performances
+        return statlines[:6] # grab the 6 best performances
+
+    def get(self, request):
+        day = date.today() - timedelta(days=1)
+        top_performances = self.top_performers(day)
+        if len(top_performances) == 0:
+            day = date.today() - timedelta(days=2)
+            top_performances = self.top_performers(day)
         
         return {
-            "yesterday": yesterday,
+            "yesterday": day.strftime("%A, %B %-d"),
             "top_performers" : [tp.to_data() for tp in top_performances]
         }
 

@@ -7,12 +7,14 @@ export default function(props) {
       <div className="home-page">
         
         <div className="top-performers">
-        <h4>Top Performers from {props.yesterday}</h4>
+          <h4>Top Performers from {props.yesterday}</h4>
           {props.top_performers.map((statline) => {
             return (
+
               <div className="top-performer" key={statline.id}>
                 <strong>Game score: {statline.game_score}</strong><br />
                 <p>{statline.game}</p>
+
                 <div className="top-performace-player-details">
                   <Link to={'/players/' + statline.player.id}><img src={statline.player.image_url} /></Link>
                   <p>{statline.player.name}</p>
@@ -20,7 +22,6 @@ export default function(props) {
                 </div>
 
                 <div className="top-performace-game-details">
-                  
                   <ul className="statline-stats">
                     <li>PTS: {statline.pts}</li>
                     <li>FG: {statline.fgm}/{statline.fga}</li>

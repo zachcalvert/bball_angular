@@ -18,7 +18,7 @@ class Command(BaseCommand):
 		# can't get the boxscore for a game that hasn't yet been played
 		today = datetime.today()
 		season = Season.objects.last()
-		games = Game.objects.filter(season=season, date__lt=today)
+		games = Game.objects.filter(season=season, date=today)
 
 		for game in games:
 			print("about to load stats for game: {}".format(game))

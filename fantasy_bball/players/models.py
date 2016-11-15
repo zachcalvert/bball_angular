@@ -171,14 +171,14 @@ class Player(models.Model):
 		return data
 
 	@cached_property
-	def recent_form(self, num_games=15):
+	def recent_form(self, num_games=10):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
 		total = sum(statline.game_score for statline in statlines)
 		return round(total/num_games, 2)
 
 	@cached_property
-	def recent_games(self, num_games=15):
+	def recent_games(self, num_games=10):
 		from schedule.models import Game, StatLine
 
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
