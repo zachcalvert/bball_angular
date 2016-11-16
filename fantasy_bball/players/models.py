@@ -180,11 +180,19 @@ class Player(models.Model):
 	@cached_property
 	def recent_games(self, num_games=10):
 		from schedule.models import Game, StatLine
-
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
 		statlines.reverse()
+
+		return [statline.to_data() for statline in statlines]
+
+	@cached_property
+	def chart_data(self, num_games=10):
+		from schedule.models import Game, StatLine
+		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
+		statlines.reverse()
+
 		data = {
-			'statlines': [
+			'player_scores': [
 				statline.game_score for statline in statlines
 			],
 			'games': [
@@ -194,22 +202,23 @@ class Player(models.Model):
 
 		return data
 
-	def to_data(self, league_id=None, details=False):
+	def to_data(self, league_id=None, stats=True, details=False):
 		data = {
 			"id": self.id,
 			"name": self.name,
 			"position": self.position,
 			"nba_team": self.nba_team,
-			"image_url": self.image_url,
-			"recent_form": self.recent_form
+			"image_url": self.image_url
 		}
 
+		if stats:
+			data["stats"] = self.stats.get("averages")
+			data["recent_form"] = self.recent_form
+
 		if details:
-			data["recent_games"] = self.recent_games,
+			data["chart_data"] = self.chart_data,
 			data["stats"] = self.stats,
 			data["notes"] = self.notes
-		else:
-			data["stats"] = self.stats.get("averages")
 
 		return data
 

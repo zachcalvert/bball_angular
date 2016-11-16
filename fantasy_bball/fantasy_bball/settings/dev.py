@@ -1,3 +1,4 @@
+# export DJANGO_SETTINGS_MODULE=fantasy_bball.settings.dev
 from base import *
 
 CURRENT_ENV = 'dev'
