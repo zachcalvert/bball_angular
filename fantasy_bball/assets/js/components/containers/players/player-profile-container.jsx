@@ -44,7 +44,6 @@ const PlayerProfileContainer = React.createClass({
 	},
 
 	render: function () {
-		console.log(this.state)
 		return (
 			<PlayerProfile {...this.state} />
 		);

@@ -13,5 +13,5 @@ class PlayerView(JSONView):
 
 	def get(self, request, player_id):
 		player = Player.objects.get(id=player_id)
-		return player.to_data(details=True)
+		return player.to_data(full_stats=True)
 

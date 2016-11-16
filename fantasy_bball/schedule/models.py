@@ -67,7 +67,7 @@ class StatLine(models.Model):
         return {
             "game_result": self.game.result,
             "game": self.short_format,
-            "player": self.player.to_data(stats=False),
+            "player": self.player.to_data(quick_stats=False),
             "game_score": self.game_score,
             "mp": self.mp,
             "fgm": self.fgm,
@@ -92,13 +92,10 @@ class StatLine(models.Model):
         fantasy basketball perspective.
         """
         base = 5.0
-
         base += self.fgm *.22 # 45% shooter comes out even
         base -= self.fga * .1
-
         base += self.ftm * .13 # 77% free throw shooter comes out even
         base -= self.fta * .1
-
         base += self.threesm * .2
 
         base += self.trbs * .13
@@ -106,7 +103,6 @@ class StatLine(models.Model):
         base += self.stls * .285
         base += self.blks * .27
         base -= self.tos * .2
-
         base += (self.pts / 10) *.3 # for every 10 pts, +0.3
 
         if base > 11: # we need to know when players have a game this good

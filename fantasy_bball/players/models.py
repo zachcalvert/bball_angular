@@ -69,7 +69,7 @@ class Player(models.Model):
 	@cached_property
 	def notes(self):
 		splits = self.recent_notes.split('date:')
-		notes = []
+		data = {}
 		for i in range(len(splits)):
 			if i == 0:
 				continue
@@ -92,9 +92,8 @@ class Player(models.Model):
 					'report': note_report,
 					'impact': note_impact
 				}
-				notes.append(data)
 
-				return notes
+				return data
 
 	@cached_property
 	def stats(self, since_date=None):
@@ -202,7 +201,7 @@ class Player(models.Model):
 
 		return data
 
-	def to_data(self, league_id=None, stats=True, details=False):
+	def to_data(self, quick_stats=True, full_stats=False):
 		data = {
 			"id": self.id,
 			"name": self.name,
@@ -211,13 +210,14 @@ class Player(models.Model):
 			"image_url": self.image_url
 		}
 
-		if stats:
+		if quick_stats:
 			data["stats"] = self.stats.get("averages")
 			data["recent_form"] = self.recent_form
 
-		if details:
-			data["chart_data"] = self.chart_data,
-			data["stats"] = self.stats,
+		if full_stats:
+			data["chart_data"] = self.chart_data
+			data["recent_games"] = self.recent_games
+			data["stats"] = self.stats
 			data["notes"] = self.notes
 
 		return data
