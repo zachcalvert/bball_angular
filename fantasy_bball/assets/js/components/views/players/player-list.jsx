@@ -11,12 +11,13 @@ export default function(props) {
 
   return (
     <Table className="table" 
+      filterable={['just_name', 'rebs']}
       sortable={['recent_form', 'fgpct', 'ftpct', 'pts', 'threesm', 'rebs', 'asts', 'stls', 'blks', 'tos']} 
       defaultSort={{column: 'recent_form', direction: 'desc'}} 
       defaultSortDescending
-      itemsPerPage={25} pageButtonLimit={5}>
+      itemsPerPage={100} pageButtonLimit={5}>>
       <Thead>
-        <Th className="player-header-name" column="name">Name</Th>
+        <Th column="name">Name</Th>
         <Th column="recent_form">Form</Th>
         <Th column="fgpct">FGPCT</Th>
         <Th column="ftpct">FTPCT</Th>
@@ -27,13 +28,14 @@ export default function(props) {
         <Th column="stls">SPG</Th>
         <Th column="blks">BPG</Th>
         <Th column="tos">TOPG</Th>
+        <Th column="" className="hidden">Just Name</Th> 
       </Thead>
       
       {props.players.map((player) => {
         return (
           <Tr key={player.id}>
             <Td column="name">
-              <li><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</li>
+              <div><Link to={'/players/' + player.id}>{player.name}</Link> {player.position} {player.nba_team}</div>
             </Td>
             <Td column="recent_form">
               {player.recent_form}
@@ -64,6 +66,9 @@ export default function(props) {
             </Td>
             <Td column="tos">
               {player.stats.tos}
+            </Td>
+            <Td column="just_name" className="hidden">
+              {player.name} {player.position} {player.nba_team}
             </Td>
           </Tr>
         );

@@ -151,3 +151,10 @@ ul.statline-stats {
 ul.statline-stats li {
   text-align: left;
 }
+
+.hidden {
+  display: none;
+}
+.reactable-th-just_name {
+  display: none;
+}
