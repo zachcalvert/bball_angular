@@ -4,7 +4,7 @@ import {Line} from 'react-chartjs-2';
 
 export default function(player) {
   var gameChartData = {
-    "labels": player.recent_games,
+    "labels": player.chart_games,
     "datasets": [
       {
         "label": 'Recent Form',
@@ -25,7 +25,7 @@ export default function(player) {
         "pointHoverBorderWidth": 2,
         "pointRadius": 1,
         "pointHitRadius": 10,
-        "data": player.recent_scores
+        "data": player.chart_scores
       }
     ]
   }

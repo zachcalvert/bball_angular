@@ -26,8 +26,8 @@ export function getPlayer(playerId) {
       
       player.averages = player.stats[0].averages;
       player.totals = player.stats[0].totals;
-      player.recent_scores = player.recent_games[0].statlines;
-      player.recent_games = player.recent_games[0].games;
+      player.chart_games = player.chart_data[0].games;
+      player.chart_scores = player.chart_data[0].player_scores;
 
       player.notes.date = player.notes[0].date;
       player.notes.report = player.notes[0].report;

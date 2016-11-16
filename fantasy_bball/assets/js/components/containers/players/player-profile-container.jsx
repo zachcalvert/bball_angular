@@ -14,8 +14,8 @@ const PlayerProfileContainer = React.createClass({
 			date: null,
 			report: null,
 			impact: null,
-			recent_games: [],
-			recent_scores: [],
+			chart_games: [],
+			chart_scores: [],
 			totals: [],
 			averages: [],
 		}
@@ -35,16 +35,16 @@ const PlayerProfileContainer = React.createClass({
 				report: player.notes.report,
 				impact: player.notes.impact,
 
-				recent_games: player.recent_games,
-				recent_scores: player.recent_scores,
-
 				totals: player.totals,
-				averages: player.averages
+				averages: player.averages,
+				chart_games: player.chart_games,
+				chart_scores: player.chart_scores
 			});
 		});
 	},
 
 	render: function () {
+		console.log(this.state)
 		return (
 			<PlayerProfile {...this.state} />
 		);
