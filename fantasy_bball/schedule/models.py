@@ -57,6 +57,7 @@ class StatLine(models.Model):
     tos = models.IntegerField(default=0)
     pfs = models.IntegerField(default=0)
     pts = models.IntegerField(default=0)
+    dank = models.BooleanField(default=False)
     added_to_player = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -64,8 +65,9 @@ class StatLine(models.Model):
 
     def to_data(self):
         return {
-            "game": self.game.result,
-            "player": self.player.to_data(),
+            "game_result": self.game.result,
+            "game": self.short_format,
+            "player": self.player.to_data(stats=False),
             "game_score": self.game_score,
             "mp": self.mp,
             "fgm": self.fgm,
@@ -91,7 +93,7 @@ class StatLine(models.Model):
         """
         base = 5.0
 
-        base += self.fgm *.235 # 43% shooter comes out even
+        base += self.fgm *.22 # 45% shooter comes out even
         base -= self.fga * .1
 
         base += self.ftm * .13 # 77% free throw shooter comes out even
@@ -101,14 +103,18 @@ class StatLine(models.Model):
 
         base += self.trbs * .13
         base += self.asts * .16
-        base += self.stls * .3
-        base += self.blks * .3
+        base += self.stls * .285
+        base += self.blks * .27
         base -= self.tos * .2
 
         base += (self.pts / 10) *.3 # for every 10 pts, +0.3
 
-        # if base > 10: # hasn't even happened in 2016
-        #     base = 10
+        if base > 11: # we need to know when players have a game this good
+            self.dank=True
+            self.save()
+
+        if base > 10:
+            base = 10
 
         return round(base, 2)
 
