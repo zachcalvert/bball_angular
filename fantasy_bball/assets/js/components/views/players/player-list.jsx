@@ -28,7 +28,7 @@ export default function(props) {
         <Th column="stls">SPG</Th>
         <Th column="blks">BPG</Th>
         <Th column="tos">TOPG</Th>
-        <Th column="" className="hidden">Just Name</Th> 
+        <Th column="just_name" className="hidden">Just Name</Th> 
       </Thead>
       
       {props.players.map((player) => {

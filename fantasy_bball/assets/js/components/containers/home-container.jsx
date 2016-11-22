@@ -8,7 +8,8 @@ const HomeContainer = React.createClass({
     getInitialState: function() {
         return {
             yesterday: null,
-            top_performers: []
+            top_performers: [],
+            goat_performances: []
         };
     },
 
@@ -16,7 +17,8 @@ const HomeContainer = React.createClass({
         homeApi.getHome().then(home => {
           this.setState({
             yesterday: home.yesterday,
-            top_performers: home.top_performers
+            top_performers: home.top_performers,
+            goat_performances: home.goat_performances
           })
         });
     },

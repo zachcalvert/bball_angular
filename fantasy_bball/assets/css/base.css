@@ -120,12 +120,17 @@ ul {
     border: 1px solid black;
     width: 190px;
     text-align: center;
+    height: 218px;
 }
 
 .top-performer p {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 12px;
+}
+
+.top-performer-player-name {
+  max-width: 110px;
 }
 
 .top-performer strong {

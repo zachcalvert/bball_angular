@@ -7,7 +7,7 @@ export function getHome() {
       let home = response.data;
       home.yesterday = home.yesterday;
       home.top_performers = home.top_performers;
-
+      home.goat_performances = home.goat_performances;
       return home
 	});
 }

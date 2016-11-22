@@ -29,7 +29,9 @@ export function getPlayer(playerId) {
       
       player.chart_games = player.chart_data.games;
       player.chart_scores = player.chart_data.player_scores;
-      player.notes = player.notes
+      player.recent_games = player.recent_games;
+      player.notes = player.notes;
+
 
       return player
       

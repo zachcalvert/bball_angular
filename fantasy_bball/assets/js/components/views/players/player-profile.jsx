@@ -52,7 +52,13 @@ export default function(player) {
         
         <h4>{player.name}</h4>
         <p>{player.nbaTeam}  &#8226; {player.position}</p>
+
+        <div className="player-season-form">
+          <strong>Season Form</strong>
+          <p>{player.season_form}</p>
+        </div>
       </div>
+
 
       <div className="player-details">
         <div className="player-quick-stats">
@@ -90,6 +96,43 @@ export default function(player) {
       <div className="player-game-chart">
         <Line data={gameChartData} options={gameChartOptions} />
       </div>
+
+      <div className="player-recent-games">
+          <strong>Last 5 games</strong>
+          <div className="rTable">
+            <div className="rTableRow">
+              <div className="rTableHead"><strong>Game</strong></div>
+              <div className="rTableHead"><strong>MP</strong></div>
+              <div className="rTableHead"><strong>FG</strong></div>
+              <div className="rTableHead"><strong>FT</strong></div>
+              <div className="rTableHead"><strong>3PT</strong></div>
+              <div className="rTableHead"><strong>REBS</strong></div>
+              <div className="rTableHead"><strong>ASTS</strong></div>
+              <div className="rTableHead"><strong>STLS</strong></div>
+              <div className="rTableHead"><strong>BLKS</strong></div>
+              <div className="rTableHead"><strong>TOS</strong></div>
+              <div className="rTableHead"><strong>PTS</strong></div>
+            </div>
+
+            {player.recent_games.map(game => {
+              return (
+                <div className="rTableRow">
+                  <div className="rTableCell">{game.game}</div>
+                  <div className="rTableCell">{game.mp}</div>
+                  <div className="rTableCell">{game.fgm}/{game.fga}</div>
+                  <div className="rTableCell">{game.ftm}/{game.fta}</div>
+                  <div className="rTableCell">{game.threesm}/{game.threesa}</div>
+                  <div className="rTableCell">{game.rebs}</div>
+                  <div className="rTableCell">{game.asts}</div>
+                  <div className="rTableCell">{game.stls}</div>
+                  <div className="rTableCell">{game.blks}</div>
+                  <div className="rTableCell">{game.tos}</div>
+                  <div className="rTableCell">{game.pts}</div>
+                </div>
+                );
+            })}
+          </div>
+        </div>
 
       <div className="player-stats">
         <strong>Totals</strong>

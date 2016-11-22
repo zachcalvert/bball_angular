@@ -9,12 +9,13 @@
 	text-align: center;
 	padding-right, padding-bottom: 20px;
 	padding: 0 20px 20px 0;
-	height: 195px;
+	height: 230px;
 }
 
 .player-info h4 {
 	margin-bottom: 0px;
 	margin-top: 5px;
+	font-size: 14px;
 }
 
 .player-info p {
@@ -22,10 +23,17 @@
 	font-size: 11px;
 }
 
+.player-season-form {
+	text-align: center;
+}
+.player-season-form strong {
+	font-size: 12px;
+}
+
 .player-details {
     float: left;
     max-width: 350px;
-    height: 195px;
+    height: 230px;
     font-size: 11px;
     text-align: justify;
     padding-bottom: 20px;
@@ -37,7 +45,7 @@
 
 .player-game-chart {
     float: left;
-    width: 450px;
+    width: 500px;
     padding: 0 10px 10px;
 }
 
@@ -55,15 +63,14 @@
 .player-notes {
 	background-color: #FFFFFF;
 	overflow: scroll;
-	height: 120px;
+	height: 150px;
 }
 
 
 .player-stats {
 	float: left;
 	font-size: 10;
-	padding-left: 10px;
-	padding-bottom: 10px;
+	padding: 10px 0;
 }
 
 .player-stats ul {
@@ -74,11 +81,26 @@
 	display: inline;
 }
 
+.player-recent-games {
+	float:left;
+}
 /* player list table */
+.reactable-data a {
+	color: #000;
+	text-decoration: none;
+}
+.reactable-data a:hover {
+	text-decoration: underline;
+}
+
 .reactable-data td {
     min-width: 25px;
     font-size: 12px;
     padding: 3px 10px;
+}
+
+.reactable-data tr:nth-child(even) {
+    background-color: #C0C0C0;
 }
 
 .reactable-data li {

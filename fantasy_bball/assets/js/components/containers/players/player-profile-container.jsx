@@ -18,6 +18,8 @@ const PlayerProfileContainer = React.createClass({
 			chart_scores: [],
 			totals: [],
 			averages: [],
+			recent_games: [],
+			season_form: null
 		}
 	},
 
@@ -38,7 +40,9 @@ const PlayerProfileContainer = React.createClass({
 				totals: player.totals,
 				averages: player.averages,
 				chart_games: player.chart_games,
-				chart_scores: player.chart_scores
+				chart_scores: player.chart_scores,
+				recent_games: player.recent_games,
+				season_form: player.season_form
 			});
 		});
 	},
