@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 from django.utils.functional import cached_property
 
 
@@ -14,6 +15,11 @@ class League(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	@cached_property
+	def free_agents(self):
+		from players.models import Player
+		return [p.id for p in Player.objects.all() if p.is_available(self.pk)]
 
 	def get_teams(self):
 		return [team.to_data() for team in Team.objects.filter(league=self)]
@@ -33,11 +39,6 @@ class League(models.Model):
 			i += 1
 			if i >= num_players:
 				break
-
-	@cached_property
-	def free_agents(self):
-		from players.models import Player
-		return [p.id for p in Player.objects.all() if p.is_available(self.pk)]
 
 	def to_data(self):
 		data = {
@@ -67,19 +68,24 @@ class Team(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def get_players(self):
-		from players.models import Player
-		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
-
 	@property
 	def record(self):
 		return "{0}-{1}-{2}".format(self.wins, self.losses, self.ties)
+
+	@property
+	def matchups(self):
+		from schedule.models import Matchup
+		return Matchup.objects.filter(Q(home_team=self)|(Q(away_team=self))).order_by('week')
 
 	def clean(self):
 		if self.pk:
 			for player in self.players.all():
 				if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
 					raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
+
+	def get_players(self):
+		from players.models import Player
+		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
 
 	def to_data(self, player_data=False):
 		data = {

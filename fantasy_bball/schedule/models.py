@@ -2,6 +2,7 @@ from __future__ import unicode_literals, division
 
 from django.db import models
 
+from leagues.models import League, Team
 from players.models import NBA_TEAMS, Player
 
 
@@ -91,7 +92,7 @@ class StatLine(models.Model):
         This is not PER or anything like that, this is an evaluation purely from a 
         fantasy basketball perspective.
         """
-        base = 5.0
+        base = 4.0
         base += self.fgm *.22 # 45% shooter comes out even
         base -= self.fga * .1
         base += self.ftm * .13 # 77% free throw shooter comes out even
@@ -110,7 +111,7 @@ class StatLine(models.Model):
             self.save()
 
         if base > 10:
-            base = 10
+            base = 10.0
 
         return round(base, 2)
 
@@ -128,3 +129,38 @@ class StatLine(models.Model):
 
         date = self.game.date.strftime('%-m/%-d')
         return "{0} {1}".format(opp, date)
+
+
+class Matchup(models.Model):
+    league = models.ForeignKey(League)
+    home_team = models.ForeignKey(Team, related_name='home_team')
+    away_team = models.ForeignKey(Team, related_name='away_team')
+    start_date = models.DateField(auto_now=False)
+    end_date = models.DateField(auto_now=False)
+    week = models.IntegerField(default=22)
+    finalized = models.BooleanField(default=False)
+    result = models.CharField(max_length=10, null=True, blank=True)
+
+    def __unicode__(self):
+        return "matchup between: {0} and {1} starting {2}".format(self.home_team, self.away_team, self.start_date)
+
+    def to_data(self):
+        return {
+            "home_team": self.home_team.name,
+            "away_team": self.away_team.name,
+            "week": self.week,
+        }
+        if self.finalized:
+            data["finalized"] = self.finalized
+
+    # @property
+    # def home_totals(self):
+    #     home_stats = teams.utils.calculate_team_totals(self.home_team, start_day=self.start_date, end_day=self.end_date)
+    #     home_totals = home_stats.pop('totals')
+    #     return home_totals
+
+    # @property
+    # def away_totals(self):
+    #     away_stats = teams.utils.calculate_team_totals(self.away_team, start_day=self.start_date, end_day=self.end_date)
+    #     away_totals = away_stats.pop('totals')
+    #     return away_totals

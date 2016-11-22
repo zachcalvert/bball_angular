@@ -170,6 +170,14 @@ class Player(models.Model):
 		return data
 
 	@cached_property
+	def season_form(self):
+		from schedule.models import Season, Game, StatLine
+		games = Game.objects.filter(season=Season.objects.last())
+		statlines = list(StatLine.objects.filter(player_id=self.pk, game__in=games))
+		total = sum(statline.game_score for statline in statlines)
+		return round(total/len(statlines), 2)
+
+	@cached_property
 	def recent_form(self, num_games=10):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
@@ -177,10 +185,9 @@ class Player(models.Model):
 		return round(total/num_games, 2)
 
 	@cached_property
-	def recent_games(self, num_games=10):
+	def recent_games(self, num_games=5):
 		from schedule.models import Game, StatLine
 		statlines = list(StatLine.objects.filter(player_id=self.pk).order_by('-game__date')[:num_games])
-		statlines.reverse()
 
 		return [statline.to_data() for statline in statlines]
 
@@ -219,6 +226,7 @@ class Player(models.Model):
 			data["recent_games"] = self.recent_games
 			data["stats"] = self.stats
 			data["notes"] = self.notes
+			data["season_form"] = self.season_form
 
 		return data
 

@@ -8,7 +8,7 @@ from django.views.generic import View
 
 from leagues.models import League, Team
 from players.models import Player
-from schedule.models import Game, StatLine
+from schedule.models import Season, Game, StatLine, Matchup
 
 
 class JSONHttpResponse(HttpResponse):
@@ -29,24 +29,31 @@ class JSONView(View):
             return JSONHttpResponse(data)
 
 
-class HomePageView(JSONView):
-
+class HomePageView(JSONView): 
     def top_performers(self, day):
         games = Game.objects.filter(date=day)
         statlines = list(StatLine.objects.filter(game__in=games))
         statlines.sort(key=lambda x: x.game_score, reverse=True)
-        return statlines[:6] # grab the 6 best performances
+        return statlines[:4] # grab the 6 best performances
+
+    def goat_performances(self):
+        season = Season.objects.last()
+        games = Game.objects.filter(season=season, date__lt=date.today())
+        statlines = list(StatLine.objects.filter(game__in=games))
+        statlines.sort(key=lambda x: x.game_score, reverse=True)
+        return statlines[:20]
 
     def get(self, request):
-        day = date.today() - timedelta(days=1)
-        top_performances = self.top_performers(day)
+        yesterday = date.today() - timedelta(days=1)
+        top_performances = self.top_performers(yesterday)
         if len(top_performances) == 0:
             day = date.today() - timedelta(days=2)
             top_performances = self.top_performers(day)
         
         return {
-            "yesterday": day.strftime("%A, %B %-d"),
-            "top_performers" : [tp.to_data() for tp in top_performances]
+            "yesterday": yesterday.strftime("%A, %B %-d"),
+            "top_performers" : [tp.to_data() for tp in top_performances],
+            "goat_performances": [gp.to_data() for gp in self.goat_performances()]
         }
 
 
@@ -70,6 +77,23 @@ class FreeAgentsView(JSONView):
         players = [p for p in Player.objects.all() if p.is_available(league_id=league_id)]
         data = [
             player.to_data() for player in players
+        ]
+
+        return data
+
+
+class MatchupsView(JSONView):
+
+    def get(self, request, league_id):
+        data = {}
+        today = date.today()
+        current_matchups = Matchup.objects.filter(league_id=league_id, start_date__lte=today, end_date__gte=today)
+
+        data['current'] = [
+            matchup.to_data() for matchup in current_matchups
+        ]
+        data['all'] = [
+            matchup.to_data() for matchup in Matchup.objects.filter(league_id=league_id).order_by('start_date')
         ]
 
         return data
