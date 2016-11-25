@@ -146,12 +146,18 @@ class Matchup(models.Model):
 
     def to_data(self):
         return {
+            "league_id": self.league_id,
+            "home_id": self.home_team.id,
             "home_team": self.home_team.name,
+            "away_id": self.away_team.id,
             "away_team": self.away_team.name,
             "week": self.week,
+            "start_date": self.start_date, 
+            "end_date": self.end_date
+
         }
         if self.finalized:
-            data["finalized"] = self.finalized
+            data["result"] = self.result
 
     # @property
     # def home_totals(self):

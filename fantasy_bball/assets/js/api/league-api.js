@@ -27,3 +27,20 @@ export function getLeague(leagueId) {
       
     });
 }
+
+export function getLeagueMatchups(leagueId) {
+
+  let league = {};
+
+  // Get the league data from our local django api
+  return axios.get('http://localhost:8001/api/v2/leagues/' + leagueId + 'matchups.json')
+    .then(response => {
+
+      let matchups = response.data;
+      matchups.this_week = matchups.this_week;
+      matchups.all = matchups.all;
+
+      return league;
+      
+    });
+}

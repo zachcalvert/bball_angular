@@ -12,12 +12,14 @@ const LeagueMatchupsContainer = React.createClass({
     },
 
     componentDidMount: function() {
-        leagueApi.getMatchups().then(matchups => {
+        let leagueId = this.props.params.leagueId
+        leagueApi.getLeagueMatchups(leagueId).then(matchups => {
           this.setState({matchups: matchups})
         });
     },
 
     render: function() {
+        console.log('here')
         return (
             <LeagueMatchups matchups={this.state.matchups} />
         );
