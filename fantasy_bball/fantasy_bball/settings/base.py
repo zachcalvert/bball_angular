@@ -14,7 +14,8 @@ DEBUG = env('DEBUG')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, '../assets'), # We do this so that django's collectstatic copies or our bundles to the STATIC_ROOT or syncs them to whatever storage we use.
+    # os.path.join(BASE_DIR, '../assets'), # react frontend assets
+    os.path.join(BASE_DIR, '../static'), # django frontend assets
 )
 
 STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, '../../staticfiles'))
