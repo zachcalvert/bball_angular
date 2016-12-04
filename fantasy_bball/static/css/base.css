@@ -74,12 +74,12 @@ a {
 	display: block;
 	padding: 0 10px;
 	background: whitesmoke;
-	margin-top: -4px;
+	min-height: 600px;
 }
 
 #content h2 {
-	margin-top: -4px;
-	padding-top: 16px;
+	padding-top: 0;
+	margin-top: 0;
 }
 
 .left-nav {
@@ -90,6 +90,7 @@ a {
 }
 
 .left-nav i {
+	display: none;
 	float: right;
 	color: #ffc966;
 	padding: 10px;
@@ -114,6 +115,17 @@ a {
 	display: table;
 	padding: 0 10px;
 	height: 500px;
+}
+
+.bx-wrapper {
+	float: left;
+	height: 250px;
+	width: 80%;
+}
+.slider-control {
+	float: left;
+	font-size: 30px;
+	padding-top: 125px;
 }
 
 #footer {

@@ -9,7 +9,9 @@
 
     {% block head_css %}
       <link rel="stylesheet" href="static/css/base.css" />
+      <link rel="stylesheet" href="static/css/statlines.css" />
       <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+      <link rel="stylesheet" href="static/css/jquery.bxslider.css" />
     {% endblock %}
 
     {% block head_js %}
@@ -55,9 +57,26 @@
           </ul>
         </div>
 
-        <div id="main-content">
-          <strong>Main Content</strong>
-          <p>here’s to the kids. the kids who would rather spend their night with a bottle of coke and Patrick or Sonny playing on their headphones than go to some vomit-stained high school party. here’s to the kids whose 11:11 wish was wasted on one person who will never be there for them. here’s to the kids whose idea of a good night is sitting on the hood of a car, watching the stars. here’s to the kids who were never too good at life, but still were wicked cool. here’s to the kids who listened to Fall Out Boy and Hawthorne Heights before they were on MTV and blame MTV for ruining their life. here’s to the kids who care more about the music than the haircuts. here’s to the kids who have crushes on a stupid lush. here’s to the kids who hum “a little less 16 candles, a little more touch me” when they’re stuck home, dateless, on a Saturday night. here’s to the kids who have ever had a broken heart from someone who didn’t even know they existed. here’s to the kids who have read The Perks of Being a Wallflower and didn’t feel so alone after doing so. here’s to the kids who spend their days in photobooths with their best friends. here’s to the kids who are straight up smartasses and just don’t care. here’s to the kids who speak their mind. here’s to the kids who consider screamo their lullaby for going to sleep. here’s to the kids who second guess themselves on everything they do. here’s to the kids who will never have 100 percent confidence in anything they do, and to the kids that are okay with that. here’s to the kids. this one’s not for the kids who always get what they want, but for the ones who never had it at all. it’s not for the ones who never get caught, but for the ones who always try and fail. this one’s for the kids who didn’t make it, we were the kids who never made it. the overcast girls and the underdog boys. not for the kids who had all their joys. this one’s for the kids who never faked it. we’re the kids who didn’t make it. they say “breaking hearts is what we do best,” and “we’ll make your heart be ripped out of your chest.” the only heart that i broke was mine, when i got my hopes up too high. we were the kids who didn’t make it. we are the kids who never made it. — Pete Wentz</p>
+        <div class="top-performers">
+          <h4>Top Performers from {{ yesterday }}</h4>
+          <div id="prev-statlines-1" class="slider-control prev"></div>
+          <div id="statline-row-1" class="widget-row">
+            {% for statline in yesterdays_best %}
+              {% include 'statline.html' %}
+            {% endfor %}
+          </div>
+          <div id="next-statlines-1" class="slider-control next"></div>
+        </div>
+
+        <div class="top-performers">
+          <h4>Top Performers from {{ yesterday }}</h4>
+          <div id="prev-statlines-2" class="slider-control prev"></div>
+          <div id="statline-row-2" class="widget-row">
+            {% for statline in season_best %}
+              {% include 'statline.html' %}
+            {% endfor %}
+          </div>
+          <div id="next-statlines-2" class="slider-control next"></div>
         </div>
       </div>
     {% endblock %}
@@ -73,27 +92,62 @@
       </div>
     {% endblock %}
 
+    {% block footer_js %}
+      <script src="{{ STATIC_URL }}static/js/jquery.bxslider.js" type="application/javascript"></script>
+    {% endblock %}
       <script>
-        $('.manage-account strong').click(function () {
-          if ($(".manage-account-links").is(":visible")) {
+        $(document).ready(function () {
+            var widgetRow =  $("#statline-row-1");
+            widgetRow.bxSlider({
+                minSlides: 2,
+                maxSlides: 4,
+                slideWidth: 190,
+                slideMargin: 0,
+                adaptiveHeight: true,
+                pager: false,
+                nextSelector: "#next-statlines-1",
+                prevSelector: "#prev-statlines-1",
+                prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+            });
+
+            var seasonRow =  $("#statline-row-2");
+            seasonRow.bxSlider({
+                minSlides: 2,
+                maxSlides: 4,
+                slideWidth: 190,
+                slideMargin: 0,
+                adaptiveHeight: true,
+                pager: false,
+                nextSelector: "#next-statlines-2",
+                prevSelector: "#prev-statlines-2",
+                prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+            });
+        });
+      </script>
+
+      <script>
+        $('.manage-account strong').click(function () {{
+          if ($(".manage-account-links").is(":visible")) {{
               $(".manage-account-links").slideUp(200);
-          } else {
+          }} else {{
               $(".manage-account-links").slideDown(200);
-          }
-        });    
-        $(document).mouseup(function (e) {
+          }}
+        }});    
+        $(document).mouseup(function (e) {{
           var container = $(".manage-account-links");
           if (!container.is(e.target) // if the target of the click isn't the container...
               && container.has(e.target).length === 0) // ... nor a descendant of the container
-          {
+          {{
               container.slideUp(200);
-          }
-        });
+          }}
+        }});
       </script>
       <script>
-        $('.left-nav i').click(function () {
+        $('.left-nav i').click(function () {{
             $(".left-nav-links").animate({width: 'toggle'}, "fast");
-        });
+        }});
       </script>
   </body>
 </html>

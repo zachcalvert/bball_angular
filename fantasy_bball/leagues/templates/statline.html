@@ -1,0 +1,24 @@
+<div class="top-performer">
+  <strong>Game score: {{ statline.game_score }}</strong><br />
+  <p>{{ statline.game }}</p>
+
+  <div class="top-performace-player-details">
+    <a href="javascript:;"></a>
+    <p class="top-performer-player-name">{{ statline.player.name }}</p>
+    <p>{{ statline.player.position }} &#8226; {{ statline.player.nba_team }}</p>
+  </div>
+
+  <div class="top-performace-game-details">
+    <ul class="statline-stats">
+      <li>PTS: {{ statline.pts }}</li>
+      <li>FG: {{ statline.fgm }}/{{ statline.fga }}</li>
+      <li>FT: {{ statline.ftm }}/{{ statline.fta }}</li>
+      <li>3PT: {{ statline.threesm }}/{{ statline.threesa }}</li>
+      <li>RBS: {{ statline.trbs }}</li>
+      <li>ASTS: {{ statline.asts }}</li>
+      <li>STLS: {{ statline.stls }}</li>
+      <li>BLKS: {{ statline.blks }}</li>
+      <li>TOS: {{ statline.tos }}</li>
+    </ul>
+  </div>
+</div>

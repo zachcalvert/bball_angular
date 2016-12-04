@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 
 from leagues.models import League, Team
 from players.models import Player
@@ -29,7 +29,7 @@ class JSONView(View):
             return JSONHttpResponse(data)
 
 
-class HomePageView(JSONView): 
+class FeaturedPageView(JSONView): 
     def top_performers(self, day):
         games = Game.objects.filter(date=day)
         statlines = list(StatLine.objects.filter(game__in=games))
@@ -52,9 +52,33 @@ class HomePageView(JSONView):
         
         return {
             "yesterday": yesterday.strftime("%A, %B %-d"),
-            "top_performers" : [tp.to_data() for tp in top_performances],
-            "goat_performances": [gp.to_data() for gp in self.goat_performances()]
+            "yesterdays_best" : [tp.to_data() for tp in top_performances],
+            "season_best": [gp.to_data() for gp in self.goat_performances()]
         }
+
+class HomePageView(TemplateView):
+    template = "site_base.html"
+
+    def top_performers(self, day):
+        games = Game.objects.filter(date=day)
+        statlines = list(StatLine.objects.filter(game__in=games))
+        statlines.sort(key=lambda x: x.game_score, reverse=True)
+        return statlines[:8] # grab the 6 best performances
+
+    def goat_performances(self):
+        season = Season.objects.last()
+        games = Game.objects.filter(season=season, date__lt=date.today())
+        statlines = list(StatLine.objects.filter(game__in=games))
+        statlines.sort(key=lambda x: x.game_score, reverse=True)
+        return statlines[:20]
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(HomePageView, self).get_context_data(*args, **kwargs)
+        yesterday = date.today() - timedelta(days=2)
+        context["yesterday"] = yesterday.strftime("%A, %B %-d")
+        context["yesterdays_best"] = self.top_performers(yesterday)
+        context["season_best"] = self.goat_performances()
+        return context
 
 
 class LeaguesView(JSONView):
