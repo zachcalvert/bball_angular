@@ -14,21 +14,23 @@ a {
 }
 
 #header {
-	height: 120px;
+	height: 90px;
 	width: 100%;
 	display: inline-block;
 	background: #FFF;
+	border-bottom: 1px solid black;
 }
 
 .header-image {
     height: inherit;
     float: left;
+    border-right: 1px solid black;
 }
 
 .header-links {
     margin: 0;
     float: left;
-    padding: 100px 0 0 10px;
+    padding: 70px 0 0 10px;
     text-align: justify;
     font-size: 15px;
     font-weight: bold;
@@ -41,7 +43,7 @@ a {
 
 .manage-account {
 	float: right;
-    padding: 100px 0 0 0;
+    padding: 70px 0 0 0;
     text-align: right;
 }
 
@@ -58,8 +60,8 @@ a {
 	display: none;
 	margin: 0;
 	padding: 0;
-    background-color: #00323A;
-    color: #ffc966;
+    background: #096881;
+    color: #fff;
 }
 
 .manage-account-link {
@@ -67,48 +69,57 @@ a {
 }
 
 .manage-account-link a {
-	color: #ffc966;
+	color: #fff;
 }
 
 #content {
 	display: block;
 	padding: 0 10px;
-	background: whitesmoke;
 	min-height: 600px;
 }
 
 #content h2 {
 	padding-top: 0;
-	margin-top: 0;
+	margin-top: 10px;
+	color: grey;
+	font-size: 16px;
 }
 
 .left-nav {
 	margin-left: -10px;
 	float: left;
-	height: 500px;
-	background: #00323A;
+	height: 600px;
+	background: #096881;
+	border: 1px solid black;
+	border-left: none;
 }
 
-.left-nav i {
-	display: none;
+.left-nav p {
 	float: right;
-	color: #ffc966;
+	color: #fff;
 	padding: 10px;
+	margin: 0;
+	padding: 7px 7px 0 7px;
+	font-size: 12px;
+	cursor: pointer;
 }
 
 .left-nav-links {
-	display: none;
 	left: 0;
 	top: 120px;
 	padding: 5px 10px;
 }
 
 .left-nav-link {
-	padding: 10px 0;
+	padding: 10px 10px 10px 0;
+}
+
+.left-nav-link:hover {
+	padding-left: 1px;
 }
 
 .left-nav-link a {
-	color: #ffc966;
+	color: #fff;
 }
 
 #main-content {
@@ -117,15 +128,10 @@ a {
 	height: 500px;
 }
 
-.bx-wrapper {
-	float: left;
-	height: 250px;
-	width: 80%;
-}
-.slider-control {
-	float: left;
-	font-size: 30px;
-	padding-top: 125px;
+.block {
+	height: 300px;
+	display: table;
+	padding: 0 25px;
 }
 
 #footer {

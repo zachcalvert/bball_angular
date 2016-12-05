@@ -19,6 +19,7 @@
 	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
+	max-width: 1070px!important;
 }
 
 .bx-wrapper img {
@@ -36,7 +37,13 @@
     	-ms-transform: translatez(0);
     	-o-transform: translatez(0);
     	transform: translatez(0);
+
 }
+
+.bx-viewport {
+    height: 240px!important;
+}
+
 
 .bx-wrapper .bx-pager,
 .bx-wrapper .bx-controls-auto {
@@ -194,3 +201,15 @@
 	font-size: .85em;
 	padding: 10px;
 }
+
+.bx-wrapper {
+	float: left;
+	height: 250px;
+	width: 90%;
+}
+.slider-control {
+	float: left;
+	font-size: 30px;
+	padding: 100px 6px 0 0;
+}
+

@@ -66,6 +66,7 @@ class StatLine(models.Model):
 
     def to_data(self):
         return {
+            "id": self.id,
             "game_result": self.game.result,
             "game": self.short_format,
             "player": self.player.to_data(quick_stats=False),

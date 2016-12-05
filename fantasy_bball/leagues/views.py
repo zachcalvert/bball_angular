@@ -56,6 +56,7 @@ class FeaturedPageView(JSONView):
             "season_best": [gp.to_data() for gp in self.goat_performances()]
         }
 
+
 class HomePageView(TemplateView):
     template = "site_base.html"
 
@@ -74,9 +75,13 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomePageView, self).get_context_data(*args, **kwargs)
-        yesterday = date.today() - timedelta(days=2)
+        yesterday = date.today() - timedelta(days=1)
+        yesterdays_best = self.top_performers(yesterday)
+        if not yesterdays_best:
+            yesterday = date.today() - timedelta(days=2)
+            yesterdays_best = self.top_performers(yesterday)
         context["yesterday"] = yesterday.strftime("%A, %B %-d")
-        context["yesterdays_best"] = self.top_performers(yesterday)
+        context["yesterdays_best"] = yesterdays_best
         context["season_best"] = self.goat_performances()
         return context
 

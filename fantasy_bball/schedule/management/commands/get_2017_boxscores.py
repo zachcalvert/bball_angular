@@ -67,6 +67,7 @@ class Command(BaseCommand):
 				if StatLine.objects.filter(player=player, game=game).exists():
 					continue
 
+				mp = 0
 				try:
 					cells = row.findAll('td')
 				except Exception:
@@ -108,12 +109,13 @@ class Command(BaseCommand):
 					elif cell['data-stat'] == "pts":
 						pts = cell.text
 
-				away_statline = StatLine.objects.create(game=game, player=player,
-					mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
-					orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
-					pfs=pfs,pts=pts)
-				# TODO: update the Game instance with the final score
-				print('Loaded statline for {0} in game {1}'.format(player.name, game))
+				if mp:
+					away_statline = StatLine.objects.create(game=game, player=player,
+						mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
+						orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
+						pfs=pfs,pts=pts)
+					# TODO: update the Game instance with the final score
+					print('Loaded statline for {0} in game {1}'.format(player.name, game))
 
 
 			home_table = bs.find(lambda tag: tag.name=='table' and tag.has_attr('id') and tag['id']=="box_{}_basic".format(game.home_team.lower()))
@@ -138,11 +140,13 @@ class Command(BaseCommand):
 				if StatLine.objects.filter(player=player, game=game).exists():
 					continue
 
+				mp = 0
 				try:
 					cells = row.findAll('td')
 				except Exception:
 					continue
 				for cell in cells:
+					
 					if cell.text == 'Did Not Play' or cell.text == 'Player Suspended':
 						continue
 
@@ -179,12 +183,13 @@ class Command(BaseCommand):
 					elif cell['data-stat'] == "pts":
 						pts = cell.text
 
-				home_statline = StatLine.objects.create(game=game, player=player,
-					mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
-					orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
-					pfs=pfs,pts=pts)
-				# TODO: update the Game instance with the final score
-				print('Loaded statline for {0} in game {1}'.format(player.name, game))
+				if mp:
+					home_statline = StatLine.objects.create(game=game, player=player,
+						mp=mp, fgm=fgm, fga=fga,ftm=ftm, fta=fta, threesm=threesm, threesa=threesa,
+						orbs=orbs, drbs=drbs, trbs=trbs, asts=asts, stls=stls, blks=blks, tos=tos,
+						pfs=pfs,pts=pts)
+					# TODO: update the Game instance with the final score
+					print('Loaded statline for {0} in game {1}'.format(player.name, game))
 
 
 
