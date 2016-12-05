@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.views.generic import View, TemplateView
 
 from leagues.models import League, Team
-from players.models import Player
+from players.models import Player, Quote
 from schedule.models import Season, Game, StatLine, Matchup
 
 
@@ -80,9 +80,11 @@ class HomePageView(TemplateView):
         if not yesterdays_best:
             yesterday = date.today() - timedelta(days=2)
             yesterdays_best = self.top_performers(yesterday)
+        quote = Quote.objects.order_by('?').first()
         context["yesterday"] = yesterday.strftime("%A, %B %-d")
         context["yesterdays_best"] = yesterdays_best
         context["season_best"] = self.goat_performances()
+        context["quote"] = quote
         return context
 
 

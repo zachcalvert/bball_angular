@@ -230,6 +230,13 @@ class Player(models.Model):
 
 		return data
 
+class Quote(models.Model):
+	content = models.CharField(max_length=150)
+	person = models.CharField(max_length=30)
+	year = models.CharField(max_length=4, null=True, blank=True)
+
+	def __unicode__(self):
+		return "'{0}' -- {1}, {2}".format(self.content, self.person, self.year)
 
 
 		
