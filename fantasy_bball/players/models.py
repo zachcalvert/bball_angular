@@ -230,6 +230,7 @@ class Player(models.Model):
 
 		return data
 
+
 class Quote(models.Model):
 	content = models.CharField(max_length=150)
 	person = models.CharField(max_length=30)

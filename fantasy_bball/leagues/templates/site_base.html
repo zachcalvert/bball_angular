@@ -44,7 +44,7 @@
 
     {% block content %}
       <div id="content">
-        <h2><i>"{{ quote.content }}"</i> -- {{ quote.person }} {% if quote.year %}, {{ quote.year }}{% endif %}</h2>
+        <h2><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
         <div class="left-nav">
           <p><i class="fa fa-chevron-left"></i>&nbsp;HIDE</p>
           <ul class="left-nav-links">
@@ -156,12 +156,13 @@
         $('.left-nav p').click(function () {{
             if ($('.left-nav p').html().substring(40) == 'HIDE') {
               $('.left-nav p').html('<i class=\"fa fa-chevron-right\"></i>');
-              $('.left-nav').css('width,20px');
+              $('.left-nav-links').hide();
+              $('.left-nav').css("width","20px");
             } else {
               $('.left-nav p').html('<i class=\"fa fa-chevron-left\"></i>&nbsp;HIDE');
-              $('.left-nav').css('width,140px');
+              $('.left-nav-links').show();
+              $('.left-nav').css("width","140px");
             }
-            $(".left-nav-links").animate({width: 'toggle'}, "fast");
         }});
       </script>
   </body>
