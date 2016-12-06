@@ -3,7 +3,7 @@
   <p>{{ statline.game }}</p>
 
   <div class="top-performace-player-details">
-    <a href="javascript:;"><img src="{{ statline.player.image_url }}"></a>
+    <a href="{% url 'player' statline.player.id %}"><img src="{{ statline.player.image_url }}"></a>
     <p class="top-performer-player-name">{{ statline.player.name }}</p>
     <p>{{ statline.player.position }} &#8226; {{ statline.player.nba_team }}</p>
   </div>

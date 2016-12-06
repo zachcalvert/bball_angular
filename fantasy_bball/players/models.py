@@ -69,7 +69,7 @@ class Player(models.Model):
 	@cached_property
 	def notes(self):
 		splits = self.recent_notes.split('date:')
-		data = {}
+		data = []
 		for i in range(len(splits)):
 			if i == 0:
 				continue
@@ -87,13 +87,14 @@ class Player(models.Model):
 				except ValueError:
 					continue
 
-				data =  {
+				notes = {
 					'date': note_date,
 					'report': note_report,
 					'impact': note_impact
 				}
+				data.append(notes)
 
-				return data
+		return data
 
 	@cached_property
 	def stats(self, since_date=None):

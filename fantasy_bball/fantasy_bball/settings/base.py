@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'webpack_loader',
 
+    'api',
     'leagues',
     'players',
     'schedule',

@@ -21,6 +21,10 @@ a {
 	border-bottom: 1px solid black;
 }
 
+#header a {
+	height: inherit;
+}
+
 .header-image {
     height: inherit;
     float: left;
@@ -97,7 +101,7 @@ a {
 
 .left-nav p {
 	float: right;
-	color: #fff;
+	color: #000;
 	padding: 10px;
 	margin: 0;
 	padding: 7px 7px 0 7px;
