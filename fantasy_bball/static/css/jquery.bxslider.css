@@ -205,6 +205,7 @@
 /* ------ responsive row slider ------- */
 .bx-wrapper {
     width:86%;
+    z-index: -1;
 }
 .page-content .bx-wrapper .bx-loading {
     background-color: transparent;
