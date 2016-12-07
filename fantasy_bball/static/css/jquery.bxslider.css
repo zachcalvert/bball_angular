@@ -202,18 +202,37 @@
 	padding: 10px;
 }
 
+/* ------ responsive row slider ------- */
 .bx-wrapper {
-	float: left;
-	height: 250px;
-	width: 94%;
+    width:86%;
+}
+.page-content .bx-wrapper .bx-loading {
+    background-color: transparent;
+}
+
+.carousel {
+    text-align: center;
+    position: relative;
+}
+
+.carousel i {
+    font-size:32px;
+    color: #000;
 }
 
 .slider-control {
-	font-size: 20px;
-	margin-top: 100px;
+    font-size: 12px;
+    top: 50%;
 }
 
 .slider-control.prev {
-    left: 6%;
-    float: left;
+    text-align: right;
+    position: absolute;
+    left: 1%;
+}
+
+.slider-control.next {
+    text-align: left;
+    position: absolute;
+    right: 1%;
 }

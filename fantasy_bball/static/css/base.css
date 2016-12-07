@@ -85,12 +85,11 @@ a {
 
 #content {
 	display: block;
-	padding: 0 10px;
+	padding: 0px;
 	min-height: 600px;
 }
 
 .left-nav {
-	margin-left: -10px;
 	float: left;
 	height: 600px;
 	width: 140px;
@@ -112,7 +111,7 @@ a {
 .left-nav-links {
 	left: 0;
 	top: 120px;
-	padding: 5px 10px;
+	padding: 5px 15px;
 }
 
 .left-nav-link {
