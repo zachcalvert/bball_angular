@@ -12,8 +12,15 @@
 		<div class="player-image">
 			<img src="{{ player_data.image_url }}" />
 		</div>
-
-		<div className="player-notes">
+		<div class="player-details">
+			<h4 class="player-profile-name">{{ player_data.name }}</h4><br />
+			<strong class="player-profile-subname">{{ player_data.nba_team }} &#8226; {{ player_data.position }}</strong>
+	        <div class="player-season-form">
+	          <strong>Season Form</strong>
+	          <p>{{ player_data.season_form }}</p>
+	        </div>
+		</div>
+		<div class="player-notes">
 			<strong>Latest news</strong>
 			{% for note in player_data.notes %}
 				<div class="player-note">

@@ -21,6 +21,13 @@ a {
 	border-bottom: 1px solid black;
 }
 
+#header h2 {
+	padding: 10px;
+	color: grey;
+	font-size: 14px;
+	text-align: center;
+}
+
 #header a {
 	height: inherit;
 }
@@ -34,7 +41,7 @@ a {
 .header-links {
     margin: 0;
     float: left;
-    padding: 70px 0 0 10px;
+    padding: 0 0 0 10px;
     text-align: justify;
     font-size: 15px;
     font-weight: bold;
@@ -47,7 +54,7 @@ a {
 
 .manage-account {
 	float: right;
-    padding: 70px 0 0 0;
+    padding: 0;
     text-align: right;
 }
 
@@ -62,8 +69,8 @@ a {
 
 .manage-account-links {
 	display: none;
-	margin: 0;
-	padding: 0;
+	margin-top: 8px;
+	padding: 5px;
     background: #096881;
     color: #fff;
 }
@@ -82,21 +89,14 @@ a {
 	min-height: 600px;
 }
 
-#content h2 {
-	padding-top: 0;
-	margin-top: 10px;
-	color: grey;
-	font-size: 16px;
-}
-
 .left-nav {
 	margin-left: -10px;
 	float: left;
 	height: 600px;
 	width: 140px;
 	background: #096881;
-	border: 1px solid black;
-	border-left: none;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
 }
 
 .left-nav p {
@@ -134,14 +134,16 @@ a {
 }
 
 .block {
-	height: 300px;
+	height: auto;
 	display: table;
-	padding: 0 25px;
+	padding: 18px 15px 0 18px;
 }
 
 #footer {
 	display: inline-block;
-	height: 100px;
+	width: 100%;
+	padding: 20px;
+	text-align: center;
 }
 
 .footer-links {

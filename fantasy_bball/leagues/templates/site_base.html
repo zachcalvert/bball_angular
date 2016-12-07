@@ -24,6 +24,7 @@
     {% block header %}
       <div id="header">
         <a href="{% url 'site_home' %}"><img class="header-image" src="http://i.imgur.com/uXeJAgC.png" /></a>
+        <h2><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
         <ul class="header-links">
           <li class="header-link"><a href="javascript:;">My Team</a></li>
           <li class="header-link"><a href="javascript:;">Matchup</a></li>
@@ -45,7 +46,6 @@
 
     {% block content %}
       <div id="content">
-        <h2><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
         {% block leftnav %}
           <div class="left-nav">
             <p><i class="fa fa-chevron-left"></i>&nbsp;HIDE</p>
@@ -78,7 +78,7 @@
         {% block block2 %}
           <div id="block-2" class="block">
             <div class="top-performers">
-              <h4>Top Performers from {{ yesterday }}</h4>
+              <h4>Season's Best</h4>
               <div id="prev-statlines-2" class="slider-control prev"></div>
               <div id="statline-row-2" class="widget-row">
                 {% for statline in season_best %}
@@ -95,12 +95,7 @@
 
     {% block footer %}
       <div id="footer">
-        <ul class="footer-links">
-          <li class="footer-link">footer link 1</li>
-          <li class="footer-link">link 2</li>
-          <li class="footer-link">footer link 3</li>
-          <li class="footer-link">link 4</li>
-        </ul>
+        <a href="https://github.com/zachcalvert/fantasy_bball">View on Github</a>
       </div>
     {% endblock %}
 
@@ -120,8 +115,7 @@
                 nextSelector: "#next-statlines-1",
                 prevSelector: "#prev-statlines-1",
                 prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>",
-                responsive: true
+                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
             });
 
             var seasonRow =  $("#statline-row-2");
@@ -135,8 +129,7 @@
                 nextSelector: "#next-statlines-2",
                 prevSelector: "#prev-statlines-2",
                 prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>",
-                responsive: true
+                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
             });
         });
       </script>

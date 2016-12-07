@@ -1,3 +1,31 @@
+.player-profile-name {
+	margin: 0;
+	float: left;
+}
+.player-profile-subname {
+	font-size: 9px;
+}
+
+.player-image {
+	float: left;
+}
+.player-details {
+	float: left;
+	padding: 0 18px;
+    text-align: center;
+}
+
+.player-notes {
+	font-size: 12px;
+}
+
+.player-season-form {
+	text-align: center;
+}
+.player-season-form strong {
+	font-size: 12px;
+}
+
 .note-details {
 	display: none;
 }
