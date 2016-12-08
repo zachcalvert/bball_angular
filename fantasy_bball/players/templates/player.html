@@ -124,11 +124,17 @@
 	<script>
     	$(document).ready(function () {
 			$('#note-detail-1').show();
+			$('#note-key-1').css("background", "#096881");
+			$('#note-key-1').css("color", "#FFF");
 		});
 		$('.player-note').click(function () {
 			$('.note-detail').hide();
+			$('.player-note').css("background", "#FFF");
+			$('.player-note').css("color", "#000");
+
+			$(this).css("background", "#096881");
+			$(this).css("color", "#FFF");
 			var note_number = $(this).attr('id').slice(-1);
-			console.log(note_number);
 			$('#note-detail-' + note_number).css("display","block");
 		});
 	</script>

@@ -27,6 +27,10 @@
     overflow: scroll;
 }
 
+.player-notes p {
+	margin: 5px 0;
+}
+
 .note-dates {
 	float: left;
 	width: 100px;
