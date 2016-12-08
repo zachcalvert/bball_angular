@@ -1,3 +1,5 @@
+/* player block 1 */
+
 .player-profile-name {
 	margin: 0;
 	float: left;
@@ -16,7 +18,24 @@
 }
 
 .player-notes {
-	font-size: 12px;
+    font-size: 12px;
+    width: 400px;
+    height: 130px;
+    border: 1px solid black;
+    display: inline-block;
+    padding: 5px;
+    overflow: scroll;
+}
+
+.note-dates {
+	float: left;
+	width: 100px;
+}
+
+.note-details {
+	float: left;
+	width: 295px;
+	padding-left: 5px;
 }
 
 .player-season-form {
@@ -26,6 +45,16 @@
 	font-size: 12px;
 }
 
-.note-details {
+.note-detail {
 	display: none;
+}
+
+
+/* player block 2 */
+.player-recent-games {
+	padding: 5px 0;
+}
+
+.player-stats {
+	padding: 5px 0;
 }

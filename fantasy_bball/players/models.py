@@ -88,6 +88,7 @@ class Player(models.Model):
 					continue
 
 				notes = {
+					'id': i,
 					'date': note_date,
 					'report': note_report,
 					'impact': note_impact

@@ -216,6 +216,10 @@
     position: relative;
 }
 
+.carousel h4 {
+	margin: 0;
+}
+
 .carousel i {
     font-size:32px;
     color: #000;
