@@ -1,89 +1,13 @@
-/* ----------- Tablets (3 book covers across) ----------- */
 @media screen
-    and (max-width: 1023px)  {
-        ul.hmenu.fulljustify {
-            display: none;
-            position: absolute;
-            top: 84px;
-            right: 0px;
-            background: #ba2d00; /* Fall-back for browsers that don't support rgba */
-            padding: 0px 0px 0px 0px;
-            z-index: 5;
-            width: auto;
-            margin: 0;
-            line-height: 40px;
-            max-width: 100%;
-            height: 325px;
-            font-size: 20px;
-        }
-        ul.hmenu.fulljustify li {
-            margin: 0;
-            padding: 0 10px;
-            display: block;
-            text-align: left!important;
-        }
-        ul.hmenu.fulljustify li:hover {
-            background: #333333;
-        }
-        ul.hmenu.fulljustify a, ul.hmenu.fulljustify a:hover {
-            color: #FFF!important;
-            text-decoration: none!important;
-        }
-        #top-nav-icons a, #top-nav-icons a:hover {
-            color: #000!important;
-        }
-        ul.hmenu.fulljustify:after {
-            content: "";
-            width:initial;
-        }
-        #menu-actions {
-            margin: -8px 0 0 10px!important;
-            font-size: 44px;
-            position: relative;
-        }
-        #menu-actions a {
-            color: black;
-        }
-        #top-nav-menu {
-            margin-top: 2px;
-        }
-
-        #top-nav-icons {
-            display: block!important;
-            list-style-type: none  ;
-            margin: 35px 8px 0 0;
-        }
-        #top-nav-icons li {
-            float: right;
-            display: inline;
-            margin: 0 10px 0 10px
-        }
-        .cart-icon-count strong {
-            display: block;
-            position: absolute;
-            font-size: 12px;
-            top: 50px;
-            right: 89px;
-            color: #fff;
-        }
-
-        .buy-button-container {
-            margin-top: 10px;
-        }
-
-        .buy-button-container a {
-            font-size: 18px !important;
-        }
-
-        .headline {
+    and (max-width: 910px)  {
+        .hide-on-mobile {
             display: none;
         }
+    }
 
-        #cart-summary {
-            display: none;
+@media screen
+    and (max-width: 700px)  {
+        #header h2 {
+            padding: 2px;
         }
-
-        .site-search-dropdown {
-            display: none;
-        }
-}
+    }

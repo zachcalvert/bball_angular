@@ -13,6 +13,7 @@
       <link rel="stylesheet" href="{% static 'css/statlines.css' %}" />
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
       <link rel="stylesheet" href="{% static 'css/jquery.bxslider.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
     {% endblock %}
 
     {% block head_js %}
@@ -46,6 +47,7 @@
 
     {% block content %}
       <div id="content">
+
         {% block leftnav %}
           <div class="left-nav">
             <p><i class="fa fa-chevron-left"></i>&nbsp;HIDE</p>
@@ -107,7 +109,7 @@
             var widgetRow =  $("#statline-row-1");
             widgetRow.bxSlider({
                 minSlides: 2,
-                maxSlides: 4,
+                maxSlides: 3,
                 slideWidth: 190,
                 slideMargin: 0,
                 adaptiveHeight: true,
@@ -121,7 +123,7 @@
             var seasonRow =  $("#statline-row-2");
             seasonRow.bxSlider({
                 minSlides: 2,
-                maxSlides: 4,
+                maxSlides: 3,
                 slideWidth: 190,
                 slideMargin: 0,
                 adaptiveHeight: true,

@@ -40,6 +40,11 @@
   float: left;
   padding: 5px;
 }
+
+.top-performace-player-details img {
+  border: 1px solid black;
+}
+
 .top-performace-game-details {
   float:right;
   padding: 5px;

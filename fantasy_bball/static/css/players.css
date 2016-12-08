@@ -1,29 +1,35 @@
 /* player block 1 */
-
 .player-profile-name {
-	margin: 0;
-	float: left;
+    margin: 0;
+    font-size: 14px;
+    display: block;
 }
 .player-profile-subname {
-	font-size: 9px;
+	font-size: 10px;
 }
 
 .player-image {
+	height: 135px;
 	float: left;
+	border: 1px solid black;
+	margin-bottom: 10px;
 }
+
 .player-details {
 	float: left;
 	padding: 0 18px;
-    text-align: center;
+	text-align: center;
+	width: 135px;
+	height: 137px;
+	margin-bottom: 10px;
 }
 
 .player-notes {
     font-size: 12px;
-    width: 400px;
-    height: 130px;
+    width: 455px;
+    height: 135px;
     border: 1px solid black;
     display: inline-block;
-    padding: 5px;
     overflow: scroll;
 }
 
@@ -31,28 +37,56 @@
 	margin: 5px 0;
 }
 
+.player-note {
+    background: #FFF;
+    padding: 2px 0 2px 2px;
+}
+
+.selected {
+	background-color: #FFC125!important;
+}
+
 .note-dates {
 	float: left;
-	width: 100px;
+	width: 110px;
 }
 
 .note-details {
+	border-left: 1px solid black;
 	float: left;
-	width: 295px;
-	padding-left: 5px;
+	width: 327px;
+	padding: 2px 1px 2px 3px;
+	min-height: 135px;
 }
 
 .player-season-form {
-	text-align: center;
+	border: 1px solid black;
+	border-radius: 8px;
+	color: #FFF;
+	background: #096881;
+	padding-top: 5px;
+	margin-top: 13px;
+	height: 81px;
+	width: 90px;
+	margin-left: 22px;
 }
+
 .player-season-form strong {
 	font-size: 12px;
+}
+
+.player-season-form p {
+	font-size: 26px;
+	margin-top: 13px;
 }
 
 .note-detail {
 	display: none;
 }
 
+.note-detail p {
+	margin-top: 2px;
+}
 
 /* player block 2 */
 .player-recent-games {
@@ -61,4 +95,27 @@
 
 .player-stats {
 	padding: 5px 0;
+}
+
+.player-stats ul {
+	padding: 0;
+	margin: 0;
+}
+
+.player-stats li {
+	font-size: 12px;
+	float: left;
+	padding: 3px;
+	border: 2px solid #999999;
+	border-bottom: none;
+	width: 62px;
+	text-align: center;
+}
+
+.player-stats-averages {
+	border-right: none!important;
+}
+
+.stat-totals {
+	display: none;
 }

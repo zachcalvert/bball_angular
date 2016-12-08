@@ -13,7 +13,7 @@
 			<img src="{{ player_data.image_url }}" />
 		</div>
 		<div class="player-details">
-			<h4 class="player-profile-name">{{ player_data.name }}</h4><br />
+			<strong class="player-profile-name">{{ player_data.name }}</strong>
 			<strong class="player-profile-subname">{{ player_data.nba_team }} &#8226; {{ player_data.position }}</strong>
 	        <div class="player-season-form">
 	          <strong>Season Form</strong>
@@ -24,7 +24,7 @@
 		<div class="player-notes">
 			<div class="note-dates">
 				{% for note in player_data.notes %}
-					<div class="player-note" id="note-key-{{ note.id }}">
+					<div class="player-note selectable" id="note-key-{{ note.id }}">
 					  <p>{{ note.date }}</p>
 					</div>
 				{% endfor %}
@@ -43,20 +43,20 @@
 {% endblock %}
 
 {% block block2 %}
-	<div id="block-1" class="block">
+	<div id="block-2" class="block">
 	<div class="player-recent-games">
           <strong>Last 5 games</strong>
           <div class="rTable">
             <div class="rTableRow">
               <div class="rTableHead"><strong>Game</strong></div>
               <div class="rTableHead"><strong>MP</strong></div>
-              <div class="rTableHead"><strong>FG</strong></div>
-              <div class="rTableHead"><strong>FT</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
               <div class="rTableHead"><strong>3PT</strong></div>
-              <div class="rTableHead"><strong>REBS</strong></div>
-              <div class="rTableHead"><strong>ASTS</strong></div>
-              <div class="rTableHead"><strong>STLS</strong></div>
-              <div class="rTableHead"><strong>BLKS</strong></div>
+              <div class="rTableHead"><strong>REB</strong></div>
+              <div class="rTableHead"><strong>AST</strong></div>
+              <div class="rTableHead"><strong>STL</strong></div>
+              <div class="rTableHead"><strong>BLK</strong></div>
               <div class="rTableHead"><strong>TOS</strong></div>
               <div class="rTableHead"><strong>PTS</strong></div>
             </div>
@@ -64,8 +64,8 @@
 	            <div class="rTableRow">
 	              <div class="rTableCell">{{ game.game }}</div>
 	              <div class="rTableCell">{{ game.mp }}</div>
-	              <div class="rTableCell">{{ game.fgm }}/{{ game.fga }}</div>
-	              <div class="rTableCell">{{ game.ftm }}/{{ game.fta }}</div>
+	              <div class="rTableCell hide-on-mobile">{{ game.fgm }}/{{ game.fga }}</div>
+	              <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
 	              <div class="rTableCell">{{ game.threesm }}/{{ game.threesa }}</div>
 	              <div class="rTableCell">{{ game.rebs }}</div>
 	              <div class="rTableCell">{{ game.asts }}</div>
@@ -78,23 +78,28 @@
           </div>
         </div>
 
-		<div class="player-stats" id="player-average-stats">
-			<strong>Season Averages</strong>
-	        <div class="rTable">
+		<div class="player-stats">
+			<strong>Season Stats</strong>
+			<ul>
+				<li class="player-stats-averages selectable">Averages</li>
+				<li class="player-stats-totals selectable">Totals</li>
+			</ul>
+	        <div class="rTable stat-averages">
 	          <div class="rTableRow">
 	            <div class="rTableHead"><strong>PPG</strong></div>
 	            <div class="rTableHead"><strong>RPG</strong></div>
 	            <div class="rTableHead"><strong>APG</strong></div>
 	            <div class="rTableHead"><strong>SPG</strong></div>
 	            <div class="rTableHead"><strong>BPG</strong></div>
-	            <div class="rTableHead"><strong>FG</strong></div>
-	            <div class="rTableHead"><strong>FGA</strong></div>
+	            <div class="rTableHead"><strong>TOPG</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FGA</strong></div>
 	            <div class="rTableHead"><strong>FGPCT</strong></div>  
-	            <div class="rTableHead"><strong>FT</strong></div>
-	            <div class="rTableHead"><strong>FTA</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FTA</strong></div>
 	            <div class="rTableHead"><strong>FTPCT</strong></div>
-	            <div class="rTableHead"><strong>3PT</strong></div>
-	            <div class="rTableHead"><strong>3PTA</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>3PT</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>3PTA</strong></div>
 	            <div class="rTableHead"><strong>3PCT</strong></div>
 	          </div>
 
@@ -104,14 +109,53 @@
 	            <div class="rTableCell">{{ player_data.stats.averages.asts }}</div>
 	            <div class="rTableCell">{{ player_data.stats.averages.stls }}</div>
 	            <div class="rTableCell">{{ player_data.stats.averages.blks }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.fgm }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.fga }}</div>
+	            <div class="rTableCell">{{ player_data.stats.averages.tos }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.fgm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.fga }}</div>
 	            <div class="rTableCell">{{ player_data.stats.averages.fgpct }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.ftm }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.fta }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.ftm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.fta }}</div>
 	            <div class="rTableCell">{{ player_data.stats.averages.ftpct }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.threesm }}</div>
-	            <div class="rTableCell">{{ player_data.stats.averages.threesa }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.threesm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.averages.threesa }}</div>
+	            <div class="rTableCell">{{ player_data.stats.averages.threespct }}</div>
+	          </div>
+	        </div>
+	        
+	        <div class="rTable stat-totals">
+	          <div class="rTableRow">
+	            <div class="rTableHead"><strong>PTS</strong></div>
+	            <div class="rTableHead"><strong>RBS</strong></div>
+	            <div class="rTableHead"><strong>AST</strong></div>
+	            <div class="rTableHead"><strong>STL</strong></div>
+	            <div class="rTableHead"><strong>BLK</strong></div>
+	            <div class="rTableHead"><strong>TOS</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FGA</strong></div>
+	            <div class="rTableHead"><strong>FGPCT</strong></div>  
+	            <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>FTA</strong></div>
+	            <div class="rTableHead"><strong>FTPCT</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>3PT</strong></div>
+	            <div class="rTableHead hide-on-mobile"><strong>3PTA</strong></div>
+	            <div class="rTableHead"><strong>3PCT</strong></div>
+	          </div>
+
+	          <div class="rTableRow">
+	            <div class="rTableCell">{{ player_data.stats.totals.pts }}</div>
+	            <div class="rTableCell">{{ player_data.stats.totals.rebs }}</div>
+	            <div class="rTableCell">{{ player_data.stats.totals.asts }}</div>
+	            <div class="rTableCell">{{ player_data.stats.totals.stls }}</div>
+	            <div class="rTableCell">{{ player_data.stats.totals.blks }}</div>
+	            <div class="rTableCell">{{ player_data.stats.totals.tos }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.fgm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.fga }}</div>
+	            <div class="rTableCell">{{ player_data.stats.averages.fgpct }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.ftm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.fta }}</div>
+	            <div class="rTableCell">{{ player_data.stats.averages.ftpct }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.threesm }}</div>
+	            <div class="rTableCell hide-on-mobile">{{ player_data.stats.totals.threesa }}</div>
 	            <div class="rTableCell">{{ player_data.stats.averages.threespct }}</div>
 	          </div>
 	        </div>
@@ -124,18 +168,36 @@
 	<script>
     	$(document).ready(function () {
 			$('#note-detail-1').show();
-			$('#note-key-1').css("background", "#096881");
-			$('#note-key-1').css("color", "#FFF");
+			$('#note-key-1').addClass('selected');
+			$('.player-stats-averages').addClass('selected');
 		});
-		$('.player-note').click(function () {
-			$('.note-detail').hide();
-			$('.player-note').css("background", "#FFF");
-			$('.player-note').css("color", "#000");
 
-			$(this).css("background", "#096881");
-			$(this).css("color", "#FFF");
+		$(".selectable").hover(function(){
+		    $(this).css("background-color", "#FEE5AC");
+			}, function(){
+		    $(this).css("background-color", "initial");
+		});
+
+		$('.player-note').click(function () {
+			$('.player-note').removeClass("selected");
+			$('.note-detail').hide();
+			$(this).addClass("selected");
 			var note_number = $(this).attr('id').slice(-1);
 			$('#note-detail-' + note_number).css("display","block");
+		});
+
+		$('.player-stats-averages').click(function () {
+			$('.player-stats-totals').removeClass("selected");
+			$(this).addClass("selected");
+			$('.stat-averages').show();
+			$('.stat-totals').hide();
+		});
+
+		$('.player-stats-totals').click(function () {
+			$('.player-stats-averages').removeClass("selected");
+			$(this).addClass("selected");
+			$('.stat-totals').show();
+			$('.stat-averages').hide();
 		});
 	</script>
 {% endblock %}
