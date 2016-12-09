@@ -1,0 +1,12 @@
+{% extends 'site_base.html' %}
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+{% endblock %}
+
+
+{% block block1 %}
+	{{ season }}
+{% endblock %}

@@ -8,7 +8,6 @@ from django.db.models.query import QuerySet
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
-
 from leagues.models import League
 
 
@@ -49,6 +48,8 @@ class Player(models.Model):
 	recent_notes = models.CharField(max_length=2000, default='No recent notes.')
 	image_url = models.CharField(max_length=255, null=True, blank=True)
 
+	statlines = models.ForeignKey('schedule.StatLine', null=True, blank=True, related_name='statlines')
+
 	class Meta:
 		ordering = ['name']
 
@@ -58,6 +59,10 @@ class Player(models.Model):
 	@property
 	def short_name(self):
 		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
+
+	@property
+	def full_team_name(self):
+		return dict(NBA_TEAMS).get(self.nba_team)
 
 	def is_available(self, league_id):
 		league = League.objects.get(id=league_id)

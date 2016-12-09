@@ -29,7 +29,7 @@ class Game(models.Model):
     home_points = models.IntegerField(null=True)
     away_points = models.IntegerField(null=True)
     boxscore_link = models.URLField(max_length=255, null=True, blank=True)
-    statlines = models.ManyToManyField('players.Player', through="StatLine")
+    statlines = models.ForeignKey('StatLine', null=True, blank=True, related_name='game_stats')
 
     @property
     def result(self):
@@ -38,9 +38,25 @@ class Game(models.Model):
     def __unicode__(self):
         return "{0}: {1} @ {2}".format(self.date, self.away_team, self.home_team)
 
+    @property
+    def full_home_name(self):
+        return dict(NBA_TEAMS).get(self.home_team)
+
+    @property
+    def full_away_name(self):
+        return dict(NBA_TEAMS).get(self.away_team)
+
+    @property
+    def home_statlines(self):
+        return self.sls.filter(player__nba_team=self.home_team)
+
+    @property
+    def away_statlines(self):
+        return self.sls.filter(player__nba_team=self.away_team)
+
 
 class StatLine(models.Model):
-    game = models.ForeignKey(Game, db_index=True)
+    game = models.ForeignKey(Game, db_index=True, related_name='sls')
     player = models.ForeignKey(Player, db_index=True)
     mp = models.CharField(max_length=5, null=True, blank=True)
     fgm = models.IntegerField(default=0)
@@ -60,9 +76,6 @@ class StatLine(models.Model):
     pts = models.IntegerField(default=0)
     dank = models.BooleanField(default=False)
     added_to_player = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return "{0} - {1}".format(self.player, self.game)
 
     def to_data(self):
         return {
