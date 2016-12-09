@@ -1,12 +1,9 @@
 @media screen
-    and (max-width: 910px)  {
+    and (max-width: 850px)  {
         .hide-on-mobile {
             display: none;
         }
-    }
 
-@media screen
-    and (max-width: 700px)  {
         #header h2 {
             padding: 2px;
         }

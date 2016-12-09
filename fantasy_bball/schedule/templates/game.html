@@ -13,7 +13,9 @@
 		<div class="game-date">{{ game_day }}</div>
 
 		{% if game.home_points and game.away_points %}
+		<div class="game-result">
 			{{ game.home_team }} {{ game.home_points }} - {{ game.away_points }} {{ game.away_team }}
+		</div>
 		{% endif %}
 
 		<div class="game-statlines">
@@ -34,7 +36,7 @@
 	            </div>
 	            {% for statline in game.home_statlines %}
 		            <div class="rTableRow">
-		              <div class="rTableCell player-name">{{ statline.player.name }}</div>
+		              <div class="rTableCell player-name"><a href="{% url 'player' statline.player.id %}">{{ statline.player.name }}</a></div>
 		              <div class="rTableCell">{{ statline.mp }}</div>
 		              <div class="rTableCell hide-on-mobile">{{ statline.fgm }}/{{ statline.fga }}</div>
 		              <div class="rTableCell hide-on-mobile">{{ statline.ftm }}/{{ statline.fta }}</div>
@@ -72,7 +74,7 @@
 	            </div>
 	            {% for statline in game.away_statlines %}
 		            <div class="rTableRow">
-		              <div class="rTableCell player-name">{{ statline.player.name }}</div>
+		              <div class="rTableCell player-name"><a href="{% url 'player' statline.player.id %}">{{ statline.player.name }}</a></div>
 		              <div class="rTableCell">{{ statline.mp }}</div>
 		              <div class="rTableCell hide-on-mobile">{{ statline.fgm }}/{{ statline.fga }}</div>
 		              <div class="rTableCell hide-on-mobile">{{ statline.ftm }}/{{ statline.fta }}</div>

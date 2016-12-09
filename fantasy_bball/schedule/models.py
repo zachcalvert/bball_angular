@@ -81,7 +81,7 @@ class StatLine(models.Model):
         return {
             "id": self.id,
             "game_result": self.game.result,
-            "game": self.short_format,
+            "game_name": self.short_format,
             "player": self.player.to_data(quick_stats=False),
             "game_score": self.game_score,
             "mp": self.mp,
@@ -96,7 +96,8 @@ class StatLine(models.Model):
             "stls": self.stls,
             "blks": self.blks,
             "tos": self.tos,
-            "pts": self.pts
+            "pts": self.pts,
+            "game": self.game
         }
 
     @property

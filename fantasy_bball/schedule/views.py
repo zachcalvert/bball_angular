@@ -1,9 +1,9 @@
-from django.views.generic import View, TemplateView
+from leagues.views import BDLView
 
 from schedule.models import Season, Game
 
 
-class SeasonView(TemplateView):
+class SeasonView(BDLView):
 	template_name = 'season.html'
 
 	def get_context_data(self, season_id, *args, **kwargs):
@@ -13,7 +13,7 @@ class SeasonView(TemplateView):
 		return context
 
 
-class GameView(TemplateView):
+class GameView(BDLView):
 	template_name = 'game.html'
 
 	def get_context_data(self, season_id, game_id, *args, **kwargs):
