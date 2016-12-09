@@ -83,6 +83,26 @@ a {
 	color: #fff;
 }
 
+#mobile-nav-icons {
+    display: none;
+    font-size: 28px;
+    margin:0;
+}
+
+#mobile-nav-search {
+    position: absolute;
+    color: black;
+    top: 55px;
+    right: 50px;
+}
+
+#mobile-nav-menu {
+    position: absolute;
+    color: black;
+    top: 56px;
+    right: 10px;
+}
+
 #content {
 	display: block;
 	padding: 0px;
@@ -158,7 +178,6 @@ a {
     float: left;
     padding: 0 10px;
 }
-
 
 /* table via divs */
 .rTable {

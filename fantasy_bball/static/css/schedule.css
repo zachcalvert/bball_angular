@@ -1,0 +1,14 @@
+.game-title {
+	font-size: 16px;	
+}
+
+.game-date {
+	font-size: 12px;
+}
+
+.game-statlines {
+	padding: 10px 0;
+}
+.player-name {
+	width: 125px;
+}

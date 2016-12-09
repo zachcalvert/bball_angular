@@ -10,4 +10,12 @@
         #header h2 {
             padding: 2px;
         }
+
+        #mobile-nav-icons {
+            display: flex;
+        }
+
+        .manage-account, .header-links {
+            display: none;
+        }
     }
