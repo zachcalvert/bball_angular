@@ -43,7 +43,7 @@
 }
 
 .selected {
-	background-color: #FFC125!important;
+	background-color: #FFA824!important;
 }
 
 .note-dates {
@@ -62,7 +62,7 @@
 .player-season-form {
 	border: 1px solid black;
 	border-radius: 8px;
-	color: #FFF;
+	color: #FFA824;
 	background: #096881;
 	padding-top: 5px;
 	margin-top: 13px;
@@ -73,6 +73,7 @@
 
 .player-season-form strong {
 	font-size: 12px;
+	color: #FFF;
 }
 
 .player-season-form p {

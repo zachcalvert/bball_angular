@@ -25,7 +25,7 @@ class HomePageView(BDLView):
         games = Game.objects.filter(date=day)
         statlines = list(StatLine.objects.filter(game__in=games))
         statlines.sort(key=lambda x: x.game_score, reverse=True)
-        return statlines[:8] # grab the 6 best performances
+        return statlines[:4] # grab the 4 best performances
 
     def goat_performances(self):
         season = Season.objects.last()

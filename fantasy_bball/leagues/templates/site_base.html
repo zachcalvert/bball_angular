@@ -12,12 +12,13 @@
       <link rel="stylesheet" href="{% static 'css/base.css' %}" />
       <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
       <link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" />
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
-      <link rel="stylesheet" href="{% static 'css/jquery.bxslider.css' %}" />
     {% endblock %}
 
     {% block head_js %}
       <script src="{% static 'js/jquery-1.11.2.min.js' %}" type="application/javascript"></script>
+      <script src="{% static 'js/jquery-ui.min.js' %}" type="application/javascript"></script>
     {% endblock %}
   </head>
 
@@ -71,28 +72,20 @@
           <div id="block-1" class="block">
             <div class="carousel">
               <h4>Top Performers from {{ yesterday }}</h4>
-              <div id="prev-statlines-1" class="slider-control prev"></div>
-              <div id="statline-row-1" class="widget-row">
                 {% for statline in yesterdays_best %}
                   {% include 'statline.html' %}
                 {% endfor %}
-              </div>
-              <div id="next-statlines-1" class="slider-control next"></div>
             </div>
           </div>
         {% endblock %}
 
         {% block block2 %}
           <div id="block-2" class="block">
-            <div class="carousel">
-              <h4>Season's Best</h4>
-              <div id="prev-statlines-2" class="slider-control prev"></div>
-              <div id="statline-row-2" class="widget-row">
+           <h4>Season Best</h4>
+            <div class="slick carousel">
                 {% for statline in season_best %}
                   {% include 'statline.html' %}
                 {% endfor %}
-              </div>
-              <div id="next-statlines-2" class="slider-control next"></div>
             </div>
           </div>
         {% endblock %}
@@ -107,40 +100,6 @@
     {% endblock %}
 
     {% block footer_js %}
-      <script src="{% static 'js/jquery.bxslider.js' %}" type="application/javascript"></script>
-
-      <script>
-        $(document).ready(function () {
-            var widgetRow =  $("#statline-row-1");
-            widgetRow.bxSlider({
-                minSlides: 2,
-                maxSlides: 3,
-                slideWidth: 190,
-                slideMargin: 0,
-                adaptiveHeight: true,
-                pager: false,
-                nextSelector: "#next-statlines-1",
-                prevSelector: "#prev-statlines-1",
-                prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
-            });
-
-            var seasonRow =  $("#statline-row-2");
-            seasonRow.bxSlider({
-                minSlides: 2,
-                maxSlides: 3,
-                slideWidth: 190,
-                slideMargin: 0,
-                adaptiveHeight: true,
-                pager: false,
-                nextSelector: "#next-statlines-2",
-                prevSelector: "#prev-statlines-2",
-                prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
-            });
-        });
-      </script>
-
       <script>
         $('.manage-account strong').click(function () {
           if ($(".manage-account-links").is(":visible")) {{

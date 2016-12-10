@@ -53,6 +53,7 @@
           <div class="rTable">
             <div class="rTableRow">
               <div class="rTableHead"><strong>Game</strong></div>
+              <div class="rTableHead"><strong>Score</strong></div>
               <div class="rTableHead"><strong>MP</strong></div>
               <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
               <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
@@ -67,6 +68,7 @@
             {% for game in player_data.recent_games %}
 	            <div class="rTableRow">
 	              <div class="rTableCell"><a href="{% url 'game' game.game.season.id game.game.id %}">{{ game.game_name }}</a></div>
+	              <div class="rTableCell">{{ game.game_score }}</div>
 	              <div class="rTableCell">{{ game.mp }}</div>
 	              <div class="rTableCell hide-on-mobile">{{ game.fgm }}/{{ game.fga }}</div>
 	              <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
@@ -177,7 +179,7 @@
 		});
 
 		$(".selectable").hover(function(){
-		    $(this).css("background-color", "#FEE5AC");
+		    $(this).css("background-color", "#FFDEAD");
 			}, function(){
 		    $(this).css("background-color", "initial");
 		});
