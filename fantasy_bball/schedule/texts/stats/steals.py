@@ -1,0 +1,5 @@
+verbs = [
+ 'registered',
+ 'had',
+ 'managed' 
+]

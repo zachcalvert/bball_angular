@@ -3,7 +3,9 @@ from __future__ import unicode_literals, division
 from django.db import models
 
 from leagues.models import League, Team
+from leagues.utils import random_item
 from players.models import NBA_TEAMS, Player
+from schedule.texts.stats import points, assists, rebounds, blocks, steals
 
 
 NBA_SEASONS = (
@@ -145,6 +147,10 @@ class StatLine(models.Model):
         date = self.game.date.strftime('%-m/%-d')
         return "{0} {1}".format(opp, date)
 
+    def to_text(self):
+        points_verb = random_item(points.verbs)
+        rebounds_verb = random_item(rebounds.verbs)
+        return "{0} {1} {2} points against the {3} and {4} {5} rebounds.".format(self.player.name, points_verb, self.pts, self.game.full_home_name, rebounds_verb, self.trbs)
 
 class Matchup(models.Model):
     league = models.ForeignKey(League)

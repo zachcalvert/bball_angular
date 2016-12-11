@@ -7,6 +7,8 @@ from django.core.management.base import BaseCommand
 from leagues.models import League
 from leagues.texts.teams.mascots import mascots
 from leagues.texts.teams.towns import towns
+from leagues.utils import random_item
+
 from players.models import Player
 
 
@@ -27,10 +29,8 @@ class Command(BaseCommand):
 		league = League.objects.create(name=name, manager=User.objects.first())
 
 		for i in range(num_teams):
-			a = random.randint(0,len(towns))
-			b = random.randint(0, len(mascots))
-			town = towns[a]
-			mascot = mascots[b]
+			town = random_item(towns)
+			mascot = random_item(mascots)
 			team = league.make_random_team(name='{0} {1}'.format(town, mascot), num_players=num_players)
 			print('made team {}'.format(team))
 
