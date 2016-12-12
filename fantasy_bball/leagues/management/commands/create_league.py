@@ -53,11 +53,11 @@ class Command(BaseCommand):
 			team.players.add(player)
 			pick.player = player
 			pick.save()
-			print("with pick number {0}, {1} selects {2}".format(count, team.name, player.name))
+			print("{0}, the {1} select {2} {3}".format(count, team.name, player.name, player.season_form))
 
 		print('made league {}'.format(league))
 
 		# generate league schedule
 		call_command('generate_matchups', league=league.name)
-		call_command('update_team_records')
+		call_command('update_team_records', league=league.name)
 
