@@ -1,5 +1,4 @@
 verbs = [
  'registered',
- 'had',
- 'managed' 
+ 'swiped' 
 ]

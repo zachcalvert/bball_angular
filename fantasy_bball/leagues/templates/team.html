@@ -1,0 +1,54 @@
+{% extends 'league.html' %}
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/leagues.css' %}" />
+{% endblock %}
+
+
+{% block block1 %}
+	<div id="block-1" class="block">
+		<h4>{{ team_data.name }}</h4>
+   </div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+	<div class="team-table">
+          <strong>Roster</strong>
+          <div class="rTable">
+            <div class="rTableRow">
+              <div class="rTableHead"><strong>Name</strong></div>
+              <div class="rTableHead"><strong>Position</strong></div>
+              <div class="rTableHead"><strong>Form</strong></div>
+			  <div class="rTableHead hide-on-mobile"><strong>FG%</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>FT%</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>THREES</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>REBS</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>ASTS</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>STLS</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>BLKS</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>TOS</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>PTS</strong></div>
+            </div>
+            {% for player in team_data.players %}
+	            <div class="rTableRow">
+	              <div class="rTableCell"><a href="{% url 'player' player.id %}">{{ player.name }}</a></div>
+	              <div class="rTableCell">{{ player.position }}</div>
+	              <div class="rTableCell">{{ player.recent_form }}</div>
+	              <div class="rTableCell hide-on-mobile">{{ player.stats.fgpct }}</div>
+	              <div class="rTableCell hide-on-mobile">{{ player.stats.ftpct }}</div>
+	              <div class="rTableCell">{{ player.stats.threesm }}</div>
+	              <div class="rTableCell">{{ player.stats.rebs }}</div>
+	              <div class="rTableCell">{{ player.stats.asts }}</div>
+	              <div class="rTableCell">{{ player.stats.stls }}</div>
+	              <div class="rTableCell">{{ player.stats.blks }}</div>
+	              <div class="rTableCell">{{ player.stats.tos }}</div>
+	              <div class="rTableCell">{{ player.stats.pts }}</div>
+	            </div>
+			{% endfor %}
+          </div>
+        </div>
+	</div>
+{% endblock %}

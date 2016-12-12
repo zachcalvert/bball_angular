@@ -58,12 +58,9 @@
           <div class="left-nav">
             <p><i class="fa fa-chevron-left"></i>&nbsp;HIDE</p>
             <ul class="left-nav-links">
-              <li class="left-nav-link"><a href="javascript:;">My Team</a></li>
-              <li class="left-nav-link"><a href="javascript:;">Matchup</a></li>
-              <li class="left-nav-link"><a href="javascript:;">Free Agents</a></li>
-              <li class="left-nav-link"><a href="javascript:;">Standings</a></li>
-              <li class="left-nav-link"><a href="javascript:;">Schedule</a></li>
-              <li class="left-nav-link"><a href="javascript:;">Rosters</a></li>
+              {% for league in leagues %}
+                <li class="left-nav-link"><a href="{% url 'league' league.id %}">{{ league.name }}</a></li>
+              {% endfor %}
             </ul>
           </div>
         {% endblock %}

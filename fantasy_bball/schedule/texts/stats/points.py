@@ -1,8 +1,8 @@
 verbs = [
-	'scored',
 	'rained in',
 	'netted',
 	'poured in',
 	'dropped',
-	'registered'
+	'registered',
+	'lit it up with'
 ]

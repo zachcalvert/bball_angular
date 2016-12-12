@@ -9,7 +9,6 @@ class TeamInline(admin.TabularInline):
     extra = 0
     show_change_link = True
     readonly_fields = ['name', 'owner', 'record']
-    exclude = ['players', 'wins', 'losses', 'ties']
 
     def has_add_permission(self, request):
         return False
@@ -38,7 +37,6 @@ class PlayerInline(admin.TabularInline):
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('name', 'league', 'record')
     readonly_fields = ['record']
-    exclude = ['wins', 'losses', 'ties']
     filter_horizontal = ('players',)
 
 

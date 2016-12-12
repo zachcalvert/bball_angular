@@ -5,8 +5,8 @@ from django.db import models
 from leagues.models import League, Team
 from leagues.utils import random_item
 from players.models import NBA_TEAMS, Player
-from schedule.texts.stats import points, assists, rebounds, blocks, steals
 
+from texts.stats import assists, steals, blocks, rebounds, points
 
 NBA_SEASONS = (
 	('2014-15', '2014-15'),
@@ -147,7 +147,51 @@ class StatLine(models.Model):
         date = self.game.date.strftime('%-m/%-d')
         return "{0} {1}".format(opp, date)
 
+    def evaluate(self):
+        """
+        Returns a dict consising of the excellent, notable, and poor elements of the statline.
+        """
+        excellents = []
+        notables = []
+        shamefuls = []
+
+        thresholds = {
+            "pts": [5, 10, 30],
+            "asts": [0, 5, 10],
+            "trbs": [0, 7, 15],
+            "blks": [0, 2, 4],
+            "stls": [0, 2, 4],
+            "threesm": [0, 3, 5]
+        }
+
+        for k, v in thresholds.iteritems():
+            val = getattr(self, k)
+            if val >= v[2]:
+                excellents.append(k)
+            elif val >=v[1]:
+                notables.append(k)
+            elif val <= v[0]:
+                shamefuls.append(k)
+
+        return {
+            "excellents": excellents,
+            "notables": notables,
+            "shamefuls": shamefuls
+        }
+
+
     def to_text(self):
+        description = ''
+
+        analysis = self.evaluate()
+
+        if analysis.get('excellents'):
+            cat = analysis['excellents']
+            val = getattr(statline, k[0])
+            verb = random_item(cat) # how to do this?
+
+            description += '{0} {1} {2} {3}. '.format(self.player.name, excellent_verb, val, cat)
+
         points_verb = random_item(points.verbs)
         rebounds_verb = random_item(rebounds.verbs)
         return "{0} {1} {2} points against the {3} and {4} {5} rebounds.".format(self.player.name, points_verb, self.pts, self.game.full_home_name, rebounds_verb, self.trbs)
@@ -160,6 +204,8 @@ class Matchup(models.Model):
     end_date = models.DateField(auto_now=False)
     week = models.IntegerField(default=22)
     finalized = models.BooleanField(default=False)
+    home_points = models.FloatField(default=0.0)
+    away_points = models.FloatField(default=0.0)
     result = models.CharField(max_length=10, null=True, blank=True)
 
     def __unicode__(self):

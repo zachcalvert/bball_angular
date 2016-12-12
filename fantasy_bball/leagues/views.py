@@ -41,12 +41,37 @@ class HomePageView(BDLView):
         if not yesterdays_best:
             yesterday = date.today() - timedelta(days=2)
             yesterdays_best = self.top_performers(yesterday)
-        
+
+
+        context["leagues"] = League.objects.filter(is_public=True) 
         context["yesterday"] = yesterday.strftime("%A, %B %-d")
         context["yesterdays_best"] = yesterdays_best
         context["season_best"] = self.goat_performances()
         return context
 
+
+class LeagueView(BDLView):
+    template_name = "league.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(LeagueView, self).get_context_data(*args, **kwargs)
+        league = League.objects.get(id=kwargs['league_id'])
+        league_data = league.to_data()
+
+        context["league_data"] = league_data
+        return context
+
+
+class TeamView(BDLView):
+    template_name = "team.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TeamView, self).get_context_data(*args, **kwargs)
+        team = Team.objects.get(id=kwargs['team_id'])
+        team_data = team.to_data(player_data=True)
+
+        context["team_data"] = team_data
+        return context
 
 # class LeaguesView(JSONView):
 
