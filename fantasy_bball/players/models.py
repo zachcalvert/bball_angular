@@ -230,13 +230,13 @@ class Player(models.Model):
 		if quick_stats:
 			data["stats"] = self.stats.get("averages")
 			data["recent_form"] = self.recent_form
+			data["season_form"] = self.season_form
 
 		if full_stats:
 			data["chart_data"] = self.chart_data
 			data["recent_games"] = self.recent_games
 			data["stats"] = self.stats
 			data["notes"] = self.notes
-			data["season_form"] = self.season_form
 
 		return data
 

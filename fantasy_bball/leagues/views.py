@@ -37,12 +37,12 @@ class HomePageView(BDLView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomePageView, self).get_context_data(*args, **kwargs)
+        
         yesterday = date.today() - timedelta(days=1)
         yesterdays_best = self.top_performers(yesterday)
         if not yesterdays_best:
             yesterday = date.today() - timedelta(days=2)
             yesterdays_best = self.top_performers(yesterday)
-
 
         context["leagues"] = League.objects.filter(is_public=True) 
         context["yesterday"] = yesterday.strftime("%A, %B %-d")
@@ -56,6 +56,7 @@ class LeagueView(BDLView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(LeagueView, self).get_context_data(*args, **kwargs)
+        
         league = League.objects.get(id=kwargs['league_id'])
         league_data = league.to_data()
 
@@ -68,10 +69,27 @@ class TeamView(BDLView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TeamView, self).get_context_data(*args, **kwargs)
+        
         team = Team.objects.get(id=kwargs['team_id'])
         team_data = team.to_data(player_data=True)
 
         context["team_data"] = team_data
+        return context
+
+
+class FreeAgentsView(BDLView):
+    template_name = "free_agents.html"
+
+    def get_context_data(self, league_id, *args, **kwargs):
+        context = super(FreeAgentsView, self).get_context_data(*args, **kwargs)
+        
+        players = [p for p in Player.objects.all() if p.is_available(league_id=league_id)]
+        player_data = [
+            player.to_data() for player in players
+        ]
+        print(player_data)
+
+        context["player_data"] = player_data
         return context
 
 # class LeaguesView(JSONView):
