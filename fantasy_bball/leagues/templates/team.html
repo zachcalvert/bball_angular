@@ -1,15 +1,13 @@
 {% extends 'league.html' %}
 {% load static %}
 
-{% block head_css %}
-	{{ block.super }}
-	<link rel="stylesheet" href="{% static 'css/leagues.css' %}" />
-{% endblock %}
-
-
 {% block block1 %}
 	<div id="block-1" class="block">
-		<h4>{{ team_data.name }}</h4>
+		<div class="team-details">
+			<strong>{{ team_data.name }}</strong>
+			<p>{{ team_data.record }}</p>
+			Current matchup: <a href="{% url 'matchup' team_data.league_id team_data.current_matchup.id %}">vs {{ team_data.current_opponent }}</a>
+		</div>
    </div>
 {% endblock %}
 

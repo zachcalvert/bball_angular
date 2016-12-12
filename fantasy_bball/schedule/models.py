@@ -1,11 +1,13 @@
 from __future__ import unicode_literals, division
 
+from datetime import date
+
 from django.db import models
+from django.utils.functional import cached_property
 
 from leagues.models import League, Team
 from leagues.utils import random_item
 from players.models import NBA_TEAMS, Player
-
 from texts.stats import assists, steals, blocks, rebounds, points
 
 NBA_SEASONS = (
@@ -214,26 +216,72 @@ class Matchup(models.Model):
     def to_data(self):
         return {
             "league_id": self.league_id,
-            "home_id": self.home_team.id,
-            "home_team": self.home_team.name,
-            "away_id": self.away_team.id,
-            "away_team": self.away_team.name,
+            "home": {
+                "id": self.home_team.id,
+                "name": self.home_team.name,
+                "points": self.home_points,
+                "players": self.home_data()
+                },
+            "away": {
+                "id": self.away_team.id,
+                "name": self.away_team.name,
+                "points": self.away_points,
+                "players": self.away_data()
+                },
             "week": self.week,
             "start_date": self.start_date, 
-            "end_date": self.end_date
+            "end_date": self.end_date,
 
         }
         if self.finalized:
             data["result"] = self.result
 
-    # @property
-    # def home_totals(self):
-    #     home_stats = teams.utils.calculate_team_totals(self.home_team, start_day=self.start_date, end_day=self.end_date)
-    #     home_totals = home_stats.pop('totals')
-    #     return home_totals
+    @cached_property
+    def home_statlines(self):
+        return StatLine.objects.filter(player__in=self.home_team.players.all(), 
+            game__date__gte=self.start_date, game__date__lte=self.end_date)
 
-    # @property
-    # def away_totals(self):
-    #     away_stats = teams.utils.calculate_team_totals(self.away_team, start_day=self.start_date, end_day=self.end_date)
-    #     away_totals = away_stats.pop('totals')
-    #     return away_totals
+    @cached_property
+    def away_statlines(self):
+        return StatLine.objects.filter(player__in=self.away_team.players.all(), 
+            game__date__gte=self.start_date, game__date__lte=self.end_date)
+
+    def home_data(self):
+        data = {}
+        for player in self.home_team.players.all():
+            player_total = sum(sl.game_score for sl in self.home_statlines.filter(player=player))
+            data[player.id] = [player.name, player_total]
+
+        return data
+
+    def away_data(self):
+        data = {}
+        for player in self.away_team.players.all():
+            player_total = sum(sl.game_score for sl in self.away_statlines.filter(player=player))
+            data[player.id] = [player.name, player_total]
+
+        return data
+
+    def update_score(self):
+        self.home_points = sum(sl.game_score for sl in self.home_statlines)
+        self.away_points = sum(sl.game_score for sl in self.away_statlines)
+
+        if self.end_date <= date.today():
+            self.finalized = True
+            if self.home_points > self.away_points:
+                self.home_team.wins += 1
+                self.away_team.losses += 1
+            elif self.home_points < self.away_points:
+                self.home_team.losses += 1    
+                self.away_team.wins += 1
+            else:
+                self.home_team.ties += 1
+                self.away_team.ties += 1
+
+            self.away_team.save()
+            self.home_team.save()
+
+            print('saved {0} with new record {1}'.format(self.home_team, self.home_team.record))
+
+        self.save()
+

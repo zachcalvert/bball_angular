@@ -1,0 +1,60 @@
+{% extends 'league.html' %}
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+{% endblock %}
+
+{% block block1 %}
+	<div id="block-1" class="block">
+		<div class="team-details">
+			<strong>Week {{ matchup_data.week}}: {{ matchup_data.home.name }} {{ matchup_data.home.points }} vs {{ matchup_data.away.points }} {{ matchup_data.away.name }} </strong>
+			<p>
+		</div>
+   </div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+	<div class="team-table">
+          <strong>{{ matchup_data.home.name }}</strong>
+          <div class="rTable">
+            <div class="rTableRow">
+              <div class="rTableHead"><strong>Name</strong></div>
+              <div class="rTableHead"><strong>Points</strong></div>
+            </div>
+            {% for id, player in matchup_data.home.players.items %}
+	            <div class="rTableRow">
+	              <div class="rTableCell"><a href="{% url 'player' id %}">{{ player.0 }}</a></div>
+	              <div class="rTableCell">{{ player.1 }}</div>
+	            </div>
+			{% endfor %}
+			<div class="rTableRow">
+				<div class="rTableCell">Total</div>
+				<div class="rTableCell">{{ matchup_data.home.points }}</div>
+            </div>
+          </div>
+        </div>
+
+    	<div class="team-table">
+          <strong>{{ matchup_data.away.name }}</strong>
+          <div class="rTable">
+            <div class="rTableRow">
+              <div class="rTableHead"><strong>Name</strong></div>
+              <div class="rTableHead"><strong>Points</strong></div>
+            </div>
+            {% for id, player in matchup_data.away.players.items %}
+	            <div class="rTableRow">
+	              <div class="rTableCell"><a href="{% url 'player' id %}">{{ player.0 }}</a></div>
+	              <div class="rTableCell">{{ player.1 }}</div>
+	            </div>
+			{% endfor %}
+			<div class="rTableRow">
+				<div class="rTableCell">Total</div>
+				<div class="rTableCell">{{ matchup_data.away.points }}</div>
+            </div>
+          </div>
+        </div>
+	</div>
+{% endblock %}

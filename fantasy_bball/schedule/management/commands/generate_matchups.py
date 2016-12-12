@@ -67,8 +67,3 @@ class Command(BaseCommand):
 		else:
 			for league in League.objects.all():
 				self.create_matchups_for_league(league)
-
-			
-
-
-

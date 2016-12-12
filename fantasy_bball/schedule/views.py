@@ -1,6 +1,6 @@
 from leagues.views import BDLView
 
-from schedule.models import Season, Game
+from schedule.models import Season, Game, Matchup
 
 
 class SeasonView(BDLView):
@@ -21,4 +21,14 @@ class GameView(BDLView):
 		game = Game.objects.get(id=game_id)
 		context["game_day"] = game.date.strftime("%A, %B %-d")
 		context["game"] = game
+		return context
+
+
+class MatchupView(BDLView):
+	template_name = 'matchup.html'
+
+	def get_context_data(self, season_id, matchup_id, *args, **kwargs):
+		context = super(MatchupView, self).get_context_data(*args, **kwargs)
+		matchup = Matchup.objects.get(id=matchup_id)
+		context["matchup_data"] = matchup.to_data()
 		return context

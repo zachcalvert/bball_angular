@@ -1,5 +1,7 @@
 from __future__ import unicode_literals, division
 
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
@@ -77,6 +79,19 @@ class Team(models.Model):
 		from schedule.models import Matchup
 		return Matchup.objects.filter(Q(home_team=self)|(Q(away_team=self))).order_by('week')
 
+	@cached_property
+	def current_matchup(self):
+		from schedule.models import Matchup
+		matchups = Matchup.objects.filter(Q(home_team=self)|(Q(away_team=self))) 
+		return matchups.filter(Q(start_date__lte=date.today()) & (Q(end_date__gte=date.today()))).first()
+
+	@cached_property
+	def current_opponent(self):
+		if self.current_matchup.home_team == self:
+			return self.current_matchup.away_team
+		else:
+			return self.current_matchup.home_team.name
+
 	def clean(self):
 		if self.pk:
 			for player in self.players.all():
@@ -88,11 +103,14 @@ class Team(models.Model):
 		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
 
 	def to_data(self, player_data=False):
+		current_matchup = self.current_matchup
 		data = {
 			'id': self.id,
 			'league_id': self.league.id,
 			'name': self.name,
-			'record': self.record
+			'record': self.record,
+			'current_matchup': self.current_matchup,
+			'current_opponent': self.current_opponent
 		}
 
 		if player_data:

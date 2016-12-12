@@ -86,3 +86,10 @@ ul.statline-stats li {
 .reactable-th-just_name {
   display: none;
 }
+
+
+/* matchup */
+.team-table {
+  float: left;
+  padding-left: 80px;
+}
