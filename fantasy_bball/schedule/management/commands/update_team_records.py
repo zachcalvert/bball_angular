@@ -20,7 +20,7 @@ class Command(BaseCommand):
 			team.ties = 0
 			team.save()
 		
-		for matchup in Matchup.objects.filter(start_date__gte=season_start, end_date__lt=today):
+		for matchup in Matchup.objects.filter(start_date__gte=season_start, end_date__lte=today):
 			matchup.update_score()
 
 			

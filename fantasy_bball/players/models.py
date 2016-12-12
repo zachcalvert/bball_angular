@@ -182,7 +182,10 @@ class Player(models.Model):
 		games = Game.objects.filter(season=Season.objects.last())
 		statlines = list(StatLine.objects.filter(player_id=self.pk, game__in=games))
 		total = sum(statline.game_score for statline in statlines)
-		return round(total/len(statlines), 2)
+		try:	
+			return round(total/len(statlines), 2)
+		except ZeroDivisionError:
+			return 0.0
 
 	@cached_property
 	def recent_form(self, num_games=10):

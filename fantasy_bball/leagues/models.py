@@ -14,6 +14,7 @@ class League(models.Model):
 	is_dynasty = models.BooleanField(default=False)
 	is_public = models.BooleanField(default=True)
 	max_teams = models.IntegerField(default=12)
+	roster_size = models.IntegerField(default=14)
 
 	def __unicode__(self):
 		return self.name
@@ -31,7 +32,7 @@ class League(models.Model):
 		team = Team.objects.create(name=name, league=self, owner=None)
 		i = 0
 		players = [p for p in Player.objects.all() if p.is_available(league_id=self.pk)]
-		pl = sorted(players, key=lambda t: t.recent_form)
+		pl = sorted(players, key=lambda t: t.season_form)
 		pl.reverse()
 
 		for p in pl[i::10]:
@@ -63,6 +64,7 @@ class Team(models.Model):
 	losses = models.IntegerField(default=0)
 	ties = models.IntegerField(default=0)
 	players = models.ManyToManyField('players.Player', blank=True, related_name='teams')
+	place = models.IntegerField(default=1)
 
 	class Meta:
 		ordering = ['-wins', 'losses']
@@ -70,7 +72,7 @@ class Team(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	@property
+	@cached_property
 	def record(self):
 		return "{0}-{1}-{2}".format(self.wins, self.losses, self.ties)
 
@@ -103,7 +105,6 @@ class Team(models.Model):
 		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
 
 	def to_data(self, player_data=False):
-		current_matchup = self.current_matchup
 		data = {
 			'id': self.id,
 			'league_id': self.league.id,
@@ -117,3 +118,34 @@ class Team(models.Model):
 			data['players'] = [player.to_data() for player in self.players.all()]
 
 		return data
+
+
+class Draft(models.Model):
+	league = models.ForeignKey(League)
+
+	def snake(self, num_teams):
+		# teams is list of team
+	    while True:
+	        for i in xrange(1,num_teams+1):
+	            yield i
+	        for i in xrange(num_teams,0,-1):
+	            yield i
+
+	def set_order(self):
+		self.picks.all().delete()
+		snake = self.snake(self.league.teams.count())
+		draft_order = [snake.next() for _ in xrange(self.league.teams.count()*self.league.roster_size)]
+
+		for count, i in enumerate(draft_order): 
+			team = Team.objects.get(league=self.league, place=i)
+			pick = DraftPick.objects.create(draft=self, team=team, number=count)
+
+
+class DraftPick(models.Model):
+	draft = models.ForeignKey(Draft, related_name='picks')
+	number = models.IntegerField(default=1)
+	team = models.ForeignKey(Team)
+	player = models.ForeignKey('players.Player', null=True, blank=True)
+
+	class Meta:
+		ordering = ['number']
