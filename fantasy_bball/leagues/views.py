@@ -10,6 +10,7 @@ from leagues.models import League, Team
 from players.models import Player, Quote
 from schedule.models import Season, Game, StatLine, Matchup
 
+
 class BDLView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(BDLView, self).get_context_data(*args, **kwargs)

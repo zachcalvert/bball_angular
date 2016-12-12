@@ -28,6 +28,7 @@
             <div class="rTableRow">
               <div class="rTableHead"><strong>Name</strong></div>
               <div class="rTableHead"><strong>Record</strong></div>
+              <div class="rTableHead hide-on-mobile"><strong>Average</strong></div>
 			  <div class="rTableHead hide-on-mobile"><strong>FG%</strong></div>
               <div class="rTableHead hide-on-mobile"><strong>FT%</strong></div>
               <div class="rTableHead hide-on-mobile"><strong>Rebounds</strong></div>
@@ -42,7 +43,7 @@
 	            <div class="rTableRow">
 	              <div class="rTableCell"><a href="{% url 'team' league_data.id team.id %}">{{ team.name }}</a></div>
 	              <div class="rTableCell">{{ team.record }}</div>
-	              <div class="rTableCell hide-on-mobile">{{ game.fgm }}/{{ game.fga }}</div>
+	              <div class="rTableCell hide-on-mobile">{{ team.average_weekly_score }}</div>
 	              <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
 	              <div class="rTableCell">{{ game.threesm }}/{{ game.threesa }}</div>
 	              <div class="rTableCell">{{ game.rebs }}</div>

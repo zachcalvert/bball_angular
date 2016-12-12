@@ -104,6 +104,17 @@ class Team(models.Model):
 		from players.models import Player
 		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
 
+	def average_weekly_score(self):
+		scores = []
+		eligible = self.matchups.filter(finalized=True)
+		for e in eligible:
+			if e.home_team == self:
+				scores.append(e.home_points)
+			else:
+				scores.append(e.away_points)
+
+		return round(sum(scores)/eligible.count(), 2)
+
 	def to_data(self, player_data=False):
 		data = {
 			'id': self.id,
@@ -111,7 +122,8 @@ class Team(models.Model):
 			'name': self.name,
 			'record': self.record,
 			'current_matchup': self.current_matchup,
-			'current_opponent': self.current_opponent
+			'current_opponent': self.current_opponent,
+			'average_weekly_score': self.average_weekly_score()
 		}
 
 		if player_data:
