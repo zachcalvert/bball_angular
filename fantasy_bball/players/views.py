@@ -9,8 +9,7 @@ class PlayersView(BDLView):
     def get_context_data(self, *args, **kwargs):
         context = super(PlayersView, self).get_context_data(*args, **kwargs)
         
-        players = Player.objects.all()
-
+        players = Player.objects.filter(rostered=True)
         player_data = [
             player.to_data() for player in players
         ]

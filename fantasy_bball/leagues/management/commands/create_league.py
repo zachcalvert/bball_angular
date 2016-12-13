@@ -34,6 +34,7 @@ class Command(BaseCommand):
 		players = [p for p in Player.objects.all() if p.is_available(league_id=league.id)]
 		pl = sorted(players, key=lambda t: t.season_form)
 		pl.reverse()
+		pl = [0] + pl
 		
 		# create teams
 		for i in range(1, num_teams+1):
@@ -53,7 +54,7 @@ class Command(BaseCommand):
 			team.players.add(player)
 			pick.player = player
 			pick.save()
-			print("{0}, the {1} select {2} {3}".format(count, team.name, player.name, player.season_form))
+			print("Pick {0}: the {1} select {2} {3}".format(count, team.name, player.name, player.season_form))
 
 		print('made league {}'.format(league))
 

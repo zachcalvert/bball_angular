@@ -49,6 +49,7 @@ class Player(models.Model):
 	image_url = models.CharField(max_length=255, null=True, blank=True)
 
 	statlines = models.ForeignKey('schedule.StatLine', null=True, blank=True, related_name='statlines')
+	rostered = models.BooleanField(default=True)
 
 	class Meta:
 		ordering = ['name']

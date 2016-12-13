@@ -53,6 +53,10 @@ class HomePageView(BDLView):
 
 class LeagueView(BDLView):
     template_name = "league.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        self.league = League.objects.get(id=kwargs['league_id'])
+        return super(LeagueView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(LeagueView, self).get_context_data(*args, **kwargs)
@@ -64,7 +68,7 @@ class LeagueView(BDLView):
         return context
 
 
-class TeamView(BDLView):
+class TeamView(LeagueView):
     template_name = "team.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -77,64 +81,15 @@ class TeamView(BDLView):
         return context
 
 
-class FreeAgentsView(BDLView):
+class FreeAgentsView(LeagueView):
     template_name = "free_agents.html"
 
-    def get_context_data(self, league_id, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super(FreeAgentsView, self).get_context_data(*args, **kwargs)
         
-        players = [p for p in Player.objects.all() if p.is_available(league_id=league_id)]
-        player_data = [
-            player.to_data() for player in players
-        ]
-        print(player_data)
+        players = [p for p in Player.objects.filter(rostered=True) if p.is_available(league_id=self.league.id) and p.season_form != 0]
+        player_data = [player.to_data() for player in players]
 
         context["player_data"] = player_data
         return context
-
-# class LeaguesView(JSONView):
-
-# 	def get(self, request):
-# 		data = [league.to_data() for league in League.objects.filter(is_public=True)]
-# 		return data
-
-
-# class LeagueView(JSONView):
-
-# 	def get(self, request, league_id):
-# 		data = League.objects.get(id=league_id).to_data()
-# 		return data
-
-
-# class FreeAgentsView(JSONView):
-
-#     def get(self, request, league_id):
-#         players = [p for p in Player.objects.all() if p.is_available(league_id=league_id)]
-#         data = [
-#             player.to_data() for player in players
-#         ]
-#         return data
-
-
-# class MatchupsView(JSONView):
-
-#     def get(self, request, league_id):
-#         data = {}
-#         today = date.today()
-#         current_matchups = Matchup.objects.filter(league_id=league_id, start_date__lte=today, end_date__gte=today)
-
-#         data['current'] = [
-#             matchup.to_data() for matchup in current_matchups
-#         ]
-#         data['all'] = [
-#             matchup.to_data() for matchup in Matchup.objects.filter(league_id=league_id).order_by('start_date')
-#         ]
-#         return data
-
-
-# class TeamView(JSONView):
-
-# 	def get(self, request, team_id):
-# 		team = Team.objects.get(id=team_id)
-# 		return team.to_data(player_data=True)
 
