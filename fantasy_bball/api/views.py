@@ -6,9 +6,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 
-from leagues.models import League, Team
+from leagues.models import League, Team, Matchup
 from players.models import Player, Quote
-from schedule.models import Season, Game, StatLine, Matchup
+from schedule.models import Season, Game, StatLine
 
 
 class JSONHttpResponse(HttpResponse):
