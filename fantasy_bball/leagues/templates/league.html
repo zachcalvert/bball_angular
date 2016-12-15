@@ -24,9 +24,8 @@
 
 {% block block1 %}
 	<div id="block-1" class="block">
-		<h4>{{ league.name}}</h4>
     <div class="league-table">
-      <strong>League Table</strong>
+      <strong>{{ league_data.name}}</strong>
       <div class="rTable">
         <div class="rTableRow">
           <div class="rTableHead"><strong>Name</strong></div>
@@ -38,7 +37,7 @@
           <div class="rTableHead hide-mobile"><strong>Asts</strong></div>
           <div class="rTableHead hide-mobile"><strong>Stls</strong></div>
           <div class="rTableHead hide-mobile"><strong>Blks</strong></div>
-          <div class="rTableHead hide-mobile"><strong>Threes</strong></div>
+          <div class="rTableHead hide-mobile"><strong>3ptm</strong></div>
           <div class="rTableHead hide-mobile"><strong>TOS</strong></div>
           <div class="rTableHead hide-mobile"><strong>Pts</strong></div>
         </div>
