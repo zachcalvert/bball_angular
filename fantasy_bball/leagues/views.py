@@ -6,9 +6,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 
-from leagues.models import League, Team
+from leagues.models import League, Team, Draft, Matchup
 from players.models import Player, Quote
-from schedule.models import Season, Game, StatLine, Matchup
+from schedule.models import Season, Game, StatLine
 
 
 class BDLView(TemplateView):
@@ -81,6 +81,16 @@ class TeamView(LeagueView):
         return context
 
 
+class MatchupView(LeagueView):
+    template_name = 'matchup.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MatchupView, self).get_context_data(*args, **kwargs)
+        matchup = Matchup.objects.get(id=kwargs['matchup_id'])
+        context["matchup_data"] = matchup.to_data()
+        return context
+
+
 class FreeAgentsView(LeagueView):
     template_name = "free_agents.html"
 
@@ -92,4 +102,18 @@ class FreeAgentsView(LeagueView):
 
         context["player_data"] = player_data
         return context
+
+
+class DraftResultsView(LeagueView):
+    template_name = "draft/draft_results.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DraftResultsView, self).get_context_data(*args, **kwargs)
+        
+        draft = Draft.objects.get(league=self.league)
+        draft_data = draft.to_data()
+
+        context["draft_data"] = draft_data
+        return context
+
 

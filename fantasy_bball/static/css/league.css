@@ -1,0 +1,17 @@
+#draft-results {
+	font-size: 12px;
+}
+
+.draft-round {
+	float: left;
+	padding: 10px;
+	width: 365;
+}
+
+.draft-round .player-name {
+	width: 135px;
+}
+
+.player-name-details {
+	font-size: 9px;
+}

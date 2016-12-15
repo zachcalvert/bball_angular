@@ -129,8 +129,7 @@ class StatLine(models.Model):
             self.dank=True
             self.save()
 
-        if base > 10:
-            base = 10.0
+        base = base *3
 
         return round(base, 2)
 

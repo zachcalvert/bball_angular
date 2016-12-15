@@ -6,5 +6,4 @@ from schedule import views
 urlpatterns = [  
     url(r'^(?P<season_id>\d+)/?$', views.SeasonView.as_view(), name='season'),
     url(r'^(?P<season_id>\d+)/game/(?P<game_id>\d+)?$', views.GameView.as_view(), name='game'),
-    url(r'^(?P<season_id>\d+)/matchup/(?P<matchup_id>\d+)?$', views.MatchupView.as_view(), name='matchup'),
 ]

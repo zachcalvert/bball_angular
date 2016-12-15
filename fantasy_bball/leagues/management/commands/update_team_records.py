@@ -1,7 +1,6 @@
 from datetime import date
 
-from schedule.models import Matchup
-from leagues.models import Team, League
+from leagues.models import Team, League, Matchup
 
 from django.core.management.base import BaseCommand
 

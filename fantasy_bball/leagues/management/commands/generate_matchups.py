@@ -1,8 +1,7 @@
 from datetime import date, timedelta
 from dateutil import rrule
 
-from schedule.models import Matchup
-from leagues.models import League, Team
+from leagues.models import League, Team, Matchup
 
 from django.core.management.base import BaseCommand
 

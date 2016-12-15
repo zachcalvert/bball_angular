@@ -59,7 +59,9 @@ class Player(models.Model):
 
 	@property
 	def short_name(self):
-		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
+		first, last = self.name.split(" ", 1)
+		first = first[0]
+		return "{0}. {1}".format(first, last)
 
 	@property
 	def full_team_name(self):
