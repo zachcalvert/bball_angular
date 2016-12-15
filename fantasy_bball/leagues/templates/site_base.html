@@ -12,13 +12,12 @@
       <link rel="stylesheet" href="{% static 'css/base.css' %}" />
       <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
       <link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
-      <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" />
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
     {% endblock %}
 
     {% block head_js %}
       <script src="{% static 'js/jquery-1.11.2.min.js' %}" type="application/javascript"></script>
-      <script src="{% static 'js/jquery-ui.min.js' %}" type="application/javascript"></script>
+      <script src="{% static 'js/jquery.diyslider.min.js' %}" type="application/javascript"></script>
     {% endblock %}
   </head>
 
@@ -67,22 +66,32 @@
 
         {% block block1 %}
           <div id="block-1" class="block">
-            <div class="carousel">
-              <h4>Top Performers from {{ yesterday }}</h4>
-                {% for statline in yesterdays_best %}
-                  {% include 'statline.html' %}
-                {% endfor %}
+            <div class="statline-slider">
+              <strong>Top Performers from {{ yesterday }}</strong>
+              <button id="go-left">&laquo;</button> <button id="go-right">&raquo;</button>
+              <div class="slider">
+                <div><!-- A mandatory div used by the slider -->
+                  {% for statline in yesterdays_best %}
+                    {% include 'statline.html' %}
+                  {% endfor %}
+                </div>
+              </div>
             </div>
           </div>
         {% endblock %}
 
         {% block block2 %}
           <div id="block-2" class="block">
-           <h4>Season Best</h4>
-            <div class="slick carousel">
-                {% for statline in season_best %}
-                  {% include 'statline.html' %}
-                {% endfor %}
+            <div class="statline-slider">
+              <strong>Season Best</strong>
+              <button id="go-left-2">&laquo;</button> <button id="go-right-2">&raquo;</button>
+              <div class="slider-2">
+                <div><!-- A mandatory div used by the slider -->
+                  {% for statline in season_best %}
+                    {% include 'statline.html' %}
+                  {% endfor %}
+                </div>
+              </div>
             </div>
           </div>
         {% endblock %}
@@ -101,7 +110,42 @@
         $(document).ready(function () {
           sessionStorage.setItem('left-nav-visible', true);
         });
+        $(".slider").diyslider({
+            width: "625px",
+            height: "230px",
+            display: 3,
+            animationDuration: 200,
+            animationEasing: 'swing'
+        });
+
+        // use buttons to change slide
+        $("#go-left").bind("click", function(){
+            // Go to the previous slide
+            $(".slider").diyslider("move", "back");
+        });
+        $("#go-right").bind("click", function(){
+            // Go to the previous slide
+            $(".slider").diyslider("move", "forth");
+        });
+        $(".slider-2").diyslider({
+            width: "625px",
+            height: "230px",
+            display: 3,
+            animationDuration: 200,
+            animationEasing: 'swing'
+        });
+
+        // use buttons to change slide
+        $("#go-left-2").bind("click", function(){
+            // Go to the previous slide
+            $(".slider-2").diyslider("move", "back");
+        });
+        $("#go-right-2").bind("click", function(){
+            // Go to the previous slide
+            $(".slider-2").diyslider("move", "forth");
+        });
       </script>
+
 
       <script>
         $('.manage-account strong').click(function () {

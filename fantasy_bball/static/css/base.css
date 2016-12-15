@@ -232,3 +232,31 @@ a:hover {
 div.rTable > div:nth-of-type(odd) {
     background: #fff;
 }
+
+.statline-slider {
+    padding: 0 10px;
+}
+
+#go-left {
+    position: relative;
+    top: 115px;
+    right: 360px;
+}
+
+#go-right {
+    position: relative;
+    top: 115px;
+    left: 256px;
+}
+
+#go-left-2 {
+    position: relative;
+    top: 115px;
+    right: 122px;
+}
+
+#go-right-2 {
+    position: relative;
+    top: 115px;
+    left: 494px;
+}

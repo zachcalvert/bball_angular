@@ -1,4 +1,4 @@
-<div class="top-performer">
+<div class="top-performer {{statline.id}}">
   <strong>Game score: {{ statline.game_score }}</strong><br />
   <a href="{% url 'game' statline.game.season.id statline.game.id %}"><p>{{ statline.game }}</p></a>
 

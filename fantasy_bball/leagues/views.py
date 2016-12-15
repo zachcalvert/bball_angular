@@ -5,7 +5,9 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
+from django.views.generic.edit import FormView
 
+from leagues.forms import LeagueForm
 from leagues.models import League, Team, Draft, Matchup
 from players.models import Player, Quote
 from schedule.models import Season, Game, StatLine
@@ -26,7 +28,7 @@ class HomePageView(BDLView):
         games = Game.objects.filter(date=day)
         statlines = list(StatLine.objects.filter(game__in=games))
         statlines.sort(key=lambda x: x.game_score, reverse=True)
-        return statlines[:4] # grab the 4 best performances
+        return statlines[:8] # grab the 4 best performances
 
     def goat_performances(self):
         season = Season.objects.last()
@@ -66,6 +68,17 @@ class LeagueView(BDLView):
 
         context["league_data"] = league_data
         return context
+
+
+class CreateLeagueView(FormView):
+    template_name = 'create_league.html'
+    form_class = LeagueForm
+
+    def form_valid(self, form):
+        form.create_league()
+        league = League.objects.last()
+        redirect_url = reverse('league', kwargs={'league_id': league.id})
+        return redirect(redirect_url)
 
 
 class TeamView(LeagueView):

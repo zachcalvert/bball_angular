@@ -36,9 +36,9 @@
     padding: 5px 10px;
     margin: 5px;
     border: 1px solid black;
-    width: 190px;
+    width: 198px!important;
     text-align: center;
-    height: 218px;
+    height: 218px!important;
 }
 
 .top-performer p {
