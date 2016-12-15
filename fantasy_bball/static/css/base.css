@@ -122,10 +122,14 @@ a:hover {
 	border-bottom: 1px solid black;
 }
 
+.left-nav i {
+    font-size: 20px;
+}
+
 .left-nav p {
 	float: right;
-	color: #FFA824;
 	padding: 10px;
+    color: #ffc966;
 	margin: 0;
 	padding: 7px 7px 0 7px;
 	font-size: 12px;
@@ -144,7 +148,7 @@ a:hover {
 }
 
 .left-nav-link:hover {
-	padding-left: 1px;
+	text-decoration: underline;
 }
 
 .left-nav-link a {
