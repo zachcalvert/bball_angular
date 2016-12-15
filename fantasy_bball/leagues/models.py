@@ -126,7 +126,6 @@ class Team(models.Model):
 				ftm += matchup.home_ftm
 				fta += matchup.home_fta
 				threesm += matchup.home_threesm
-				threesa += matchup.home_threesa
 			else:
 				pts += matchup.away_pts
 				asts += matchup.away_asts
@@ -138,7 +137,6 @@ class Team(models.Model):
 				ftm += matchup.away_ftm
 				fta += matchup.away_fta
 				threesm += matchup.away_threesm
-				threesa += matchup.away_threesa
 
 		return {
 			"pts": pts,
@@ -151,7 +149,6 @@ class Team(models.Model):
 			"fga": fga,
 			"ftm": fta,
 			"threesm": threesm,
-			"threesa": threesa,
 			"fgpct": "{0:.1f}%".format(fgm/fga * 100),
 			"ftpct":"{0:.1f}%".format(ftm/fta * 100)
 		}
@@ -197,59 +194,29 @@ class Matchup(models.Model):
     home_points = models.FloatField(default=0.0)
     away_points = models.FloatField(default=0.0)
     
+    home_fgm = models.IntegerField(default=0)
+    home_fga = models.IntegerField(default=0)
+    home_ftm = models.IntegerField(default=0)
+    home_fta = models.IntegerField(default=0)
+    home_threesm = models.IntegerField(default=0)
     home_pts = models.IntegerField(default=0)
     home_asts = models.IntegerField(default=0)
     home_rebs = models.IntegerField(default=0)
     home_stls = models.IntegerField(default=0)
     home_blks = models.IntegerField(default=0)
     home_tos = models.IntegerField(default=0)
-    home_fgm = models.IntegerField(default=0)
-    home_fga = models.IntegerField(default=0)
-    home_ftm = models.IntegerField(default=0)
-    home_fta = models.IntegerField(default=0)
-    home_threesm = models.IntegerField(default=0)
-    home_threesa = models.IntegerField(default=0)
 
+    away_fgm = models.IntegerField(default=0)
+    away_fga = models.IntegerField(default=0)
+    away_ftm = models.IntegerField(default=0)
+    away_fta = models.IntegerField(default=0)
+    away_threesm = models.IntegerField(default=0)
     away_pts = models.IntegerField(default=0)
     away_asts = models.IntegerField(default=0)
     away_rebs = models.IntegerField(default=0)
     away_stls = models.IntegerField(default=0)
     away_blks = models.IntegerField(default=0)
     away_tos = models.IntegerField(default=0)
-    away_fgm = models.IntegerField(default=0)
-    away_fga = models.IntegerField(default=0)
-    away_ftm = models.IntegerField(default=0)
-    away_fta = models.IntegerField(default=0)
-    away_threesm = models.IntegerField(default=0)
-    away_threesa = models.IntegerField(default=0)
-
-    result = models.CharField(max_length=10, null=True, blank=True)
-
-    def __unicode__(self):
-        return "matchup between: {0} and {1} starting {2}".format(self.home_team, self.away_team, self.start_date)
-
-    def to_data(self):
-        return {
-            "league_id": self.league_id,
-            "home": {
-                "id": self.home_team.id,
-                "name": self.home_team.name,
-                "points": self.home_points,
-                "players": self.home_data()
-                },
-            "away": {
-                "id": self.away_team.id,
-                "name": self.away_team.name,
-                "points": self.away_points,
-                "players": self.away_data()
-                },
-            "week": self.week,
-            "start_date": self.start_date, 
-            "end_date": self.end_date,
-
-        }
-        if self.finalized:
-            data["result"] = self.result
 
     @cached_property
     def home_statlines(self):
@@ -263,21 +230,106 @@ class Matchup(models.Model):
         return StatLine.objects.filter(player__in=self.away_team.players.all(), 
             game__date__gte=self.start_date, game__date__lte=self.end_date)
 
-    def home_data(self):
-        data = {}
-        for player in self.home_team.players.all():
-            player_total = sum(sl.game_score for sl in self.home_statlines.filter(player=player))
-            data[player.id] = [player.name, player_total]
+	def home_data(self):
+		home_data = {"totals": [], "players": []}
+		for player in self.home_team.players.all():
+			sls = self.home_statlines.filter(player=player)
+			if sls.count() > 0:
+				fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
+				ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
+				home_data["players"].append({
+					"id": player.id,
+					"name": player.name,
+					"fgpct": fgpct,
+					"ftpct": ftpct,
+					"threesm": sum(sl.threesm for sl in sls),
+					"pts": sum(sl.pts for sl in sls),
+					"rebs": sum(sl.trbs for sl in sls),
+					"asts": sum(sl.asts for sl in sls),
+					"stls": sum(sl.stls for sl in sls),
+					"blks": sum(sl.blks for sl in sls),
+					"tos": sum(sl.tos for sl in sls)
+				})
 
-        return data
+		team_fgpct = round(self.home_fgm/self.home_fga, 3)
+		team_ftpct = round(self.home_ftm/self.home_fta, 3)
+		home_data["totals"] = [{
+			'name': 'totals',
+			'fgpct': team_fgpct,
+			'ftpct': team_ftpct,
+			'threesm': self.home_threesm,
+			'pts': self.home_pts,
+			'rebs': self.home_rebs,
+			'asts': self.home_asts,
+			'stls': self.home_stls,
+			'blks': self.home_blks,
+			'tos': self.home_tos
+		}]
+
+		return home_data
+
 
     def away_data(self):
-        data = {}
+        away_data = {"totals": [], "players": []}
         for player in self.away_team.players.all():
-            player_total = sum(sl.game_score for sl in self.away_statlines.filter(player=player))
-            data[player.id] = [player.name, player_total]
+        	sls = self.away_statlines.filter(player=player)
+        	if sls.count() > 0:
+	        	fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
+	        	ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
+	        	away_data["players"].append({
+					"id": player.id,
+					"name": player.name,
+					"fgpct": fgpct,
+					"ftpct": ftpct,
+					"threesm": sum(sl.threesm for sl in sls),
+					"pts": sum(sl.pts for sl in sls),
+					"rebs": sum(sl.trbs for sl in sls),
+					"asts": sum(sl.asts for sl in sls),
+					"stls": sum(sl.stls for sl in sls),
+					"blks": sum(sl.blks for sl in sls),
+					"tos": sum(sl.tos for sl in sls)
+				})
 
-        return data
+		team_fgpct = round(self.away_fgm/self.away_fga, 3)
+		team_ftpct = round(self.away_ftm/self.away_fta, 3)
+		away_data["totals"] = [{
+			'name': 'totals',
+			'fgpct': team_fgpct,
+			'ftpct': team_ftpct,
+			'threesm': self.away_threesm,
+			'pts': self.away_pts,
+			'rebs': self.away_rebs,
+			'asts': self.away_asts,
+			'stls': self.away_stls,
+			'blks': self.away_blks,
+			'tos': self.away_tos
+		}]
+        
+        return away_data
+
+	def to_data(self):
+		import pdb
+		pdb.set_trace()
+		data = {
+			"league_id": self.league_id,
+			"home": {
+				"id": self.home_team.id,
+				"name": self.home_team.name,
+				"record": self.home_team.record,
+				"data": self.home_data()
+			},
+			"away": {
+				"id": self.away_team.id,
+				"name": self.away_team.name,
+				"record": self.away_team.record,
+				"data": self.away_data()
+			},
+			"week": self.week,
+			"start_date": self.start_date, 
+			"end_date": self.end_date,
+		}
+
+		return data
 
     def update_score(self):
         self.home_points = sum(sl.game_score for sl in self.home_statlines)
@@ -295,7 +347,6 @@ class Matchup(models.Model):
         self.away_ftm = sum(sl.ftm for sl in self.away_statlines)
         self.away_fta = sum(sl.fta for sl in self.away_statlines)
         self.away_threesm = sum(sl.ftm for sl in self.away_statlines)
-        self.away_threesa = sum(sl.fta for sl in self.away_statlines)
 
         self.home_pts = sum(sl.pts for sl in self.home_statlines)
         self.home_asts = sum(sl.asts for sl in self.home_statlines)
@@ -309,25 +360,27 @@ class Matchup(models.Model):
         self.home_ftm = sum(sl.ftm for sl in self.home_statlines)
         self.home_fta = sum(sl.fta for sl in self.home_statlines)
         self.home_threesm = sum(sl.ftm for sl in self.home_statlines)
-        self.home_threesa = sum(sl.fta for sl in self.home_statlines)
+
+        for stat in ['pts', 'asts', 'rebs', 'stls', 'blks', 'tos', 'fgm', 'fga', 'ftm', 'fta', 'threesm']:
+	    	away = getattr(self, 'away_{}'.format(stat))
+	    	home = getattr(self, 'home_{}'.format(stat))
+	    	if home > away:
+	    		self.home_team.wins += 1
+	    		self.away_team.losses += 1
+	    	elif home < away:
+	    		self.home_team.losses += 1
+	    		self.away_team.wins += 1
+	    	else:
+	    		self.home_team.ties += 1
+	    		self.home_team.losses += 1
+
+		self.away_team.save()
+		self.home_team.save()
 
         if self.end_date <= date.today():
             self.finalized = True
-            if self.home_pts > self.away_pts:
-                self.home_team.wins += 1
-                self.away_team.losses += 1
-            elif self.home_points < self.away_points:
-                self.home_team.losses += 1    
-                self.away_team.wins += 1
-            else:
-                self.home_team.ties += 1
-                self.away_team.ties += 1
 
-            self.away_team.save()
-            self.home_team.save()
-
-            print('saved {0} with new record {1}'.format(self.home_team, self.home_team.record))
-
+        print('saved {0} with new record {1}'.format(self.home_team, self.home_team.record))
         self.save()
 
 
