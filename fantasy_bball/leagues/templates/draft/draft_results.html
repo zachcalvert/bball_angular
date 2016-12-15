@@ -8,15 +8,17 @@
         {% for round in draft_data %}
           <div class="draft-round">
             <strong>Round {{ round.0.round }}</strong>
-            {% for pick in round %}
-              <div class="rTableRow">
-                <div class="rTableCell">{{ pick.pick }}</div>
-                <div class="rTableCell player-name"><a href="{% url 'player' pick.player.id %}">
-                  {{ pick.player.name }}</a> <span class ="player-name-details">{{ pick.player.nba_team }} {{ pick.player.position }}</span>
+            <div class="rTable">
+              {% for pick in round %}
+                <div class="rTableRow">
+                  {{ pick.pick }}. 
+                  <div class="rTableCell player-name"><a href="{% url 'player' pick.player.id %}">
+                    {{ pick.player.name }}</a> <span class ="player-name-details">{{ pick.player.nba_team }} {{ pick.player.position }}</span>
+                  </div>
+                  <div class="rTableCell"><a href="{% url 'team' league_data.id pick.team.id %}">{{ pick.team.name }}</a></div>
                 </div>
-                <div class="rTableCell"><a href="{% url 'team' league_data.id pick.team.id %}">{{ pick.team.name }}</a></div>
-              </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
           </div>
         {% endfor %}
    </div>

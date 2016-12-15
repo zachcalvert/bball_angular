@@ -10,6 +10,7 @@
   <div class="left-nav">
     <p><i class="fa fa-chevron-left"></i>&nbsp;HIDE</p>
     <ul class="left-nav-links">
+      <li class="left-nav-link"><a href="{% url 'league' league_data.id %}">League Home</a></li>
     	<li class="left-nav-link"><a href="javascript:;">My Team</a></li>
     	<li class="left-nav-link"><a href="javascript:;">Matchup</a></li>
     	<li class="left-nav-link"><a href="{% url 'free_agents' league_data.id %}">Add Player</a></li>
@@ -24,19 +25,14 @@
 {% block block1 %}
 	<div id="block-1" class="block">
 		<h4>{{ league.name}}</h4>
-   </div>
-{% endblock %}
-
-{% block block2 %}
-	<div id="block-2" class="block">
-	<div class="league-table">
+    <div class="league-table">
       <strong>League Table</strong>
       <div class="rTable">
         <div class="rTableRow">
           <div class="rTableHead"><strong>Name</strong></div>
           <div class="rTableHead"><strong>Record</strong></div>
           <div class="rTableHead hide-on-mobile"><strong>Average</strong></div>
-	        <div class="rTableHead hide-on-mobile"><strong>FG%</strong></div>
+          <div class="rTableHead hide-on-mobile"><strong>FG%</strong></div>
           <div class="rTableHead hide-on-mobile"><strong>FT%</strong></div>
           <div class="rTableHead hide-on-mobile"><strong>Rebounds</strong></div>
           <div class="rTableHead hide-on-mobile"><strong>Assists</strong></div>
@@ -52,6 +48,7 @@
             <div class="rTableCell">{{ team.record }}</div>
             <div class="rTableCell hide-on-mobile">{{ team.average_weekly_score }}</div>
             <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
+            <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
             <div class="rTableCell">{{ game.threesm }}/{{ game.threesa }}</div>
             <div class="rTableCell">{{ game.rebs }}</div>
             <div class="rTableCell">{{ game.asts }}</div>
@@ -60,8 +57,14 @@
             <div class="rTableCell">{{ game.tos }}</div>
             <div class="rTableCell">{{ game.pts }}</div>
           </div>
-	      {% endfor %}
+        {% endfor %}
       </div>
     </div>
+   </div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+	
 	</div>
 {% endblock %}
