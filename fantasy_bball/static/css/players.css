@@ -43,7 +43,7 @@
 }
 
 .selected {
-	background-color: #FFA824!important;
+	background-color: #fff6e5!important;
 }
 
 .note-dates {
@@ -95,7 +95,7 @@
 }
 
 .player-stats {
-	padding: 5px 0;
+	padding: 20px 0;
 }
 
 .player-stats ul {
@@ -113,10 +113,16 @@
 	text-align: center;
 }
 
+.player-stats-averages, .player-stats-totals {
+	border: 1px solid black!important;
+}
+.player-stats-averages, .player-stats-totals {
+	border-top: none!important;
+	border-bottom: none!important;
+}
 .player-stats-averages {
 	border-right: none!important;
 }
-
 .stat-totals {
 	display: none;
 }
