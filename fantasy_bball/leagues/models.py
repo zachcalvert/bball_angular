@@ -14,7 +14,7 @@ class League(models.Model):
 	is_dynasty = models.BooleanField(default=False)
 	is_public = models.BooleanField(default=True)
 	max_teams = models.IntegerField(default=12)
-	roster_size = models.IntegerField(default=14)
+	roster_size = models.IntegerField(default=12)
 
 	def __unicode__(self):
 		return self.name
@@ -50,7 +50,7 @@ class League(models.Model):
 			'is_public': self.is_public,
 			'dynasty': self.is_dynasty,
 			'manager': self.manager.username,
-			'teams': [team.to_data() for team in self.teams.all()]
+			'teams': [team.to_data(team_stats=True) for team in self.teams.all()]
 		}
 
 		return data
@@ -83,9 +83,7 @@ class Team(models.Model):
 
 	@cached_property
 	def current_matchup(self):
-		from leagues.models import Matchup
-		matchups = Matchup.objects.filter(Q(home_team=self)|(Q(away_team=self))) 
-		return matchups.filter(Q(start_date__lte=date.today()) & (Q(end_date__gte=date.today()))).first()
+		return self.matchups.filter(Q(start_date__lte=date.today()) & (Q(end_date__gte=date.today()))).first()
 
 	@cached_property
 	def current_opponent(self):
@@ -100,9 +98,63 @@ class Team(models.Model):
 				if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
 					raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
 
-	def get_players(self):
-		from players.models import Player
-		return [player.to_data() for player in Player.objects.filter(pk__in=self.players.all())]
+
+	@cached_property
+	def season_totals(self):
+		pts = 0
+		asts = 0
+		rebs = 0
+		stls = 0
+		blks = 0
+		tos = 0
+		fgm = 0
+		fga = 0
+		ftm = 0
+		fta = 0
+		threesm = 0
+		threesa = 0
+
+		for matchup in self.matchups:
+			if matchup.home_team == self:
+				pts += matchup.home_pts
+				asts += matchup.home_asts
+				rebs += matchup.home_rebs
+				stls += matchup.home_stls
+				blks += matchup.home_blks
+				fgm += matchup.home_fgm
+				fga += matchup.home_fga
+				ftm += matchup.home_ftm
+				fta += matchup.home_fta
+				threesm += matchup.home_threesm
+				threesa += matchup.home_threesa
+			else:
+				pts += matchup.away_pts
+				asts += matchup.away_asts
+				rebs += matchup.away_rebs
+				stls += matchup.away_stls
+				blks += matchup.away_blks
+				fgm += matchup.away_fgm
+				fga += matchup.away_fga
+				ftm += matchup.away_ftm
+				fta += matchup.away_fta
+				threesm += matchup.away_threesm
+				threesa += matchup.away_threesa
+
+		return {
+			"pts": pts,
+			"asts": asts,
+			"rebs": rebs,
+			"stls": stls,
+			"blks": blks,
+			"tos": tos,
+			"fgm": fgm,
+			"fga": fga,
+			"ftm": fta,
+			"threesm": threesm,
+			"threesa": threesa,
+			"fgpct": "{0:.1f}%".format(fgm/fga * 100),
+			"ftpct":"{0:.1f}%".format(ftm/fta * 100)
+		}
 
 	def average_weekly_score(self):
 		scores = []
@@ -115,7 +167,7 @@ class Team(models.Model):
 
 		return round(sum(scores)/eligible.count(), 2)
 
-	def to_data(self, player_data=False):
+	def to_data(self, player_data=False, team_stats=False):
 		data = {
 			'id': self.id,
 			'league_id': self.league.id,
@@ -128,6 +180,8 @@ class Team(models.Model):
 
 		if player_data:
 			data['players'] = [player.to_data() for player in self.players.all()]
+		if team_stats:
+			data['season_totals'] = self.season_totals
 
 		return data
 
@@ -142,6 +196,33 @@ class Matchup(models.Model):
     finalized = models.BooleanField(default=False)
     home_points = models.FloatField(default=0.0)
     away_points = models.FloatField(default=0.0)
+    
+    home_pts = models.IntegerField(default=0)
+    home_asts = models.IntegerField(default=0)
+    home_rebs = models.IntegerField(default=0)
+    home_stls = models.IntegerField(default=0)
+    home_blks = models.IntegerField(default=0)
+    home_tos = models.IntegerField(default=0)
+    home_fgm = models.IntegerField(default=0)
+    home_fga = models.IntegerField(default=0)
+    home_ftm = models.IntegerField(default=0)
+    home_fta = models.IntegerField(default=0)
+    home_threesm = models.IntegerField(default=0)
+    home_threesa = models.IntegerField(default=0)
+
+    away_pts = models.IntegerField(default=0)
+    away_asts = models.IntegerField(default=0)
+    away_rebs = models.IntegerField(default=0)
+    away_stls = models.IntegerField(default=0)
+    away_blks = models.IntegerField(default=0)
+    away_tos = models.IntegerField(default=0)
+    away_fgm = models.IntegerField(default=0)
+    away_fga = models.IntegerField(default=0)
+    away_ftm = models.IntegerField(default=0)
+    away_fta = models.IntegerField(default=0)
+    away_threesm = models.IntegerField(default=0)
+    away_threesa = models.IntegerField(default=0)
+
     result = models.CharField(max_length=10, null=True, blank=True)
 
     def __unicode__(self):
@@ -202,9 +283,37 @@ class Matchup(models.Model):
         self.home_points = sum(sl.game_score for sl in self.home_statlines)
         self.away_points = sum(sl.game_score for sl in self.away_statlines)
 
+        self.away_pts = sum(sl.pts for sl in self.away_statlines)
+        self.away_asts = sum(sl.asts for sl in self.away_statlines)
+        self.away_rebs = sum(sl.trbs for sl in self.away_statlines)
+        self.away_stls = sum(sl.stls for sl in self.away_statlines)
+        self.away_blks = sum(sl.blks for sl in self.away_statlines)
+        self.away_tos = sum(sl.tos for sl in self.away_statlines)
+        self.away_fta = sum(sl.fta for sl in self.away_statlines)
+        self.away_fgm = sum(sl.fgm for sl in self.away_statlines)
+        self.away_fga = sum(sl.fga for sl in self.away_statlines)
+        self.away_ftm = sum(sl.ftm for sl in self.away_statlines)
+        self.away_fta = sum(sl.fta for sl in self.away_statlines)
+        self.away_threesm = sum(sl.ftm for sl in self.away_statlines)
+        self.away_threesa = sum(sl.fta for sl in self.away_statlines)
+
+        self.home_pts = sum(sl.pts for sl in self.home_statlines)
+        self.home_asts = sum(sl.asts for sl in self.home_statlines)
+        self.home_rebs = sum(sl.trbs for sl in self.home_statlines)
+        self.home_stls = sum(sl.stls for sl in self.home_statlines)
+        self.home_blks = sum(sl.blks for sl in self.home_statlines)
+        self.home_tos = sum(sl.tos for sl in self.home_statlines)
+        self.home_fta = sum(sl.fta for sl in self.home_statlines)
+        self.home_fgm = sum(sl.fgm for sl in self.home_statlines)
+        self.home_fga = sum(sl.fga for sl in self.home_statlines)
+        self.home_ftm = sum(sl.ftm for sl in self.home_statlines)
+        self.home_fta = sum(sl.fta for sl in self.home_statlines)
+        self.home_threesm = sum(sl.ftm for sl in self.home_statlines)
+        self.home_threesa = sum(sl.fta for sl in self.home_statlines)
+
         if self.end_date <= date.today():
             self.finalized = True
-            if self.home_points > self.away_points:
+            if self.home_pts > self.away_pts:
                 self.home_team.wins += 1
                 self.away_team.losses += 1
             elif self.home_points < self.away_points:

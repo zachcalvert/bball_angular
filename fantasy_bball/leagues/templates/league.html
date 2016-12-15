@@ -31,31 +31,31 @@
         <div class="rTableRow">
           <div class="rTableHead"><strong>Name</strong></div>
           <div class="rTableHead"><strong>Record</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Average</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>FG%</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>FT%</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Rebounds</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Assists</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Steals</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Blocks</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Threes</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>TOS</strong></div>
-          <div class="rTableHead hide-on-mobile"><strong>Points</strong></div>
+          <div class="rTableHead"><strong>Average</strong></div>
+          <div class="rTableHead hide-mobile"><strong>FG%</strong></div>
+          <div class="rTableHead hide-mobile"><strong>FT%</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Rebs</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Asts</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Stls</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Blks</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Threes</strong></div>
+          <div class="rTableHead hide-mobile"><strong>TOS</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Pts</strong></div>
         </div>
         {% for team in league_data.teams %}
           <div class="rTableRow">
             <div class="rTableCell"><a href="{% url 'team' league_data.id team.id %}">{{ team.name }}</a></div>
             <div class="rTableCell">{{ team.record }}</div>
-            <div class="rTableCell hide-on-mobile">{{ team.average_weekly_score }}</div>
-            <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
-            <div class="rTableCell hide-on-mobile">{{ game.ftm }}/{{ game.fta }}</div>
-            <div class="rTableCell">{{ game.threesm }}/{{ game.threesa }}</div>
-            <div class="rTableCell">{{ game.rebs }}</div>
-            <div class="rTableCell">{{ game.asts }}</div>
-            <div class="rTableCell">{{ game.stls }}</div>
-            <div class="rTableCell">{{ game.blks }}</div>
-            <div class="rTableCell">{{ game.tos }}</div>
-            <div class="rTableCell">{{ game.pts }}</div>
+            <div class="rTableCell">{{ team.average_weekly_score }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.fgpct }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.ftpct }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.rebs }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.asts }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.stls }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.blks }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.threesm }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.tos }}</div>
+            <div class="rTableCell hide-mobile">{{ team.season_totals.pts }}</div>
           </div>
         {% endfor %}
       </div>
