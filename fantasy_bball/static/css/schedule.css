@@ -91,4 +91,5 @@ ul.statline-stats li {
 /* matchup */
 .team-table {
   float: left;
+  padding: 0 0 10px 0;
 }

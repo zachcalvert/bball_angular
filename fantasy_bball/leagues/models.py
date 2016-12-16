@@ -218,6 +218,13 @@ class Matchup(models.Model):
     away_blks = models.IntegerField(default=0)
     away_tos = models.IntegerField(default=0)
 
+    def get_percentage(self, m, a):
+    	try:
+    		pct = round(m/a, 3)
+    	except ZeroDivisionError:
+    		pct = .00
+    	return pct
+
     @cached_property
     def home_statlines(self):
     	from schedule.models import StatLine
@@ -235,9 +242,9 @@ class Matchup(models.Model):
         for player in self.away_team.players.all():
         	sls = self.away_statlines.filter(player=player)
         	if sls.count() > 0:
-	        	fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
-	        	ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
-	        	away_data["players"].append({
+				fgpct = self.get_percentage(sum(sl.fgm for sl in sls), sum(sl.fga for sl in sls))
+				ftpct = self.get_percentage(sum(sl.ftm for sl in sls), sum(sl.fta for sl in sls))
+				away_data["players"].append({
 					"id": player.id,
 					"name": player.name,
 					"fgpct": fgpct,
@@ -251,8 +258,8 @@ class Matchup(models.Model):
 					"tos": sum(sl.tos for sl in sls)
 				})
 
-		team_fgpct = round(self.away_fgm/self.away_fga, 3)
-		team_ftpct = round(self.away_ftm/self.away_fta, 3)
+		team_fgpct = self.get_percentage(self.away_fgm, self.away_fga)
+		team_ftpct = self.get_percentage(self.away_ftm, self.away_fta)
 		away_data["totals"] = [{
 			'name': 'totals',
 			'fgpct': team_fgpct,
@@ -273,9 +280,9 @@ class Matchup(models.Model):
         for player in self.home_team.players.all():
         	sls = self.home_statlines.filter(player=player)
         	if sls.count() > 0:
-	        	fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
-	        	ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
-	        	home_data["players"].append({
+				fgpct = self.get_percentage(sum(sl.fgm for sl in sls), sum(sl.fga for sl in sls))
+				ftpct = self.get_percentage(sum(sl.ftm for sl in sls), sum(sl.fta for sl in sls))
+				home_data["players"].append({
 					"id": player.id,
 					"name": player.name,
 					"fgpct": fgpct,
@@ -289,8 +296,8 @@ class Matchup(models.Model):
 					"tos": sum(sl.tos for sl in sls)
 				})
 
-		team_fgpct = round(self.home_fgm/self.home_fga, 3)
-		team_ftpct = round(self.home_ftm/self.home_fta, 3)
+		team_fgpct = self.get_percentage(self.home_fgm, self.home_fga)
+		team_ftpct = self.get_percentage(self.home_ftm, self.home_fta)
 		home_data["totals"] = [{
 			'name': 'totals',
 			'fgpct': team_fgpct,
@@ -329,9 +336,6 @@ class Matchup(models.Model):
 		return data
 
     def update_score(self):
-        self.home_points = sum(sl.game_score for sl in self.home_statlines)
-        self.away_points = sum(sl.game_score for sl in self.away_statlines)
-
         self.away_pts = sum(sl.pts for sl in self.away_statlines)
         self.away_asts = sum(sl.asts for sl in self.away_statlines)
         self.away_rebs = sum(sl.trbs for sl in self.away_statlines)
@@ -358,9 +362,21 @@ class Matchup(models.Model):
         self.home_fta = sum(sl.fta for sl in self.home_statlines)
         self.home_threesm = sum(sl.ftm for sl in self.home_statlines)
 
-        for stat in ['pts', 'asts', 'rebs', 'stls', 'blks', 'tos', 'fgm', 'fga', 'ftm', 'fta', 'threesm']:
-	    	away = getattr(self, 'away_{}'.format(stat))
-	    	home = getattr(self, 'home_{}'.format(stat))
+        for stat in ['pts', 'asts', 'rebs', 'stls', 'blks', 'tos', 'fgpct', 'ftpct', 'threesm']:
+        	if stat == 'fgpct':
+        		sls = self.away_statlines
+        		away = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
+        		sls = self.home_statlines
+        		home = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
+        	elif stat == 'ftpct':
+        		sls = self.away_statlines
+        		away = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
+        		sls = self.home_statlines
+        		home = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
+	    	else:
+	    		away = getattr(self, 'away_{}'.format(stat))
+	    		home = getattr(self, 'home_{}'.format(stat))
+
 	    	if home > away:
 	    		self.home_team.wins += 1
 	    		self.away_team.losses += 1

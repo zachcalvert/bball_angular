@@ -129,8 +129,6 @@ class StatLine(models.Model):
             self.dank=True
             self.save()
 
-        base = base *3
-
         return round(base, 2)
 
     @property
