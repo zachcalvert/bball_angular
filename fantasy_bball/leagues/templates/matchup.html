@@ -26,18 +26,34 @@
 		          <div class="rTableHead"><strong>Blks</strong></div>
 		          <div class="rTableHead"><strong>Tos</strong></div>
 		        </div>
-		        <div class="rTableRow">
-				  <div class="rTableHead"><strong>{{ matchup_data.home.name }}</strong></div>
-				  <div class="rTableHead"><strong>{{ matchup_data.home.totals.pts }}</strong></div>
-		          <div class="rTableHead"><strong>FT%</strong></div>
-		          <div class="rTableHead"><strong>3pt</strong></div>
-		          <div class="rTableHead"><strong>Pts</strong></div>
-		          <div class="rTableHead"><strong>Rebs</strong></div>
-		          <div class="rTableHead"><strong>Asts</strong></div>
-		          <div class="rTableHead"><strong>Stls</strong></div>
-		          <div class="rTableHead"><strong>Blks</strong></div>
-		          <div class="rTableHead"><strong>Tos</strong></div>
-		        </div>
+		        {% with matchup_data.home.data.totals as totals %}
+			        <div class="rTableRow">
+					  <div class="rTableHead"><strong>{{ matchup_data.home.name }}</strong></div>
+					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.pts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.rebs }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.asts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.stls }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.blks }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.tos }}</strong></div>
+			        </div>
+		        {% endwith %}
+		        {% with matchup_data.away.data.totals as totals %}
+			        <div class="rTableRow">
+					  <div class="rTableHead"><strong>{{ matchup_data.away.name }}</strong></div>
+					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.pts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.rebs }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.asts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.stls }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.blks }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.tos }}</strong></div>
+			        </div>
+		        {% endwith %}
 			</div>
 		</div>
    </div>
@@ -60,13 +76,9 @@
 	          <div class="rTableHead"><strong>Blks</strong></div>
 	          <div class="rTableHead"><strong>Tos</strong></div>
 	        </div>
-	        {% for player in matchup_data.home.players %}
+	        {% for player in matchup_data.home.data.players %}
 				<div class="rTableRow">
-					{% if player.name != "totals" %}
-						<div class="rTableCell player-name">{{ player.name }}</div>
-					{% else %}
-						<div class="rTableCell player-name">{{ player.name }}</div>
-					{% endif %}
+					<div class="rTableCell player-name">{{ player.name }}</div>
 					<div class="rTableCell">{{ player.fgpct }}</div>
 					<div class="rTableCell">{{ player.ftpct }}</div>
 					<div class="rTableCell">{{ player.threesm }}</div>
@@ -96,13 +108,9 @@
 	          <div class="rTableHead"><strong>Blks</strong></div>
 	          <div class="rTableHead"><strong>Tos</strong></div>
 	        </div>
-	        {% for player in matchup_data.away.players %}
+	        {% for player in matchup_data.away.data.players %}
 				<div class="rTableRow">
-					{% if player.name != "totals" %}
-						<div class="rTableCell player-name">{{ player.name }}</div>
-					{% else %}
-						<div class="rTableCell player-name">{{ player.name }}</div>
-					{% endif %}
+					<div class="rTableCell player-name">{{ player.name }}</div>
 					<div class="rTableCell">{{ player.fgpct }}</div>
 					<div class="rTableCell">{{ player.ftpct }}</div>
 					<div class="rTableCell">{{ player.threesm }}</div>
