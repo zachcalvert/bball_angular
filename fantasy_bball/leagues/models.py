@@ -230,45 +230,6 @@ class Matchup(models.Model):
         return StatLine.objects.filter(player__in=self.away_team.players.all(), 
             game__date__gte=self.start_date, game__date__lte=self.end_date)
 
-	def home_data(self):
-		home_data = {"totals": [], "players": []}
-		for player in self.home_team.players.all():
-			sls = self.home_statlines.filter(player=player)
-			if sls.count() > 0:
-				fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
-				ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
-				home_data["players"].append({
-					"id": player.id,
-					"name": player.name,
-					"fgpct": fgpct,
-					"ftpct": ftpct,
-					"threesm": sum(sl.threesm for sl in sls),
-					"pts": sum(sl.pts for sl in sls),
-					"rebs": sum(sl.trbs for sl in sls),
-					"asts": sum(sl.asts for sl in sls),
-					"stls": sum(sl.stls for sl in sls),
-					"blks": sum(sl.blks for sl in sls),
-					"tos": sum(sl.tos for sl in sls)
-				})
-
-		team_fgpct = round(self.home_fgm/self.home_fga, 3)
-		team_ftpct = round(self.home_ftm/self.home_fta, 3)
-		home_data["totals"] = [{
-			'name': 'totals',
-			'fgpct': team_fgpct,
-			'ftpct': team_ftpct,
-			'threesm': self.home_threesm,
-			'pts': self.home_pts,
-			'rebs': self.home_rebs,
-			'asts': self.home_asts,
-			'stls': self.home_stls,
-			'blks': self.home_blks,
-			'tos': self.home_tos
-		}]
-
-		return home_data
-
-
     def away_data(self):
         away_data = {"totals": [], "players": []}
         for player in self.away_team.players.all():
@@ -307,9 +268,45 @@ class Matchup(models.Model):
         
         return away_data
 
-	def to_data(self):
-		import pdb
-		pdb.set_trace()
+    def home_data(self):
+        home_data = {"totals": [], "players": []}
+        for player in self.home_team.players.all():
+        	sls = self.home_statlines.filter(player=player)
+        	if sls.count() > 0:
+	        	fgpct = round(sum(sl.fgm for sl in sls)/sum(sl.fga for sl in sls), 3)
+	        	ftpct = round(sum(sl.ftm for sl in sls)/sum(sl.fta for sl in sls), 3)
+	        	home_data["players"].append({
+					"id": player.id,
+					"name": player.name,
+					"fgpct": fgpct,
+					"ftpct": ftpct,
+					"threesm": sum(sl.threesm for sl in sls),
+					"pts": sum(sl.pts for sl in sls),
+					"rebs": sum(sl.trbs for sl in sls),
+					"asts": sum(sl.asts for sl in sls),
+					"stls": sum(sl.stls for sl in sls),
+					"blks": sum(sl.blks for sl in sls),
+					"tos": sum(sl.tos for sl in sls)
+				})
+
+		team_fgpct = round(self.home_fgm/self.home_fga, 3)
+		team_ftpct = round(self.home_ftm/self.home_fta, 3)
+		home_data["totals"] = [{
+			'name': 'totals',
+			'fgpct': team_fgpct,
+			'ftpct': team_ftpct,
+			'threesm': self.home_threesm,
+			'pts': self.home_pts,
+			'rebs': self.home_rebs,
+			'asts': self.home_asts,
+			'stls': self.home_stls,
+			'blks': self.home_blks,
+			'tos': self.home_tos
+		}]
+        
+        return home_data
+
+    def to_data(self):
 		data = {
 			"league_id": self.league_id,
 			"home": {
