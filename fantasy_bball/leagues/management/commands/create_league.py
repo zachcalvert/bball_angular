@@ -30,7 +30,8 @@ class Command(BaseCommand):
 		num_players = int(options['num_players'])
 
 		# sort players
-		league = League.objects.create(name=name, manager=User.objects.first())
+		manager = User.objects.create_user(username="{0} manager".format(name), password='manager', email="m@m.com")
+		league = League.objects.create(name=name, manager=manager, roster_size=num_players)
 		players = [p for p in Player.objects.all() if p.is_available(league_id=league.id)]
 		pl = sorted(players, key=lambda t: t.season_form)
 		pl.reverse()
@@ -47,13 +48,27 @@ class Command(BaseCommand):
 		draft = Draft.objects.create(league=league)
 		draft.set_order()
 
-		# draft!
+		stat = None
+		# draft
 		for count, pick in enumerate(draft.picks.all(), start=1):
 			team = pick.team
-			player = pl[count]
+			index = count
+			# if count > 3 * num_teams:
+			# 	# start in 3rd round
+			# 	stat = team.needed_stat
+			# 	eligible = pl[1:count+10]
+			# 	ranked = sorted(eligible, key=lambda x: x.stats["averages"][stat], reverse=True)
+			# 	import pdb
+			# 	pdb.set_trace()
+			# 	best_player = ranked[0]
+			# 	index = pl.index(best_player)
+
+			player = pl[index]
 			team.players.add(player)
 			pick.player = player
 			pick.save()
+			if stat is not None:
+				print("\nThe {0} need {1}".format(team, stat))
 			print("Pick {0}: the {1} select {2} {3}".format(count, team.name, player.name, player.season_form))
 
 		print('made league {}'.format(league))

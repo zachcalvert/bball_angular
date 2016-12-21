@@ -9,13 +9,13 @@
 {% block block1 %}
 	<div id="block-1" class="block">
 		<div class="team-details">
-			<strong><a href="{% url 'team' matchup_data.home.id %}">{{ matchup_data.home.name }}</a> ({{ matchup_data.home.record }}) vs <a href="{% url 'team' matchup_data.away.id %}">{{ matchup_data.away.name }}</a> ({{ matchup_data.away.record }}) </strong>
+			<strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a> ({{ matchup_data.home.record }}) vs <a href="{% url 'team' league_data.id matchup_data.away.id %}">{{ matchup_data.away.name }}</a> ({{ matchup_data.away.record }}) </strong>
 			<p>Week {{ matchup_data.week}}: {{ matchup_data.start_date }} - {{ matchup_data.end_date }}</p>
 		</div>
 		<div class="matchup-summary">
 			<div class="rTable">
 		        <div class="rTableRow">
-				  <div class="rTableHead"><strong>Team</strong></div>
+				  <div class="rTableHead player-name"><strong>Team</strong></div>
 				  <div class="rTableHead"><strong>FG%</strong></div>
 		          <div class="rTableHead"><strong>FT%</strong></div>
 		          <div class="rTableHead"><strong>3pt</strong></div>
@@ -28,7 +28,7 @@
 		        </div>
 		        {% with matchup_data.home.data.totals as totals %}
 			        <div class="rTableRow">
-					  <div class="rTableHead"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a></strong></div>
+					  <div class="rTableHead player-name"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a></strong></div>
 					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
 			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
 			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
@@ -42,7 +42,7 @@
 		        {% endwith %}
 		        {% with matchup_data.away.data.totals as totals %}
 			        <div class="rTableRow">
-					  <div class="rTableHead"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.away.name }}</a></strong></strong></div>
+					  <div class="rTableHead player-name"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.away.name }}</a></strong></strong></div>
 					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
 			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
 			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
@@ -62,7 +62,7 @@
 {% block block2 %}
 	<div id="block-2" class="block">
 		<div class="team-table">
-	      <strong>{{ matchup_data.home.name }}</strong>
+	      <strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a></strong>
 	      <div class="rTable">
 	        <div class="rTableRow">
 			  <div class="rTableHead"><strong>Name</strong></div>
@@ -94,7 +94,7 @@
 	    </div>
 
 		<div class="team-table">
-	      <strong><a href="{% url 'team' matchup_data.away.id %}">{{ matchup_data.away.name }}</a></strong>
+	      <strong><a href="{% url 'team' league_data.id matchup_data.away.id %}">{{ matchup_data.away.name }}</a></strong>
 	      <div class="rTable">
 	        <div class="rTableRow">
 			  <div class="rTableHead"><strong>Name</strong></div>

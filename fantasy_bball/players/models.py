@@ -76,6 +76,9 @@ class Player(models.Model):
 
 	@cached_property
 	def notes(self):
+		"""
+		Organize recent_notes into something easier to work with.
+		"""
 		splits = self.recent_notes.split('date:')
 		data = []
 		for i in range(len(splits)):
@@ -132,34 +135,34 @@ class Player(models.Model):
 
 			data = {
 				'totals': {
-					'pts': pts,
-					'rebs': rebs,
-					'asts': asts,
-					'stls': stls,
-					'blks': blks,
-					'fgm': fgm,
-					'fga': fga,
-					'ftm': ftm,
-					'fta': fta,
-					'threesm': threesm,
-					'threesa': threesa,
-					'tos': tos
-				},
-				'averages': {
-					'pts': round(pts/gp, 2),
-					'rebs': round(rebs/gp, 2),
-					'asts': round(asts/gp, 2),
-					'stls': round(stls/gp, 2),
-					'blks': round(blks/gp, 2),
-					'fgm': round(fgm/gp, 1),
-					'fga': round(fga/gp, 1),
-					'ftm': round(ftm/gp, 1),
-					'fta': round(fta/gp, 1),
-					'threesm': round(threesm/gp, 1),
-					'threesa': round(threesa/gp, 1),
-					'tos': round(tos/gp, 2)
+					'pts': sum(sl.pts for sl in statlines),
+					'rebs': sum(sl.trbs for sl in statlines),
+					'asts': sum(sl.asts for sl in statlines),
+					'stls': sum(sl.stls for sl in statlines),
+					'blks': sum(sl.blks for sl in statlines),
+					'fgm': sum(sl.fgm for sl in statlines),
+					'fga': sum(sl.fga for sl in statlines),
+					'ftm': sum(sl.ftm for sl in statlines),
+					'fta': sum(sl.fta for sl in statlines),
+					'threesm': sum(sl.threesm for sl in statlines),
+					'threesa': sum(sl.threesa for sl in statlines),
+					'tos': sum(sl.tos for sl in statlines),
 				}
-			}
+			  }
+			data["averages"] = {
+					'pts': round(sum(sl.pts for sl in statlines)/gp, 2),
+					'rebs': round(sum(sl.trbs for sl in statlines)/gp, 2),
+					'asts': round(sum(sl.asts for sl in statlines)/gp, 2),
+					'stls': round(sum(sl.stls for sl in statlines)/gp, 2),
+					'blks': round(sum(sl.blks for sl in statlines)/gp, 2),
+					'fgm': round(sum(sl.fgm for sl in statlines)/gp, 1),
+					'fga': round(sum(sl.fga for sl in statlines)/gp, 1),
+					'ftm': round(sum(sl.ftm for sl in statlines)/gp, 1),
+					'fta': round(sum(sl.fta for sl in statlines)/gp, 1),
+					'threesm': round(sum(sl.threesm for sl in statlines)/gp, 1),
+					'threesa': round(sum(sl.threesa for sl in statlines)/gp, 1),
+					'tos': round(sum(sl.tos for sl in statlines)/gp, 2)
+				}
 
 			if fga == 0:
 				data['averages']['fgpct'] = "0%"

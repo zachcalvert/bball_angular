@@ -6,6 +6,7 @@
 		<div class="team-details">
 			<strong>{{ team_data.name }}</strong> ({{ team_data.record }})
 			<p>Current matchup: <a href="{% url 'matchup' team_data.league_id team_data.current_matchup.id %}">vs {{ team_data.current_opponent }}</p></a>
+      <p>Previous matchup: <a href="{% url 'matchup' team_data.league_id team_data.previous_matchup.id %}">vs {{ team_data.previous_opponent }}</p></a>
 		</div>
    </div>
 {% endblock %}

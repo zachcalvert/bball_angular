@@ -7,6 +7,15 @@ from django.db import models
 from django.db.models import Q
 from django.utils.functional import cached_property
 
+STATS = (
+	('pts', 'points'),
+	('rebs', 'rebounds'),
+	('asts', 'assists'),
+	('stls', 'steals'),
+	('blks', 'blocks'),
+	('threesm', 'threesm'),
+)
+
 
 class League(models.Model):
 	name = models.CharField(max_length=30)
@@ -65,6 +74,7 @@ class Team(models.Model):
 	ties = models.IntegerField(default=0)
 	players = models.ManyToManyField('players.Player', blank=True, related_name='teams')
 	place = models.IntegerField(default=1)
+	# needed_position = models.CharField(u'Position', choices='players.models.POSITIONS', default='PG', max_length=15)	
 
 	class Meta:
 		ordering = ['-wins', 'losses']
@@ -72,32 +82,56 @@ class Team(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	@cached_property
+	@property
 	def record(self):
 		return "{0}-{1}-{2}".format(self.wins, self.losses, self.ties)
+
+	@property
+	def needed_stat(self):
+		pts = 15 - sum(player.stats["averages"]["pts"] for player in self.players.all())/self.players.count()
+		rebs = 6 - sum(player.stats["averages"]["rebs"] for player in self.players.all())/self.players.count()
+		asts = 3.5 - sum(player.stats["averages"]["asts"] for player in self.players.all())/self.players.count()
+		stls = 1.1 - sum(player.stats["averages"]["stls"] for player in self.players.all())/self.players.count()
+		blks = 1.1 - sum(player.stats["averages"]["blks"] for player in self.players.all())/self.players.count()
+		threesm = 1.6 - sum(player.stats["averages"]["threesm"] for player in self.players.all())/self.players.count()
+
+		x = ["pts", "rebs", "asts", "stls", "blks", "threesm"]
+		avgs = [pts, rebs, asts, stls, blks, threesm]
+		i = avgs.index(max(avgs))
+		return x[i]
 
 	@property
 	def matchups(self):
 		from leagues.models import Matchup
 		return Matchup.objects.filter(Q(home_team=self)|(Q(away_team=self))).order_by('week')
 
-	@cached_property
+	@property
 	def current_matchup(self):
 		return self.matchups.filter(Q(start_date__lte=date.today()) & (Q(end_date__gte=date.today()))).first()
 
-	@cached_property
+	@property
 	def current_opponent(self):
 		if self.current_matchup.home_team == self:
 			return self.current_matchup.away_team
 		else:
 			return self.current_matchup.home_team.name
 
+	@property
+	def previous_matchup(self):
+		return self.matchups.filter(week=self.current_matchup.week-1).first()
+
+	@property
+	def previous_opponent(self):
+		if self.previous_matchup.home_team == self:
+			return self.previous_matchup.away_team
+		else:
+			return self.previous_matchup.home_team.name
+
 	def clean(self):
 		if self.pk:
 			for player in self.players.all():
 				if Team.objects.filter(league=self.league).exclude(id=self.pk).filter(players__name=player.name):
 					raise IntegrityError('%s is already on a team in this league: %s' % (player.name, self.name))
-
 
 	@cached_property
 	def season_totals(self):
@@ -172,6 +206,8 @@ class Team(models.Model):
 			'record': self.record,
 			'current_matchup': self.current_matchup,
 			'current_opponent': self.current_opponent,
+			'previous_matchup': self.previous_matchup,
+			'previous_opponent': self.previous_opponent,
 			'average_weekly_score': self.average_weekly_score()
 		}
 
