@@ -383,7 +383,7 @@ class Matchup(models.Model):
         self.away_fga = sum(sl.fga for sl in self.away_statlines)
         self.away_ftm = sum(sl.ftm for sl in self.away_statlines)
         self.away_fta = sum(sl.fta for sl in self.away_statlines)
-        self.away_threesm = sum(sl.ftm for sl in self.away_statlines)
+        self.away_threesm = sum(sl.threesm for sl in self.away_statlines)
 
         self.home_pts = sum(sl.pts for sl in self.home_statlines)
         self.home_asts = sum(sl.asts for sl in self.home_statlines)
@@ -396,7 +396,7 @@ class Matchup(models.Model):
         self.home_fga = sum(sl.fga for sl in self.home_statlines)
         self.home_ftm = sum(sl.ftm for sl in self.home_statlines)
         self.home_fta = sum(sl.fta for sl in self.home_statlines)
-        self.home_threesm = sum(sl.ftm for sl in self.home_statlines)
+        self.home_threesm = sum(sl.threesm for sl in self.home_statlines)
 
         for stat in ['pts', 'asts', 'rebs', 'stls', 'blks', 'tos', 'fgpct', 'ftpct', 'threesm']:
         	if stat == 'fgpct':
