@@ -35,10 +35,9 @@
     float: left;
     padding: 5px 10px;
     margin: 5px;
-    border: 1px solid black;
     width: 198px!important;
     text-align: center;
-    height: 218px!important;
+    height: 205px!important;
 }
 
 .top-performer p {
@@ -59,6 +58,10 @@
 .top-performace-player-details {
   float: left;
   padding: 5px;
+}
+
+.top-performace-player-details p {
+  margin-top: 2px;
 }
 
 .top-performace-player-details img {

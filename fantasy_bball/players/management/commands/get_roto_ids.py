@@ -12,8 +12,8 @@ class Command(BaseCommand):
     Gets the ids of players to fetch their notes. Brute forces the rotoworld urls since they are formatted with ids
     """
     def handle(self, *args, **options):
-        i = 2612
-        while i < 2660:
+        i = 400
+        while i < 2613:
             url = 'http://www.rotoworld.com/player/nba/{}/'.format(i)
             r = requests.get(url)
             soup = BeautifulSoup(r.text)
@@ -33,6 +33,9 @@ class Command(BaseCommand):
                 print("not found")
                 i += 1
                 continue
+
+            if i < 800:
+                player.retired = True
 
             player.roto_id = i
             player.save()

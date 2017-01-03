@@ -1,20 +1,34 @@
+#header {
+    display: none;
+}
+
+.header-image {
+    height: 147px;
+    float: left;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: "Neue Helvetica W01", Helvetica, Arial, sans-serif;
-    color: #096881 ;
+    color: #00323A ;
+    background: #B3B3B3;
 }
 
 ul {
 	list-style: none;
 }
 
+strong {
+    color: #000;
+}
+
 a {
-	color: #096881;;
+	color: #00323A;
 }
 
 a:hover {
-	color: #00323A;
+	color: #CD0000;
 }
 
 #header {
@@ -36,12 +50,6 @@ a:hover {
 	height: inherit;
 }
 
-.header-image {
-    height: inherit;
-    float: left;
-    border-right: 1px solid black;
-}
-
 .header-links {
     margin: 0;
     float: left;
@@ -54,6 +62,16 @@ a:hover {
 .header-link {
     float: left;
     padding: 0 15px;
+}
+
+#site-banner {
+    display: inline-block;
+}
+
+#site-quote {
+    margin-top: 0;
+    padding: 15px;
+    display: inline-block;
 }
 
 .manage-account {
@@ -115,9 +133,9 @@ a:hover {
 
 .left-nav {
 	float: left;
-	height: 600px;
-	width: 140px;
-	background: #096881;
+	height: 100vh;
+	width: 228px;
+	background: #000;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 }
@@ -137,23 +155,21 @@ a:hover {
 }
 
 .left-nav-links {
-	left: 0;
-	top: 120px;
-	padding: 5px 15px;
+	padding: 0px 15px;
 }
 
 .left-nav-link {
     padding: 5px 10px 5px 0;
-    font-size: 12px;
-}
-
-.left-nav-link:hover {
-	text-decoration: underline;
+    font-size: 14px;
 }
 
 .left-nav-link a {
-	color: #fff6e5;
+    color: #FFF;
     text-decoration: none;
+}
+
+.left-nav-link a:hover {
+	color: #B3B3B3;
 }
 
 #main-content {
@@ -190,9 +206,9 @@ a:hover {
     display: table;
     width: auto;
     font-size: 10px;
-    background: #fff6e5;
+    background: #FFF;
     border-right: 1px solid black;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .rTableRow {
@@ -225,34 +241,10 @@ a:hover {
     display: table-row-group;
 }
 
-div.rTable > div:nth-of-type(odd) {
-    background: #fff;
+div.rTable > div:nth-of-type(even) {
+    background: #EEE9E9;
 }
 
 .statline-slider {
     padding: 0 10px;
-}
-
-#go-left {
-    position: relative;
-    top: 115px;
-    right: 383px;
-}
-
-#go-right {
-    position: relative;
-    top: 115px;
-    left: 231px;
-}
-
-#go-left-2 {
-    position: relative;
-    top: 115px;
-    right: 122px;
-}
-
-#go-right-2 {
-    position: relative;
-    top: 115px;
-    left: 494px;
 }

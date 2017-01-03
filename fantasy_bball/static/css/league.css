@@ -1,15 +1,12 @@
-/*team*/
+/* team */
 
-.team-details {
-	background: #fff;
-}
 .team-details p {
 	margin-top: 5px;
 	font-size: 12px
 }
 
 
-/*draft*/
+/* draft */
 #draft-results {
 	font-size: 12px;
 }

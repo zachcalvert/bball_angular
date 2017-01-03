@@ -38,18 +38,16 @@ class Player(models.Model):
 	"""
 	A simple model describing an NBA player that may be on one Team per League.
 	"""
-	# attributes
 	name = models.CharField(max_length=35)
 	position = models.CharField(u'Position', choices=POSITIONS, default='PG', max_length=15)
 	nba_team = models.CharField(u'NBA Team', choices=NBA_TEAMS, default='FA', max_length=25)
+	retired = models.BooleanField(default=False)
 
-	# notes
 	roto_id = models.IntegerField(default=0)
 	recent_notes = models.CharField(max_length=2000, default='No recent notes.')
 	image_url = models.CharField(max_length=255, null=True, blank=True)
 
 	statlines = models.ForeignKey('schedule.StatLine', null=True, blank=True, related_name='statlines')
-	rostered = models.BooleanField(default=True)
 
 	class Meta:
 		ordering = ['name']
@@ -59,6 +57,9 @@ class Player(models.Model):
 
 	@property
 	def short_name(self):
+		"""
+		Shortens 'Anthony Davis' to 'A. Davis'
+		"""
 		first, last = self.name.split(" ", 1)
 		first = first[0]
 		return "{0}. {1}".format(first, last)

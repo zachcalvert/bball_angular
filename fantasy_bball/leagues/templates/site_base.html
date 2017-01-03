@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     {% block title %}
-      <title>Example</title>
+      <title>Ball Don't Lie</title>
     {% endblock %}
 
     {% block head_css %}
@@ -13,85 +13,66 @@
       <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
       <link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
       <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/jquery.bxslider.css' %}" />
     {% endblock %}
 
     {% block head_js %}
       <script src="{% static 'js/jquery-1.11.2.min.js' %}" type="application/javascript"></script>
+      <script src="{% static 'js/jquery.bxslider.js' %}" type="application/javascript"></script>
       <script src="{% static 'js/jquery.diyslider.min.js' %}" type="application/javascript"></script>
     {% endblock %}
   </head>
 
   <body>
     {% block header %}
-      <div id="header">
-        <a href="{% url 'site_home' %}"><img class="header-image" src="http://i.imgur.com/uXeJAgC.png" /></a>
-        <h2><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
-        <ul class="header-links">
-          <li class="header-link"><a href="javascript:;">My Team</a></li>
-          <li class="header-link"><a href="javascript:;">Matchup</a></li>
-          <li class="header-link"><a href="javascript:;">Free Agents</a></li>
-          <li class="header-link"><a href="javascript:;">Standings</a></li>
-          <li class="header-link"><a href="javascript:;">Schedule</a></li>
-        </ul>
 
-        <ul id="mobile-nav-icons">
-          <li id="mobile-nav-search" class="mobile-nav-icon"><a href="javascript:;"><i class="fa fa-search"></i></a></li>  
-          <li id="mobile-nav-menu" class="mobile-nav-icon"><a href="javascript:;"><i class="fa fa-bars"></i></a></li>
-        </ul>
-
-        <div class="manage-account">
-          <strong><a href="javascript:;">Options</a></strong>
-          <ul class="manage-account-links">
-            <li class="manage-account-link">Header Link 1</li>
-            <li class="manage-account-link">Link 2</li>
-            <li class="manage-account-link"><a href="javascript:;">Sign out</a></li>
-          </ul>
-        </div>
-      </div>
     {% endblock %}
 
     {% block content %}
       <div id="content">
-
-        {% block leftnav %}
-          <div class="left-nav">
-            <p><i class="fa fa-chevron-left"></i></p>
-            <ul class="left-nav-links">
-              {% for league in leagues %}
-                <li class="left-nav-link"><a href="{% url 'league' league.id %}">{{ league.name }}</a></li>
-              {% endfor %}
-            </ul>
+        <div class="left-nav">
+          <div id="site-banner">
+            <a href="{% url 'site_home' %}"><img class="header-image" src="http://i.imgur.com/ySYy3ui.png" /></a>
           </div>
+          {% block left_nav_content %}
+              <ul class="left-nav-links">
+                {% for league in leagues %}
+                  <li class="left-nav-link"><a href="{% url 'league' league.id %}">{{ league.name }}</a></li>
+                {% endfor %}
+              </ul>
+          {% endblock %}
+        </div>
+
+        {% block quote %}
+          <h2 id="site-quote"><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
         {% endblock %}
 
         {% block block1 %}
           <div id="block-1" class="block">
+            <strong>Top Performers from {{ yesterday }}</strong>
             <div class="statline-slider">
-              <strong>Top Performers from {{ yesterday }}</strong>
-              <button id="go-left">&laquo;</button> <button id="go-right">&raquo;</button>
-              <div class="slider">
-                <div><!-- A mandatory div used by the slider -->
-                  {% for statline in yesterdays_best %}
-                    {% include 'statline.html' %}
-                  {% endfor %}
-                </div>
+              <div id="prev-items-1" class="slider-control prev"></div>
+              <div class="slider" id="slider-1">
+                {% for statline in yesterdays_best %}
+                  {% include 'statline.html' %}
+                {% endfor %}
               </div>
+              <div id="next-items-1" class="slider-control next"></div>
             </div>
           </div>
         {% endblock %}
 
         {% block block2 %}
           <div id="block-2" class="block">
+            <strong>Season Best</strong>
             <div class="statline-slider">
-              <strong>Season Best</strong>
-              <button id="go-left-2">&laquo;</button> <button id="go-right-2">&raquo;</button>
-              <div class="slider-2">
-                <div><!-- A mandatory div used by the slider -->
-                  {% for statline in season_best %}
-                    {% include 'statline.html' %}
-                  {% endfor %}
-                </div>
+              <div id="prev-items-2" class="slider-control prev"></div>
+              <div class="slider" id="slider-2">
+                {% for statline in season_best %}
+                  {% include 'statline.html' %}
+                {% endfor %}
               </div>
+              <div id="next-items-2" class="slider-control next"></div>
             </div>
           </div>
         {% endblock %}
@@ -109,40 +90,34 @@
       <script>
         $(document).ready(function () {
           sessionStorage.setItem('left-nav-visible', true);
-        });
-        $(".slider").diyslider({
-            width: "625px",
-            height: "230px",
-            display: 3,
-            animationDuration: 200,
-            animationEasing: 'swing'
-        });
+          
+          var widgetRowFocus =  $("#slider-1");
+            widgetRowFocus.bxSlider({
+            minSlides: 2,
+            maxSlides: 4,
+            slideWidth: 250,
+            slideMargin: 16,
+            pager: false,
+            adaptiveHeight: true,
+            nextSelector: "#next-items-1",
+            prevSelector: "#prev-items-1",
+            prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+            nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+          });
 
-        // use buttons to change slide
-        $("#go-left").bind("click", function(){
-            // Go to the previous slide
-            $(".slider").diyslider("move", "back");
-        });
-        $("#go-right").bind("click", function(){
-            // Go to the previous slide
-            $(".slider").diyslider("move", "forth");
-        });
-        $(".slider-2").diyslider({
-            width: "625px",
-            height: "230px",
-            display: 3,
-            animationDuration: 200,
-            animationEasing: 'swing'
-        });
-
-        // use buttons to change slide
-        $("#go-left-2").bind("click", function(){
-            // Go to the previous slide
-            $(".slider-2").diyslider("move", "back");
-        });
-        $("#go-right-2").bind("click", function(){
-            // Go to the previous slide
-            $(".slider-2").diyslider("move", "forth");
+          var widgetRowFocus =  $("#slider-2");
+            widgetRowFocus.bxSlider({
+            minSlides: 2,
+            maxSlides: 4,
+            slideWidth: 250,
+            slideMargin: 16,
+            pager: false,
+            adaptiveHeight: true,
+            nextSelector: "#next-items-2",
+            prevSelector: "#prev-items-2",
+            prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+            nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+          });
         });
       </script>
 

@@ -444,6 +444,9 @@ class Draft(models.Model):
 	            yield i
 
 	def set_order(self):
+		"""
+		Set up the snake draft
+		"""
 		self.picks.all().delete()
 		snake = self.snake(self.league.teams.count())
 		draft_order = [snake.next() for _ in xrange(self.league.teams.count()*self.league.roster_size)]

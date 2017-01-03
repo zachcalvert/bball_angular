@@ -12,13 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='matchup',
-            name='result',
-        ),
         migrations.AddField(
             model_name='team',
             name='needed_stat',
             field=models.CharField(choices=[('pts', 'points'), ('rebs', 'rebounds'), ('asts', 'assists'), ('stls', 'steals'), ('blks', 'blocks'), ('threesm', 'threesm')], default='PG', max_length=15, verbose_name='Position'),
+        ),
+        migrations.AlterField(
+            model_name='team',
+            name='name',
+            field=models.CharField(default='Team', max_length=50),
         ),
     ]
