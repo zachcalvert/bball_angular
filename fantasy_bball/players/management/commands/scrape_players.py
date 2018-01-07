@@ -28,6 +28,6 @@ class Command(BaseCommand):
 					position = str(tr.b).strip("<b>/")
 				info = tr.a
 				# create the player
-				player = Player.objects.get_or_create(name=info.text, position=position)
+				player, created = Player.objects.get_or_create(name=info.text, position=position)
 				# sanity check
 				print('created player: {0}, {1}'.format(info.text, position))
