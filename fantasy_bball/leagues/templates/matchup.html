@@ -1,0 +1,128 @@
+{% extends 'league.html' %}
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+{% endblock %}
+
+{% block block1 %}
+	<div id="block-1" class="block">
+		<div class="team-details">
+			<strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a> ({{ matchup_data.home.record }}) vs <a href="{% url 'team' league_data.id matchup_data.away.id %}">{{ matchup_data.away.name }}</a> ({{ matchup_data.away.record }}) </strong>
+			<p>Week {{ matchup_data.week}}: {{ matchup_data.start_date }} - {{ matchup_data.end_date }}</p>
+		</div>
+		<div class="matchup-summary">
+			<div class="rTable">
+		        <div class="rTableRow">
+				  <div class="rTableHead player-name"><strong>Team</strong></div>
+				  <div class="rTableHead"><strong>FG%</strong></div>
+		          <div class="rTableHead"><strong>FT%</strong></div>
+		          <div class="rTableHead"><strong>3pt</strong></div>
+		          <div class="rTableHead"><strong>Pts</strong></div>
+		          <div class="rTableHead"><strong>Rebs</strong></div>
+		          <div class="rTableHead"><strong>Asts</strong></div>
+		          <div class="rTableHead"><strong>Stls</strong></div>
+		          <div class="rTableHead"><strong>Blks</strong></div>
+		          <div class="rTableHead"><strong>Tos</strong></div>
+		        </div>
+		        {% with matchup_data.home.data.totals as totals %}
+			        <div class="rTableRow">
+					  <div class="rTableHead player-name"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a></strong></div>
+					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.pts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.rebs }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.asts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.stls }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.blks }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.tos }}</strong></div>
+			        </div>
+		        {% endwith %}
+		        {% with matchup_data.away.data.totals as totals %}
+			        <div class="rTableRow">
+					  <div class="rTableHead player-name"><strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.away.name }}</a></strong></strong></div>
+					  <div class="rTableHead"><strong>{{ totals.0.fgpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.ftpct }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.threesm }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.pts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.rebs }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.asts }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.stls }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.blks }}</strong></div>
+			          <div class="rTableHead"><strong>{{ totals.0.tos }}</strong></div>
+			        </div>
+		        {% endwith %}
+			</div>
+		</div>
+   </div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+		<div class="team-table">
+	      <strong><a href="{% url 'team' league_data.id matchup_data.home.id %}">{{ matchup_data.home.name }}</a></strong>
+	      <div class="rTable">
+	        <div class="rTableRow">
+			  <div class="rTableHead"><strong>Name</strong></div>
+			  <div class="rTableHead"><strong>FG%</strong></div>
+	          <div class="rTableHead"><strong>FT%</strong></div>
+	          <div class="rTableHead"><strong>3pt</strong></div>
+	          <div class="rTableHead"><strong>Pts</strong></div>
+	          <div class="rTableHead"><strong>Rebs</strong></div>
+	          <div class="rTableHead"><strong>Asts</strong></div>
+	          <div class="rTableHead"><strong>Stls</strong></div>
+	          <div class="rTableHead"><strong>Blks</strong></div>
+	          <div class="rTableHead"><strong>Tos</strong></div>
+	        </div>
+	        {% for player in matchup_data.home.data.players %}
+				<div class="rTableRow">
+					<div class="rTableCell player-name"><a href="{% url 'player' player.id %}">{{ player.name }}</a></div>
+					<div class="rTableCell">{{ player.fgpct }}</div>
+					<div class="rTableCell">{{ player.ftpct }}</div>
+					<div class="rTableCell">{{ player.threesm }}</div>
+					<div class="rTableCell">{{ player.pts }}</div>
+					<div class="rTableCell">{{ player.rebs }}</div>
+					<div class="rTableCell">{{ player.asts }}</div>
+					<div class="rTableCell">{{ player.stls }}</div>
+					<div class="rTableCell">{{ player.blks }}</div>
+					<div class="rTableCell">{{ player.tos }}</div>
+				</div>  
+			{% endfor %}
+	      </div>
+	    </div>
+
+		<div class="team-table">
+	      <strong><a href="{% url 'team' league_data.id matchup_data.away.id %}">{{ matchup_data.away.name }}</a></strong>
+	      <div class="rTable">
+	        <div class="rTableRow">
+			  <div class="rTableHead"><strong>Name</strong></div>
+			  <div class="rTableHead"><strong>FG%</strong></div>
+	          <div class="rTableHead"><strong>FT%</strong></div>
+	          <div class="rTableHead"><strong>3pt</strong></div>
+	          <div class="rTableHead"><strong>Pts</strong></div>
+	          <div class="rTableHead"><strong>Rebs</strong></div>
+	          <div class="rTableHead"><strong>Asts</strong></div>
+	          <div class="rTableHead"><strong>Stls</strong></div>
+	          <div class="rTableHead"><strong>Blks</strong></div>
+	          <div class="rTableHead"><strong>Tos</strong></div>
+	        </div>
+	        {% for player in matchup_data.away.data.players %}
+				<div class="rTableRow">
+					<div class="rTableCell player-name"><a href="{% url 'player' player.id %}">{{ player.name }}</a></div>
+					<div class="rTableCell">{{ player.fgpct }}</div>
+					<div class="rTableCell">{{ player.ftpct }}</div>
+					<div class="rTableCell">{{ player.threesm }}</div>
+					<div class="rTableCell">{{ player.pts }}</div>
+					<div class="rTableCell">{{ player.rebs }}</div>
+					<div class="rTableCell">{{ player.asts }}</div>
+					<div class="rTableCell">{{ player.stls }}</div>
+					<div class="rTableCell">{{ player.blks }}</div>
+					<div class="rTableCell">{{ player.tos }}</div>
+				</div>  
+			{% endfor %}
+	      </div>
+	    </div>
+	</div>
+{% endblock %}

@@ -1,28 +1,32 @@
 {
   "name": "fantasy_bball",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
+    "babel-loader": "^6.2.7",
     "react": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.5",
-    "webpack": "^1.13.2",
+    "webpack": "^1.13.3",
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "async": "^2.1.2",
     "axios": "^0.15.2",
     "lodash": "^4.16.4",
     "react-chartjs-2": "^1.5.0",
     "react-router": "^2.8.1",
-    "reactable": "^0.14.0"
-  }
+    "reactable": "^0.14.0",
+    "tapable": "^0.2.4",
+    "webpack-core": "^0.6.8"
+  },
+  "description": ""
 }

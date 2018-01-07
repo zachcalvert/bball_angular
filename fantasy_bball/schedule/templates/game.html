@@ -1,0 +1,94 @@
+{% extends 'site_base.html' %}
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+{% endblock %}
+
+
+{% block block1 %}
+	<div id="block-1" class="block">
+		<div class="game-title"><strong>{{ game.full_away_name }} at {{ game.full_home_name }}</strong></div>
+		<div class="game-date">{{ game_day }}</div>
+
+		{% if game.home_points and game.away_points %}
+		<div class="game-result">
+			{{ game.home_team }} {{ game.home_points }} - {{ game.away_points }} {{ game.away_team }}
+		</div>
+		{% endif %}
+
+		<div class="game-statlines">
+	      	<strong>{{ game.full_home_name }}</strong>
+	          <div class="rTable">
+	            <div class="rTableRow">
+	              <div class="rTableHead player-name"><strong>Player</strong></div>
+	              <div class="rTableHead"><strong>MP</strong></div>
+	              <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
+	              <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
+	              <div class="rTableHead"><strong>3PT</strong></div>
+	              <div class="rTableHead"><strong>REB</strong></div>
+	              <div class="rTableHead"><strong>AST</strong></div>
+	              <div class="rTableHead"><strong>STL</strong></div>
+	              <div class="rTableHead"><strong>BLK</strong></div>
+	              <div class="rTableHead"><strong>TOS</strong></div>
+	              <div class="rTableHead"><strong>PTS</strong></div>
+	            </div>
+	            {% for statline in game.home_statlines %}
+		            <div class="rTableRow">
+		              <div class="rTableCell player-name"><a href="{% url 'player' statline.player.id %}">{{ statline.player.name }}</a></div>
+		              <div class="rTableCell">{{ statline.mp }}</div>
+		              <div class="rTableCell hide-on-mobile">{{ statline.fgm }}/{{ statline.fga }}</div>
+		              <div class="rTableCell hide-on-mobile">{{ statline.ftm }}/{{ statline.fta }}</div>
+		              <div class="rTableCell">{{ statline.threesm }}/{{ statline.threesa }}</div>
+		              <div class="rTableCell">{{ statline.trbs }}</div>
+		              <div class="rTableCell">{{ statline.asts }}</div>
+		              <div class="rTableCell">{{ statline.stls }}</div>
+		              <div class="rTableCell">{{ statline.blks }}</div>
+		              <div class="rTableCell">{{ statline.tos }}</div>
+		              <div class="rTableCell">{{ statline.pts }}</div>
+		            </div>
+				{% endfor %}
+	          </div>
+	        </div>
+		</div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+		<div class="game-statlines">
+	      	<strong>{{ game.full_away_name }}</strong>
+	          <div class="rTable">
+	            <div class="rTableRow">
+	              <div class="rTableHead player-name"><strong>Player</strong></div>
+	              <div class="rTableHead"><strong>MP</strong></div>
+	              <div class="rTableHead hide-on-mobile"><strong>FG</strong></div>
+	              <div class="rTableHead hide-on-mobile"><strong>FT</strong></div>
+	              <div class="rTableHead"><strong>3PT</strong></div>
+	              <div class="rTableHead"><strong>REB</strong></div>
+	              <div class="rTableHead"><strong>AST</strong></div>
+	              <div class="rTableHead"><strong>STL</strong></div>
+	              <div class="rTableHead"><strong>BLK</strong></div>
+	              <div class="rTableHead"><strong>TOS</strong></div>
+	              <div class="rTableHead"><strong>PTS</strong></div>
+	            </div>
+	            {% for statline in game.away_statlines %}
+		            <div class="rTableRow">
+		              <div class="rTableCell player-name"><a href="{% url 'player' statline.player.id %}">{{ statline.player.name }}</a></div>
+		              <div class="rTableCell">{{ statline.mp }}</div>
+		              <div class="rTableCell hide-on-mobile">{{ statline.fgm }}/{{ statline.fga }}</div>
+		              <div class="rTableCell hide-on-mobile">{{ statline.ftm }}/{{ statline.fta }}</div>
+		              <div class="rTableCell">{{ statline.threesm }}/{{ statline.threesa }}</div>
+		              <div class="rTableCell">{{ statline.trbs }}</div>
+		              <div class="rTableCell">{{ statline.asts }}</div>
+		              <div class="rTableCell">{{ statline.stls }}</div>
+		              <div class="rTableCell">{{ statline.blks }}</div>
+		              <div class="rTableCell">{{ statline.tos }}</div>
+		              <div class="rTableCell">{{ statline.pts }}</div>
+		            </div>
+				{% endfor %}
+	          </div>
+	        </div>
+		</div>
+	</div>
+{% endblock %}

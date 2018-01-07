@@ -8,7 +8,6 @@ from django.db.models.query import QuerySet
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 
-
 from leagues.models import League
 
 
@@ -39,15 +38,16 @@ class Player(models.Model):
 	"""
 	A simple model describing an NBA player that may be on one Team per League.
 	"""
-	# attributes
 	name = models.CharField(max_length=35)
 	position = models.CharField(u'Position', choices=POSITIONS, default='PG', max_length=15)
 	nba_team = models.CharField(u'NBA Team', choices=NBA_TEAMS, default='FA', max_length=25)
+	retired = models.BooleanField(default=False)
 
-	# notes
 	roto_id = models.IntegerField(default=0)
 	recent_notes = models.CharField(max_length=2000, default='No recent notes.')
 	image_url = models.CharField(max_length=255, null=True, blank=True)
+
+	statlines = models.ForeignKey('schedule.StatLine', null=True, blank=True, related_name='statlines')
 
 	class Meta:
 		ordering = ['name']
@@ -57,7 +57,16 @@ class Player(models.Model):
 
 	@property
 	def short_name(self):
-		return "{0} {1} {2}".format(self.name, self.nba_team, self.position)
+		"""
+		Shortens 'Anthony Davis' to 'A. Davis'
+		"""
+		first, last = self.name.split(" ", 1)
+		first = first[0]
+		return "{0}. {1}".format(first, last)
+
+	@property
+	def full_team_name(self):
+		return dict(NBA_TEAMS).get(self.nba_team)
 
 	def is_available(self, league_id):
 		league = League.objects.get(id=league_id)
@@ -68,8 +77,11 @@ class Player(models.Model):
 
 	@cached_property
 	def notes(self):
+		"""
+		Organize recent_notes into something easier to work with.
+		"""
 		splits = self.recent_notes.split('date:')
-		data = {}
+		data = []
 		for i in range(len(splits)):
 			if i == 0:
 				continue
@@ -87,13 +99,15 @@ class Player(models.Model):
 				except ValueError:
 					continue
 
-				data =  {
+				notes = {
+					'id': i,
 					'date': note_date,
 					'report': note_report,
 					'impact': note_impact
 				}
+				data.append(notes)
 
-				return data
+		return data
 
 	@cached_property
 	def stats(self, since_date=None):
@@ -122,34 +136,34 @@ class Player(models.Model):
 
 			data = {
 				'totals': {
-					'pts': pts,
-					'rebs': rebs,
-					'asts': asts,
-					'stls': stls,
-					'blks': blks,
-					'fgm': fgm,
-					'fga': fga,
-					'ftm': ftm,
-					'fta': fta,
-					'threesm': threesm,
-					'threesa': threesa,
-					'tos': tos
-				},
-				'averages': {
-					'pts': round(pts/gp, 2),
-					'rebs': round(rebs/gp, 2),
-					'asts': round(asts/gp, 2),
-					'stls': round(stls/gp, 2),
-					'blks': round(blks/gp, 2),
-					'fgm': round(fgm/gp, 1),
-					'fga': round(fga/gp, 1),
-					'ftm': round(ftm/gp, 1),
-					'fta': round(fta/gp, 1),
-					'threesm': round(threesm/gp, 1),
-					'threesa': round(threesa/gp, 1),
-					'tos': round(tos/gp, 2)
+					'pts': sum(sl.pts for sl in statlines),
+					'rebs': sum(sl.trbs for sl in statlines),
+					'asts': sum(sl.asts for sl in statlines),
+					'stls': sum(sl.stls for sl in statlines),
+					'blks': sum(sl.blks for sl in statlines),
+					'fgm': sum(sl.fgm for sl in statlines),
+					'fga': sum(sl.fga for sl in statlines),
+					'ftm': sum(sl.ftm for sl in statlines),
+					'fta': sum(sl.fta for sl in statlines),
+					'threesm': sum(sl.threesm for sl in statlines),
+					'threesa': sum(sl.threesa for sl in statlines),
+					'tos': sum(sl.tos for sl in statlines),
 				}
-			}
+			  }
+			data["averages"] = {
+					'pts': round(sum(sl.pts for sl in statlines)/gp, 2),
+					'rebs': round(sum(sl.trbs for sl in statlines)/gp, 2),
+					'asts': round(sum(sl.asts for sl in statlines)/gp, 2),
+					'stls': round(sum(sl.stls for sl in statlines)/gp, 2),
+					'blks': round(sum(sl.blks for sl in statlines)/gp, 2),
+					'fgm': round(sum(sl.fgm for sl in statlines)/gp, 1),
+					'fga': round(sum(sl.fga for sl in statlines)/gp, 1),
+					'ftm': round(sum(sl.ftm for sl in statlines)/gp, 1),
+					'fta': round(sum(sl.fta for sl in statlines)/gp, 1),
+					'threesm': round(sum(sl.threesm for sl in statlines)/gp, 1),
+					'threesa': round(sum(sl.threesa for sl in statlines)/gp, 1),
+					'tos': round(sum(sl.tos for sl in statlines)/gp, 2)
+				}
 
 			if fga == 0:
 				data['averages']['fgpct'] = "0%"
@@ -175,7 +189,10 @@ class Player(models.Model):
 		games = Game.objects.filter(season=Season.objects.last())
 		statlines = list(StatLine.objects.filter(player_id=self.pk, game__in=games))
 		total = sum(statline.game_score for statline in statlines)
-		return round(total/len(statlines), 2)
+		try:	
+			return round(total/len(statlines), 2)
+		except ZeroDivisionError:
+			return 0.0
 
 	@cached_property
 	def recent_form(self, num_games=10):
@@ -220,16 +237,24 @@ class Player(models.Model):
 		if quick_stats:
 			data["stats"] = self.stats.get("averages")
 			data["recent_form"] = self.recent_form
+			data["season_form"] = self.season_form
 
 		if full_stats:
 			data["chart_data"] = self.chart_data
 			data["recent_games"] = self.recent_games
 			data["stats"] = self.stats
 			data["notes"] = self.notes
-			data["season_form"] = self.season_form
 
 		return data
 
+
+class Quote(models.Model):
+	content = models.CharField(max_length=150)
+	person = models.CharField(max_length=30)
+	year = models.CharField(max_length=4, null=True, blank=True)
+
+	def __unicode__(self):
+		return "'{0}' -- {1}, {2}".format(self.content, self.person, self.year)
 
 
 		

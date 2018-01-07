@@ -1,0 +1,29 @@
+{% extends 'league.html' %}
+{% load static %}
+
+{% block block1 %}
+	<div id="block-1" class="block">
+    <div id="draft-results">
+      <h4>Draft Results</h4>
+        {% for round in draft_data %}
+          <div class="draft-round">
+            <strong>Round {{ round.0.round }}</strong>
+            <div class="rTable">
+              {% for pick in round %}
+                <div class="rTableRow">
+                  {{ pick.pick }}. 
+                  <div class="rTableCell player-name"><a href="{% url 'player' pick.player.id %}">
+                    {{ pick.player.name }}</a> <span class ="player-name-details">{{ pick.player.nba_team }} {{ pick.player.position }}</span>
+                  </div>
+                  <div class="rTableCell"><a href="{% url 'team' league_data.id pick.team.id %}">{{ pick.team.name }}</a></div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+   </div>
+ </div>
+{% endblock %}
+
+{% block block2 %}
+{% endblock %}

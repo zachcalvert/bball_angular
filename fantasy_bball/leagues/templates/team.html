@@ -1,0 +1,54 @@
+{% extends 'league.html' %}
+{% load static %}
+
+{% block block1 %}
+	<div id="block-1" class="block">
+		<div class="team-details">
+			<strong>{{ team_data.name }}</strong> ({{ team_data.record }})
+			<p>Current matchup: vs <a href="{% url 'matchup' team_data.league_id team_data.current_matchup.id %}">{{ team_data.current_opponent }}</p></a>
+      <p>Previous matchup: vs <a href="{% url 'matchup' team_data.league_id team_data.previous_matchup.id %}">{{ team_data.previous_opponent }}</p></a>
+		</div>
+   </div>
+{% endblock %}
+
+{% block block2 %}
+	<div id="block-2" class="block">
+	<div class="league-team-table">
+      <strong>Roster</strong>
+      <div class="rTable">
+        <div class="rTableRow">
+          <div class="rTableHead"><strong>Name</strong></div>
+          <div class="rTableHead"><strong>Position</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Recent</strong></div>
+          <div class="rTableHead hide-mobile"><strong>Season</strong></div>
+		  <div class="rTableHead hide-tablet"><strong>FG%</strong></div>
+          <div class="rTableHead hide-tablet"><strong>FT%</strong></div>
+          <div class="rTableHead hide-tablet"><strong>3ptm</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Rebs</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Asts</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Stls</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Blks</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Tos</strong></div>
+          <div class="rTableHead hide-tablet"><strong>Pts</strong></div>
+        </div>
+        {% for player in team_data.players %}
+            <div class="rTableRow">
+              <div class="rTableCell"><a href="{% url 'player' player.id %}">{{ player.name }}</a></div>
+              <div class="rTableCell">{{ player.position }}</div>
+              <div class="rTableCell hide-mobile">{{ player.recent_form }}</div>
+              <div class="rTableCell hide-mobile">{{ player.season_form }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.fgpct }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.ftpct }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.threesm }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.rebs }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.asts }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.stls }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.blks }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.tos }}</div>
+              <div class="rTableCell hide-tablet">{{ player.stats.pts }}</div>
+            </div>
+		{% endfor %}
+      </div>
+    </div>
+	</div>
+{% endblock %}

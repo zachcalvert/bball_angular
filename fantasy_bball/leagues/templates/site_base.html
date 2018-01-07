@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    {% block title %}
+      <title>Ball Don't Lie</title>
+    {% endblock %}
+
+    {% block head_css %}
+      <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/schedule.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/jquery.bxslider.css' %}" />
+    {% endblock %}
+
+    {% block head_js %}
+      <script src="{% static 'js/jquery-1.11.2.min.js' %}" type="application/javascript"></script>
+      <script src="{% static 'js/jquery.bxslider.js' %}" type="application/javascript"></script>
+      <script src="{% static 'js/jquery.diyslider.min.js' %}" type="application/javascript"></script>
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block header %}
+
+    {% endblock %}
+
+    {% block content %}
+      <div id="content">
+        <div class="left-nav">
+          <div id="site-banner">
+            <a href="{% url 'site_home' %}"><img class="header-image" src="http://i.imgur.com/ySYy3ui.png" /></a>
+          </div>
+          {% block left_nav_content %}
+              <ul class="left-nav-links">
+                {% for league in leagues %}
+                  <li class="left-nav-link"><a href="{% url 'league' league.id %}">{{ league.name }}</a></li>
+                {% endfor %}
+              </ul>
+          {% endblock %}
+        </div>
+
+        {% block quote %}
+          <h2 id="site-quote"><i>"{{ quote.content }}"</i> -- {{ quote.person }}{% if quote.year %}, {{ quote.year }}{% endif %}</h2>
+        {% endblock %}
+
+        {% block block1 %}
+          <div id="block-1" class="block">
+            <strong>Top Performers from {{ yesterday }}</strong>
+            <div class="statline-slider">
+              <div id="prev-items-1" class="slider-control prev"></div>
+              <div class="slider" id="slider-1">
+                {% for statline in yesterdays_best %}
+                  {% include 'statline.html' %}
+                {% endfor %}
+              </div>
+              <div id="next-items-1" class="slider-control next"></div>
+            </div>
+          </div>
+        {% endblock %}
+
+        {% block block2 %}
+          <div id="block-2" class="block">
+            <strong>Season Best</strong>
+            <div class="statline-slider">
+              <div id="prev-items-2" class="slider-control prev"></div>
+              <div class="slider" id="slider-2">
+                {% for statline in season_best %}
+                  {% include 'statline.html' %}
+                {% endfor %}
+              </div>
+              <div id="next-items-2" class="slider-control next"></div>
+            </div>
+          </div>
+        {% endblock %}
+
+      </div>
+    {% endblock %}
+
+    {% block footer %}
+      <div id="footer">
+        <a href="https://github.com/zachcalvert/fantasy_bball">View on Github</a>
+      </div>
+    {% endblock %}
+
+    {% block footer_js %}
+      <script>
+        $(document).ready(function () {
+          sessionStorage.setItem('left-nav-visible', true);
+          
+          var widgetRowFocus =  $("#slider-1");
+            widgetRowFocus.bxSlider({
+            minSlides: 2,
+            maxSlides: 4,
+            slideWidth: 250,
+            slideMargin: 16,
+            pager: false,
+            adaptiveHeight: true,
+            nextSelector: "#next-items-1",
+            prevSelector: "#prev-items-1",
+            prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+            nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+          });
+
+          var widgetRowFocus =  $("#slider-2");
+            widgetRowFocus.bxSlider({
+            minSlides: 2,
+            maxSlides: 4,
+            slideWidth: 250,
+            slideMargin: 16,
+            pager: false,
+            adaptiveHeight: true,
+            nextSelector: "#next-items-2",
+            prevSelector: "#prev-items-2",
+            prevText: "<i class=\"slider-chevrons fa fa-chevron-left\"></i>",
+            nextText: "<i class=\"slider-chevrons fa fa-chevron-right\"></i>"
+          });
+        });
+      </script>
+
+
+      <script>
+        $('.manage-account strong').click(function () {
+          if ($(".manage-account-links").is(":visible")) {{
+              $(".manage-account-links").slideUp(200);
+          }} else {{
+              $(".manage-account-links").slideDown(200);
+          }}
+        });    
+
+        $(document).mouseup(function (e) {
+          var container = $(".manage-account-links");
+          if (!container.is(e.target) // if the target of the click isn't the container...
+              && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.slideUp(200);
+                }
+        });
+      </script>
+
+      <script>
+        $('.left-nav p').click(function () {
+            if (sessionStorage.getItem('left-nav-visible') == "true") {
+              sessionStorage.setItem('left-nav-visible', "false");
+              $('.left-nav p').html('<i class=\"fa fa-chevron-right\"></i>');
+              $('.left-nav-links').hide();
+              $('.left-nav').css("width","30px");
+            } else {
+              sessionStorage.setItem('left-nav-visible', "true");
+              $('.left-nav p').html('<i class=\"fa fa-chevron-left\"></i>');
+              $('.left-nav-links').show();
+              $('.left-nav').css("width","140px");
+            }
+        });
+      </script>    
+    {% endblock %}
+  </body>
+</html>

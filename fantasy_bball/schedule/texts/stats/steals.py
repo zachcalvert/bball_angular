@@ -1,0 +1,4 @@
+verbs = [
+ 'registered',
+ 'swiped' 
+]

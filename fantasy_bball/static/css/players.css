@@ -1,0 +1,131 @@
+/* player block 1 */
+.player-profile-name {
+    margin: 0;
+    font-size: 14px;
+    display: block;
+}
+.player-profile-subname {
+	font-size: 10px;
+}
+
+.player-image {
+	height: 135px;
+	float: left;
+	border: 1px solid black;
+	margin-bottom: 10px;
+}
+
+.player-details {
+	float: left;
+	padding: 0 18px;
+	text-align: center;
+	width: 135px;
+	height: 137px;
+	margin-bottom: 10px;
+}
+
+.player-notes {
+    font-size: 12px;
+    width: 455px;
+    height: 135px;
+    border: 1px solid black;
+    display: inline-block;
+    overflow-y: scroll;
+    background: #FFF;
+}
+
+.player-notes p {
+	margin: 5px 0;
+}
+
+.player-note {
+    background: #FFF;
+    padding: 2px 0 2px 2px;
+}
+
+.selected {
+	background-color: #EEE9E9!important;
+}
+
+.note-dates {
+	float: left;
+	width: 110px;
+}
+
+.note-details {
+	border-left: 1px solid black;
+	float: left;
+	width: 320px;
+	padding: 2px 1px 2px 3px;
+	min-height: 135px;
+	background: #FFF;
+
+}
+
+.player-season-form {
+	border: 1px solid black;
+	border-radius: 8px;
+	color: #CD0000;
+	background: #000;
+	padding-top: 5px;
+	margin-top: 13px;
+	height: 81px;
+	width: 90px;
+	margin-left: 22px;
+}
+
+.player-season-form strong {
+	font-size: 12px;
+	color: #FFF;
+}
+
+.player-season-form p {
+	font-size: 26px;
+	margin-top: 13px;
+}
+
+.note-detail {
+	display: none;
+}
+
+.note-detail p {
+	margin-top: 2px;
+}
+
+/* player block 2 */
+.player-recent-games {
+	padding: 5px 0;
+}
+
+.player-stats {
+	padding: 20px 0;
+}
+
+.player-stats ul {
+	padding: 0;
+	margin: 10px 0 0 0;
+}
+
+.player-stats li {
+	font-size: 12px;
+	float: left;
+	padding: 3px;
+	border: 2px solid #999999;
+	border-bottom: none;
+	width: 62px;
+	text-align: center;
+}
+
+.player-stats-averages, .player-stats-totals {
+	border: 1px solid black!important;
+}
+.player-stats-averages, .player-stats-totals {
+	border-top: none!important;
+	border-bottom: none!important;
+}
+.player-stats-averages {
+	border-right: none!important;
+}
+.stat-totals {
+	display: none;
+}

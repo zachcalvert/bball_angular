@@ -1,0 +1,98 @@
+/* Game */
+.game-title {
+	font-size: 16px;	
+}
+
+.game-date {
+	font-size: 12px;
+}
+
+.game-result {
+	text-align: center;
+}
+
+.game-statlines {
+	padding: 10px 0;
+}
+.player-name {
+	width: 125px;
+}
+
+
+/* StatLine */
+.top-performers {
+  float: left;
+}
+
+.top-performers h4 {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 4px;
+}
+
+.top-performer {
+    display: block;
+    float: left;
+    padding: 5px 10px;
+    margin: 5px;
+    width: 198px!important;
+    text-align: center;
+    height: 205px!important;
+}
+
+.top-performer p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.top-performer-player-name {
+  max-width: 110px;
+}
+
+.top-performer strong {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+.top-performace-player-details {
+  float: left;
+  padding: 5px;
+}
+
+.top-performace-player-details p {
+  margin-top: 2px;
+}
+
+.top-performace-player-details img {
+  border: 1px solid black;
+}
+
+.top-performace-game-details {
+  float:right;
+  padding: 5px;
+}
+
+ul.statline-stats {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+}
+
+ul.statline-stats li {
+  text-align: left;
+}
+
+.hidden {
+  display: none;
+}
+.reactable-th-just_name {
+  display: none;
+}
+
+
+/* matchup */
+.team-table {
+  float: left;
+  padding: 0 0 10px 0;
+}

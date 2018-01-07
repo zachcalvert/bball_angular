@@ -1,0 +1,25 @@
+@media screen
+    and (max-width: 850px)  {
+        .hide-tablet {
+            display: none;
+        }
+
+        #header h2 {
+            padding: 2px;
+        }
+
+        #mobile-nav-icons {
+            display: flex;
+        }
+
+        .manage-account, .header-links {
+            display: none;
+        }
+    }
+
+
+@media screen
+    and (max-width: 600px)  {
+        .hide-mobile {
+            display: none;
+        }

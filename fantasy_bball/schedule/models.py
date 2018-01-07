@@ -1,10 +1,14 @@
 from __future__ import unicode_literals, division
 
+from datetime import date
+
 from django.db import models
+from django.utils.functional import cached_property
 
 from leagues.models import League, Team
+from leagues.utils import random_item
 from players.models import NBA_TEAMS, Player
-
+from texts.stats import assists, steals, blocks, rebounds, points
 
 NBA_SEASONS = (
 	('2014-15', '2014-15'),
@@ -29,7 +33,7 @@ class Game(models.Model):
     home_points = models.IntegerField(null=True)
     away_points = models.IntegerField(null=True)
     boxscore_link = models.URLField(max_length=255, null=True, blank=True)
-    statlines = models.ManyToManyField('players.Player', through="StatLine")
+    statlines = models.ForeignKey('StatLine', null=True, blank=True, related_name='game_stats')
 
     @property
     def result(self):
@@ -38,9 +42,25 @@ class Game(models.Model):
     def __unicode__(self):
         return "{0}: {1} @ {2}".format(self.date, self.away_team, self.home_team)
 
+    @property
+    def full_home_name(self):
+        return dict(NBA_TEAMS).get(self.home_team)
+
+    @property
+    def full_away_name(self):
+        return dict(NBA_TEAMS).get(self.away_team)
+
+    @property
+    def home_statlines(self):
+        return self.sls.filter(player__nba_team=self.home_team)
+
+    @property
+    def away_statlines(self):
+        return self.sls.filter(player__nba_team=self.away_team)
+
 
 class StatLine(models.Model):
-    game = models.ForeignKey(Game, db_index=True)
+    game = models.ForeignKey(Game, db_index=True, related_name='sls')
     player = models.ForeignKey(Player, db_index=True)
     mp = models.CharField(max_length=5, null=True, blank=True)
     fgm = models.IntegerField(default=0)
@@ -61,13 +81,11 @@ class StatLine(models.Model):
     dank = models.BooleanField(default=False)
     added_to_player = models.BooleanField(default=False)
 
-    def __unicode__(self):
-        return "{0} - {1}".format(self.player, self.game)
-
     def to_data(self):
         return {
+            "id": self.id,
             "game_result": self.game.result,
-            "game": self.short_format,
+            "game_name": self.short_format,
             "player": self.player.to_data(quick_stats=False),
             "game_score": self.game_score,
             "mp": self.mp,
@@ -82,7 +100,8 @@ class StatLine(models.Model):
             "stls": self.stls,
             "blks": self.blks,
             "tos": self.tos,
-            "pts": self.pts
+            "pts": self.pts,
+            "game": self.game
         }
 
     @property
@@ -110,9 +129,6 @@ class StatLine(models.Model):
             self.dank=True
             self.save()
 
-        if base > 10:
-            base = 10.0
-
         return round(base, 2)
 
     @property
@@ -130,43 +146,52 @@ class StatLine(models.Model):
         date = self.game.date.strftime('%-m/%-d')
         return "{0} {1}".format(opp, date)
 
+    def evaluate(self):
+        """
+        Returns a dict consising of the excellent, notable, and poor elements of the statline.
+        """
+        excellents = []
+        notables = []
+        shamefuls = []
 
-class Matchup(models.Model):
-    league = models.ForeignKey(League)
-    home_team = models.ForeignKey(Team, related_name='home_team')
-    away_team = models.ForeignKey(Team, related_name='away_team')
-    start_date = models.DateField(auto_now=False)
-    end_date = models.DateField(auto_now=False)
-    week = models.IntegerField(default=22)
-    finalized = models.BooleanField(default=False)
-    result = models.CharField(max_length=10, null=True, blank=True)
-
-    def __unicode__(self):
-        return "matchup between: {0} and {1} starting {2}".format(self.home_team, self.away_team, self.start_date)
-
-    def to_data(self):
-        return {
-            "league_id": self.league_id,
-            "home_id": self.home_team.id,
-            "home_team": self.home_team.name,
-            "away_id": self.away_team.id,
-            "away_team": self.away_team.name,
-            "week": self.week,
-            "start_date": self.start_date, 
-            "end_date": self.end_date
-
+        thresholds = {
+            "pts": [5, 10, 30],
+            "asts": [0, 5, 10],
+            "trbs": [0, 7, 15],
+            "blks": [0, 2, 4],
+            "stls": [0, 2, 4],
+            "threesm": [0, 3, 5]
         }
-        if self.finalized:
-            data["result"] = self.result
 
-    # @property
-    # def home_totals(self):
-    #     home_stats = teams.utils.calculate_team_totals(self.home_team, start_day=self.start_date, end_day=self.end_date)
-    #     home_totals = home_stats.pop('totals')
-    #     return home_totals
+        for k, v in thresholds.iteritems():
+            val = getattr(self, k)
+            if val >= v[2]:
+                excellents.append(k)
+            elif val >=v[1]:
+                notables.append(k)
+            elif val <= v[0]:
+                shamefuls.append(k)
 
-    # @property
-    # def away_totals(self):
-    #     away_stats = teams.utils.calculate_team_totals(self.away_team, start_day=self.start_date, end_day=self.end_date)
-    #     away_totals = away_stats.pop('totals')
-    #     return away_totals
+        return {
+            "excellents": excellents,
+            "notables": notables,
+            "shamefuls": shamefuls
+        }
+
+
+    def to_text(self):
+        description = ''
+
+        analysis = self.evaluate()
+
+        if analysis.get('excellents'):
+            cat = analysis['excellents']
+            val = getattr(statline, k[0])
+            verb = random_item(cat) # how to do this?
+
+            description += '{0} {1} {2} {3}. '.format(self.player.name, excellent_verb, val, cat)
+
+        points_verb = random_item(points.verbs)
+        rebounds_verb = random_item(rebounds.verbs)
+        return "{0} {1} {2} points against the {3} and {4} {5} rebounds.".format(self.player.name, points_verb, self.pts, self.game.full_home_name, rebounds_verb, self.trbs)
+        

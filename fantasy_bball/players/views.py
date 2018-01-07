@@ -1,17 +1,31 @@
-from leagues.views import JSONView
-from players.models import Player
+from leagues.views import BDLView
+
+from players.models import Player, Quote
 
 
-class PlayersView(JSONView):
+class PlayersView(BDLView):
+    template_name = "players.html"
 
-	def get(self, request):
-		data = [player.to_data() for player in Player.objects.all()]
-		return data
+    def get_context_data(self, *args, **kwargs):
+        context = super(PlayersView, self).get_context_data(*args, **kwargs)
+        
+        players = Player.objects.filter(rostered=True)
+        player_data = [
+            player.to_data() for player in players
+        ]
+
+        context["player_data"] = player_data
+        return context
 
 
-class PlayerView(JSONView):
+class PlayerView(BDLView):
+    template_name = "player.html"
 
-	def get(self, request, player_id):
-		player = Player.objects.get(id=player_id)
-		return player.to_data(full_stats=True)
+    def get_context_data(self, *args, **kwargs):
+        context = super(PlayerView, self).get_context_data(*args, **kwargs)
+        
+        player = Player.objects.get(id=kwargs['player_id'])
+        player_data = player.to_data(full_stats=True)
 
+        context["player_data"] = player_data
+        return context

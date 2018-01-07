@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
     	# calculate days since start of season
     	today = datetime.today()
-    	season_start = datetime(2014, 10, 28)
+    	season_start = datetime(2017, 10, 21)
     	delta = today - season_start
     	days_to_calculate = delta.days
 

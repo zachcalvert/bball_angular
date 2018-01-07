@@ -1,0 +1,39 @@
+/* team */
+
+.team-details p {
+	margin-top: 5px;
+	font-size: 12px
+}
+
+
+/* draft */
+#draft-results {
+	font-size: 12px;
+}
+
+#draft-results h4 {
+	margin: 0;
+}
+
+.draft-round {
+	float: left;
+	padding: 5px;
+	margin: 10px;
+	width: 365;
+}
+
+.draft-round .player-name {
+	width: 135px;
+}
+
+.draft-round .rTable {
+	border-right: none;
+}
+.draft-round .rTableCell {
+	border-left: none;
+	border-right: none;
+}
+
+.player-name-details {
+	font-size: 9px;
+}
